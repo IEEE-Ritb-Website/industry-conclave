@@ -5,6 +5,7 @@ export const baseRegistrationSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit phone number"),
   registrationType: z.enum(["COLLEGE_STUDENT", "IEEE_STUDENT", "ORGANIZATION"]),
+  attendingWorkshop: z.boolean(),
 })
 
 export const collegeStudentSchema = baseRegistrationSchema.extend({

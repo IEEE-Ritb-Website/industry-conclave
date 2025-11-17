@@ -16,8 +16,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, ArrowLeft, Calendar, MapPin, Users, GraduationCap, Building, UserCheck } from 'lucide-react'
+import { Loader2, ArrowLeft, Calendar, MapPin, Users, GraduationCap, Building, UserCheck, Check } from 'lucide-react'
 import Link from 'next/link'
+import { CollegeSelector } from '@/components/registration/CollegeSelector'
 
 type RegistrationType = 'COLLEGE_STUDENT' | 'IEEE_STUDENT' | 'ORGANIZATION'
 
@@ -94,10 +95,15 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(getSchema()),
     defaultValues: {
       registrationType,
+      attendingWorkshop: false,
+      collegeName: '',
+      organizationName: '',
+      ieeeMemberId: '',
     }
   })
 
@@ -317,20 +323,13 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                   )}
                 </div>
 
-                {(registrationType === 'COLLEGE_STUDENT' || registrationType === 'IEEE_STUDENT') && (
-                  <div className="space-y-2">
-                    <Label htmlFor="collegeName">College/Institution Name *</Label>
-                    <Input
-                      id="collegeName"
-                      {...register('collegeName')}
-                      placeholder="Your college or institution name"
-                      className="rounded-2xl"
-                    />
-                    {errors.collegeName && (
-                      <p className="text-sm text-red-600">{errors.collegeName.message}</p>
-                    )}
-                  </div>
-                )}
+                 {(registrationType === 'COLLEGE_STUDENT' || registrationType === 'IEEE_STUDENT') && (
+                   <CollegeSelector
+                     value={watch('collegeName') || ''}
+                     onChange={(value) => setValue('collegeName', value)}
+                     error={(errors as any).collegeName?.message}
+                   />
+                 )}
 
                 {registrationType === 'IEEE_STUDENT' && (
                   <div className="space-y-2">
@@ -341,9 +340,9 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       placeholder="Your IEEE membership ID"
                       className="rounded-2xl"
                     />
-                    {errors.ieeeMemberId && (
-                      <p className="text-sm text-red-600">{errors.ieeeMemberId.message}</p>
-                    )}
+                     {(errors as any).ieeeMemberId && (
+                       <p className="text-sm text-red-600">{(errors as any).ieeeMemberId.message}</p>
+                     )}
                   </div>
                 )}
 
@@ -356,21 +355,38 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       placeholder="Your organization name"
                       className="rounded-2xl"
                     />
-                    {errors.organizationName && (
-                      <p className="text-sm text-red-600">{errors.organizationName.message}</p>
-                    )}
+                     {(errors as any).organizationName && (
+                       <p className="text-sm text-red-600">{(errors as any).organizationName.message}</p>
+                     )}
                   </div>
-                )}
+                 )}
 
-                <div className="bg-gray-50 rounded-2xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-lg font-medium">Registration Fee</span>
-                    <span className="text-2xl font-bold text-indigo-600">{config.price}</span>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Payment will be processed securely via Razorpay
-                  </p>
-                </div>
+                 <div className="space-y-2">
+                   <div className="flex items-center space-x-2">
+                     <input
+                       type="checkbox"
+                       id="attendingWorkshop"
+                       {...register('attendingWorkshop')}
+                       className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                     />
+                     <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-gray-700">
+                       I want to attend the workshop
+                     </Label>
+                   </div>
+                   <p className="text-xs text-gray-500">
+                     Check this if you want to participate in hands-on workshops
+                   </p>
+                 </div>
+
+                 <div className="bg-gray-50 rounded-2xl p-4">
+                   <div className="flex items-center justify-between mb-2">
+                     <span className="text-lg font-medium">Registration Fee</span>
+                     <span className="text-2xl font-bold text-indigo-600">{config.price}</span>
+                   </div>
+                   <p className="text-sm text-gray-600">
+                     Payment will be processed securely via Razorpay
+                   </p>
+                 </div>
 
                 <Button 
                   type="submit" 

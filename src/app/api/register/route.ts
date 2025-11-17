@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
         collegeName: 'collegeName' in validatedData ? validatedData.collegeName : null,
         organizationName: 'organizationName' in validatedData ? validatedData.organizationName : null,
         ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : null,
+        attendingWorkshop: validatedData.attendingWorkshop,
         isPaymentCompleted: false,
       }
     })

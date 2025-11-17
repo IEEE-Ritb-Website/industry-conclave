@@ -19,6 +19,7 @@ model Registration {
   collegeName     String?
   organizationName String?
   ieeeMemberId    String?
+  attendingWorkshop Boolean @default(false)
   isPaymentCompleted Boolean @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

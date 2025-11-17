@@ -1,49 +1,125 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ChevronDown, Search, X } from 'lucide-react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { ChevronDown, Search, X, Loader2 } from 'lucide-react'
 
 interface College {
   id: string
   name: string
-  type: string
+  state: string
   district: string
 }
 
 interface CollegeSelectorProps {
   value?: string
-  onChange: (college: College) => void
+  onChange: (collegeName: string) => void
   error?: string
   disabled?: boolean
 }
 
 export function CollegeSelector({ value, onChange, error, disabled }: CollegeSelectorProps) {
   const [colleges, setColleges] = useState<College[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedCollege, setSelectedCollege] = useState<College | null>(null)
+  const [selectedCollege, setSelectedCollege] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [totalPages, setTotalPages] = useState(0)
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
-  // Fetch colleges on mount
-  useEffect(() => {
-    fetch('/api/colleges')
-      .then((res) => res.json())
-      .then((data) => {
-        setColleges(data.colleges || [])
-        if (value) {
-          const college = data.colleges.find((c: College) => c.id === value)
-          setSelectedCollege(college || null)
-        }
+  // Fetch colleges with pagination
+  const fetchColleges = useCallback(async (pageNum = 1, search = '', append = false) => {
+    if (!append) setLoading(true)
+    
+    try {
+      const params = new URLSearchParams({
+        page: pageNum.toString(),
+        limit: '50',
+        ...(search && { search })
       })
-      .catch((error) => console.error('Failed to fetch colleges:', error))
-      .finally(() => setLoading(false))
+      
+      const res = await fetch(`/api/colleges?${params}`)
+      const data = await res.json()
+      
+      if (append) {
+        setColleges(prev => [...prev, ...data.colleges])
+      } else {
+        setColleges(data.colleges)
+      }
+      
+      setHasMore(data.pagination.hasNext)
+      setTotalPages(data.pagination.totalPages)
+      
+      if (value && !append) {
+        setSelectedCollege(value)
+      }
+    } catch (error) {
+      console.error('Failed to fetch colleges:', error)
+    } finally {
+      setLoading(false)
+    }
   }, [value])
 
-  // Filter colleges based on search
-  const filteredColleges = colleges.filter((college) =>
-    college.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    college.district.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  // Initial fetch when dropdown opens
+  useEffect(() => {
+    if (isOpen && colleges.length === 0) {
+      fetchColleges()
+    }
+  }, [isOpen, colleges.length, fetchColleges])
+
+  // Debounced search
+  useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current)
+    }
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      setPage(1)
+      fetchColleges(1, searchTerm, false)
+    }, 300)
+    
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current)
+      }
+    }
+  }, [searchTerm, fetchColleges])
+
+  // Load more on scroll
+  const loadMore = useCallback(() => {
+    if (hasMore && !loading) {
+      const nextPage = page + 1
+      setPage(nextPage)
+      fetchColleges(nextPage, searchTerm, true)
+    }
+  }, [hasMore, loading, page, searchTerm, fetchColleges])
+
+  useEffect(() => {
+    if (!listRef.current || !isOpen) return
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const lastItem = listRef.current.lastElementChild
+    if (lastItem) {
+      observerRef.current.observe(lastItem)
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
+  }, [hasMore, loading, loadMore, isOpen])
 
   return (
     <div className="relative">
@@ -65,9 +141,7 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
           >
             <div className="flex items-center justify-between">
               <span className={selectedCollege ? 'text-gray-900' : 'text-gray-500'}>
-                {selectedCollege 
-                  ? `${selectedCollege.name}, ${selectedCollege.district}` 
-                  : 'Select your college'}
+                {selectedCollege || 'Select your college'}
               </span>
               <ChevronDown className="ml-2 h-4 w-4 text-gray-400" />
             </div>
@@ -95,28 +169,24 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
                 </button>
               </div>
               
-              <div className="max-h-96 overflow-y-auto">
-                {loading ? (
+              <div className="max-h-96 overflow-y-auto" ref={listRef}>
+                {loading && colleges.length === 0 ? (
                   <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300 border-t-blue-500"></div>
+                    <Loader2 className="h-6 w-6 animate-spin" />
                   </div>
                 ) : (
-                  filteredColleges.length === 0 ? (
-                    <div className="text-center py-4 text-gray-500">
-                      No colleges found
-                    </div>
-                  ) : (
-                    filteredColleges.map((college) => (
+                  <>
+                    {colleges.map((college) => (
                       <button
                         key={college.id}
                         type="button"
                         onClick={() => {
-                          setSelectedCollege(college)
-                          onChange(college)
+                          setSelectedCollege(college.name)
+                          onChange(college.name)
                           setIsOpen(false)
                         }}
                         className={`w-full text-left px-4 py-3 hover:bg-blue-50 border border-b border-transparent hover:border-blue-200 ${
-                          selectedCollege?.id === college.id 
+                          selectedCollege === college.name 
                             ? 'bg-blue-50 border-blue-200' 
                             : 'border-transparent'
                         }`}
@@ -126,12 +196,19 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
                             {college.name}
                           </span>
                           <span className="text-sm text-gray-500 ml-2">
-                            {college.type} • {college.district}
+                            {college.state} • {college.district}
                           </span>
                         </div>
                       </button>
-                    ))
-                  )
+                    ))}
+                    
+                    {hasMore && (
+                      <div className="flex items-center justify-center py-4">
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        <span className="text-sm text-gray-500">Loading more colleges...</span>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
