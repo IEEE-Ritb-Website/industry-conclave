@@ -5,6 +5,7 @@ import { ArrowLeft, GraduationCap, UserCheck, Building } from 'lucide-react'
 import Heading from '@/components/shared/heading'
 import { CardSpotlight } from '@/components/ui/card-spotlight'
 import { Button } from '@/components/ui/button'
+import { CONFIG } from '@/configs/config'
 
 const registrationTypes = [
   {
@@ -112,7 +113,7 @@ export default function RegisterPage() {
         <div className="mt-12 text-center">
           <p className="text-muted-foreground">
             Questions about registration?{' '}
-            <a href="mailto:contact@techconclave.com" className="text-primary hover:underline">
+            <a href={`mailto:${CONFIG.profile.email}`} className="text-primary hover:underline">
               Contact us
             </a>
           </p>

@@ -1,3 +1,4 @@
+import { CONFIG } from '@/configs/config'
 import sgMail from '@sendgrid/mail'
 
 // Only set API key if it's properly configured
@@ -93,7 +94,7 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
             
             <p>Please arrive at the venue 30 minutes before the event starts. Don't forget to bring a valid ID proof for verification.</p>
             
-            <p>If you have any questions, feel free to reach out to us at <a href="mailto:info@techconclave.com">info@techconclave.com</a></p>
+            <p>If you have any questions, feel free to reach out to us at <a href={mailto:${CONFIG.profile.email}}>${CONFIG.profile.email}</a></p>
             
             <p>See you there!</p>
             <p><strong>Team Tech Conclave</strong></p>

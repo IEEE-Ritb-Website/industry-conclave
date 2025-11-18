@@ -22,10 +22,10 @@ export default function HeroSection() {
             <div className="absolute inset-0 w-full h-full">
                 <PixelBlast
                     variant="circle"
-                    pixelSize={8}
+                    pixelSize={6}
                     color="#261526"
-                    patternScale={5}
-                    patternDensity={3.5}
+                    patternScale={1}
+                    patternDensity={0.7}
                     pixelSizeJitter={1.5}
                     enableRipples
                     rippleSpeed={0.4}
@@ -51,7 +51,7 @@ export default function HeroSection() {
                 </div>
 
                 <div className="mb-6 flex flex-col items-center justify-center">
-                    <div className="text-xl mb-6 font-semibold text-center">
+                    <div className="text-xl mb-4 font-semibold text-center">
                         IEEE CIS
                     </div>
                     <TextHoverEffect text="INDUSTRY" />

@@ -164,9 +164,9 @@ export default function SuccessPage() {
             If you have any questions or need assistance, feel free to reach out to us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="mailto:info@techconclave.com" className="flex items-center text-indigo-600 hover:text-indigo-700">
+            <a href={`mailto:${CONFIG.profile.email}`} className="flex items-center text-indigo-600 hover:text-indigo-700">
               <Mail className="w-4 h-4 mr-2" />
-              info@techconclave.com
+              {CONFIG.profile.email}
             </a>
             <span className="text-gray-400">•</span>
             <a href="tel:+919876543210" className="flex items-center text-indigo-600 hover:text-indigo-700">

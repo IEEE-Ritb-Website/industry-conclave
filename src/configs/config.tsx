@@ -1,4 +1,4 @@
-import { Github, Linkedin, Instagram, Link, Facebook, Globe, BookOpen, Users, Code2 } from "lucide-react";
+import { Github, Linkedin, Instagram, Link, Facebook, BookOpen, Users, Building, Handshake } from "lucide-react";
 
 export const CONFIG = {
     name: 'Industry Conclave',
@@ -64,50 +64,50 @@ export const CONFIG = {
     ],
     agenda: [
         {
-            title: "FOSS Product Showcase",
-            description: "Discover innovative open-source projects",
+            title: "Technical Workshops",
+            description: "Hands-on learning sessions covering modern tools, frameworks, and emerging technologies.",
         },
         {
-            title: "Issues & Trends in FOSS",
-            description: "Deep dive into current challenges and opportunities",
+            title: "Expert Tech Talks",
+            description: "Industry leaders and practitioners share insights, best practices, and real-world engineering learnings.",
         },
         {
-            title: "Sustaining FOSS",
-            description: "Building sustainable open-source projects",
+            title: "Panel Discussions",
+            description: "Engaging multi-speaker conversations exploring challenges, innovations, and future directions in tech.",
         },
         {
-            title: "FOSS & Public Policy",
-            description: "Open source in government and policy",
+            title: "Product & Demo Showcase",
+            description: "Live demos of tools, platforms, and projects built by developers, startups, and communities.",
         },
         {
-            title: "FOSS for NGOs",
-            description: "Technology solutions for non-profits",
+            title: "Founder & Developer Fireside Chats",
+            description: "Informal conversations with innovators discussing their journeys, failures, breakthroughs, and lessons.",
         },
         {
-            title: "FOSS in Academia",
-            description: "Open source in education and research",
+            title: "Networking Session",
+            description: "Connect with developers, founders, students, and industry professionals to exchange ideas and opportunities.",
         },
     ],
     features: [
         {
-            icon: Code2,
-            title: "Open Source",
-            description: "Celebrate the power of free and open source software",
+            icon: Building,
+            title: "Industry Connection",
+            description: "Bridge the gap between academia and industry",
         },
         {
             icon: Users,
             title: "Community",
-            description: "Connect with developers and enthusiasts across India",
+            description: "Connect with professionals and students across the nation",
         },
         {
             icon: BookOpen,
             title: "Learning",
-            description: "Workshops, talks, and panel discussions from experts",
+            description: "Technical workshops, keynotes, and expert panel discussions",
         },
         {
-            icon: Globe,
+            icon: Handshake,
             title: "Collaboration",
-            description: "Build connections and foster innovation together",
+            description: "Foster innovation and build meaningful connections",
         },
     ],
     faqs: [

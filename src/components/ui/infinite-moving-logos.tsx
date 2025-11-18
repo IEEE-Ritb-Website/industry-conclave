@@ -74,7 +74,7 @@ export const InfiniteMovingLogos = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 w-full overflow-hidden mask-[linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative opacity-30 z-20 w-full overflow-hidden mask-[linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
@@ -127,29 +127,9 @@ export const defaultLogos = [
     alt: "OpenAI Logo",
   },
   {
-    name: "TCS",
-    image: "https://upload.wikimedia.org/wikipedia/commons/9/95/Tata_Consultancy_Services_Logo.svg",
-    alt: "TCS Logo",
-  },
-  {
-    name: "Google",
-    image: "https://cdn.worldvectorlogo.com/logos/google-icon.svg",
-    alt: "Google Logo",
-  },
-  {
     name: "Microsoft",
     image: "https://cdn.worldvectorlogo.com/logos/microsoft-5.svg",
     alt: "Microsoft Logo",
-  },
-  {
-    name: "Amazon",
-    image: "https://cdn.worldvectorlogo.com/logos/amazon-icon-1.svg",
-    alt: "Amazon Logo",
-  },
-  {
-    name: "Meta",
-    image: "https://cdn.worldvectorlogo.com/logos/meta-1.svg",
-    alt: "Meta Logo",
   },
   {
     name: "Apple",
