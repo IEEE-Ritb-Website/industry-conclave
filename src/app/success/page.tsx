@@ -2,25 +2,21 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle, Calendar, MapPin, Mail, ArrowLeft, Download, Share2 } from 'lucide-react'
+import { CONFIG } from '@/configs/config'
 
 export default function SuccessPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12 px-4">
+    <div className="min-h-screen py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <Link href="/" className="inline-flex items-center text-green-600 hover:text-green-700 mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
-
         {/* Success Message */}
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-green-600" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-white mb-4">
             Payment Successful!
           </h1>
-            <p className="text-xl text-gray-600 mb-2">
+            <p className="text-xl text-gray-300 mb-2">
             Thank you for registering for Industry Conclave 2025. Your payment has been confirmed!
           </p>
             <p className="text-lg text-green-600 font-medium">
@@ -41,18 +37,18 @@ export default function SuccessPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-sm text-gray-600 mb-1">Registration ID</p>
+              <div className="rounded-xl p-4">
+                <p className="text-sm text-gray-400 mb-1">Registration ID</p>
                 <p className="font-mono font-semibold text-lg">TC2025-XXXXXX</p>
               </div>
               <div className="space-y-2">
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center text-gray-400">
                   <Calendar className="w-4 h-4 mr-2" />
-                  <span>November 21-22, 2025</span>
+                  <span>{CONFIG.eventDetails.dates}</span>
                 </div>
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center text-gray-400">
                   <MapPin className="w-4 h-4 mr-2" />
-                  <span>Engineering College Campus</span>
+                  <span>{CONFIG.eventDetails.location}</span>
                 </div>
               </div>
             </CardContent>
@@ -69,30 +65,30 @@ export default function SuccessPage() {
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                     <CheckCircle className="w-3 h-3 text-green-600" />
                   </div>
                   <div>
                     <p className="font-medium">Confirmation Email Sent</p>
-                    <p className="text-sm text-gray-600">Check your inbox for event details</p>
+                    <p className="text-sm text-gray-400">Check your inbox for event details</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                     <Mail className="w-3 h-3 text-blue-600" />
                   </div>
                   <div>
                     <p className="font-medium">Event Updates</p>
-                    <p className="text-sm text-gray-600">We'll send schedule updates via email</p>
+                    <p className="text-sm text-gray-400">We'll send schedule updates via email</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                     <Calendar className="w-3 h-3 text-purple-600" />
                   </div>
                   <div>
                     <p className="font-medium">Arrival Time</p>
-                    <p className="text-sm text-gray-600">Please arrive 30 minutes early</p>
+                    <p className="text-sm text-gray-400">Please arrive 30 minutes early</p>
                   </div>
                 </div>
               </div>
@@ -109,7 +105,7 @@ export default function SuccessPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h4 className="font-semibold mb-3">What to Bring</h4>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-400">
                   <li className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-gray-400 rounded-full" />
                     <span>Valid ID proof for verification</span>
@@ -130,7 +126,7 @@ export default function SuccessPage() {
               </div>
               <div>
                 <h4 className="font-semibold mb-3">Event Schedule</h4>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-400">
                   <li className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-gray-400 rounded-full" />
                     <span>Day 1: 9:00 AM - 8:00 PM</span>
@@ -155,25 +151,16 @@ export default function SuccessPage() {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button className="rounded-2xl px-6 py-3">
-            <Download className="w-4 h-4 mr-2" />
-            Download Ticket
-          </Button>
           <Button variant="outline" className="rounded-2xl px-6 py-3">
             <Share2 className="w-4 h-4 mr-2" />
             Share Event
           </Button>
-          <Link href="/">
-            <Button variant="outline" className="rounded-2xl px-6 py-3">
-              Explore More
-            </Button>
-          </Link>
         </div>
 
         {/* Help Section */}
         <div className="mt-12 text-center">
           <h3 className="text-lg font-semibold mb-4">Need Help?</h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-400 mb-4">
             If you have any questions or need assistance, feel free to reach out to us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

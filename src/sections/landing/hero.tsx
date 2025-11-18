@@ -17,55 +17,79 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center">
-            <PixelBlast
-                variant="circle"
-                pixelSize={6}
-                color="#B19EEF"
-                patternScale={3}
-                patternDensity={1.2}
-                pixelSizeJitter={0.5}
-                enableRipples
-                rippleSpeed={0.4}
-                rippleThickness={0.12}
-                rippleIntensityScale={1.5}
-                liquid
-                liquidStrength={0.12}
-                liquidRadius={1.2}
-                liquidWobbleSpeed={5}
-                speed={0.6}
-                edgeFade={0.25}
-                transparent
-            />
-            <div className="h-160 flex flex-col items-center justify-center">
-                <div className="inline-block mb-4 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full backdrop-opacity-80 backdrop-filter backdrop-blur-sm">
-                    <span className="text-accent text-sm font-medium">{CONFIG.eventDetails.dates} • {CONFIG.eventDetails.location}</span>
+        <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+            {/* Fixed positioning for background */}
+            <div className="absolute inset-0 w-full h-full">
+                <PixelBlast
+                    variant="circle"
+                    pixelSize={8}
+                    color="#261526"
+                    patternScale={5}
+                    patternDensity={3.5}
+                    pixelSizeJitter={1.5}
+                    enableRipples
+                    rippleSpeed={0.4}
+                    rippleThickness={0.12}
+                    rippleIntensityScale={1.5}
+                    liquid
+                    liquidStrength={0.12}
+                    liquidRadius={1.2}
+                    liquidWobbleSpeed={5}
+                    speed={0.6}
+                    edgeFade={0.5}
+                    transparent
+                    className="w-full h-full"
+                />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center justify-center px-4 py-16 md:py-0">
+                <div className="inline-block mb-4 px-4 py-2 bg-purple-500/30 border border-purple-600/30 text-purple-400 font-semibold rounded-full backdrop-opacity-80 backdrop-filter backdrop-blur-sm">
+                    <span className="text-sm font-medium">
+                        {CONFIG.eventDetails.dates} • {CONFIG.eventDetails.location}
+                    </span>
                 </div>
-                <div className="text-3xl md:text-7xl mb-4 font-semibold">INDUSTRY</div>
-                <TextHoverEffect text="CONCLAVE" variant="solid" />
-                <div className="flex gap-4 my-2">
-                    <Button asChild>
-                        <Link href={"/register"} className="flex gap-2">Register now<ArrowRight /></Link>
+
+                <div className="mb-6 flex flex-col items-center justify-center">
+                    <div className="text-xl mb-6 font-semibold text-center">
+                        IEEE CIS
+                    </div>
+                    <TextHoverEffect text="INDUSTRY" />
+                    <TextHoverEffect text="CONCLAVE" />
+                    <p className="text-md font-light text-center">
+                        Connecting talent with the industry 👋
+                    </p>
+                </div>
+
+
+
+                <div className="flex flex-col sm:flex-row gap-4 my-4 w-full max-w-md justify-center">
+                    <Button asChild className="w-full sm:w-auto">
+                        <Link href={"/register"} className="flex gap-2 items-center justify-center">
+                            Register now
+                            <ArrowRight className="w-4 h-4" />
+                        </Link>
                     </Button>
-                    <Button variant={"outline"} asChild>
+                    <Button variant={"outline"} asChild className="w-full sm:w-auto">
                         <Link href={"/register"}>View Schedule</Link>
                     </Button>
                 </div>
-                <div className="w-full max-w-md flex flex-col md:flex-row gap-6 items-center justify-between pt-8">
+
+                <div className="w-full max-w-md flex flex-col sm:flex-row gap-6 sm:gap-8 items-center justify-between pt-8">
                     <div className="text-center">
-                        <div className="text-4xl font-bold text-accent">500+</div>
-                        <div className="text-md text-muted-foreground">Attendees</div>
+                        <div className="text-3xl sm:text-4xl font-bold text-accent">500+</div>
+                        <div className="text-sm sm:text-md text-muted-foreground">Attendees</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-4xl font-bold text-accent">10+</div>
-                        <div className="text-md text-muted-foreground">Speakers</div>
+                        <div className="text-3xl sm:text-4xl font-bold text-accent">10+</div>
+                        <div className="text-sm sm:text-md text-muted-foreground">Speakers</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-4xl font-bold text-accent">2</div>
-                        <div className="text-md text-muted-foreground">Days</div>
+                        <div className="text-3xl sm:text-4xl font-bold text-accent">2</div>
+                        <div className="text-sm sm:text-md text-muted-foreground">Days</div>
                     </div>
                 </div>
             </div>
         </section>
-    )
+    );
 }

@@ -89,11 +89,9 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
     <motion.div
       animate={{
         backdropFilter: visible ? "blur(16px)" : "blur(0px)",
-        backgroundColor: visible ? "rgba(255, 255, 255, 0.25)" : "transparent",
         boxShadow: visible
-          ? "0 4px 30px rgba(0, 0, 0, 0.1)"
+          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        border: visible ? "1px solid rgba(255, 255, 255, 0.4)" : "none",
         y: visible ? 10 : 0,
       }}
       transition={{
@@ -103,10 +101,37 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       className={cn(
         "relative z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between rounded-full px-6 py-3 transition-all duration-300 lg:flex",
-        "backdrop-saturate-150", // enhances color richness of background behind it
+        "backdrop-saturate-150 bg-transparent dark:bg-transparent", // enhances color richness of background behind it
+        visible && "bg-white/80 dark:bg-neutral-950/80",
+        "before:absolute before:inset-0 before:rounded-full before:opacity-0 dark:before:opacity-100",
+        "before:bg-linear-to-r before:from-cyan-500/10 before:via-transparent before:to-purple-500/10",
+        "before:animate-[glitch_8s_ease-in-out_infinite]",
+        "after:absolute after:inset-0 after:rounded-full after:opacity-0 dark:after:opacity-100",
+        "after:bg-linear-to-l after:from-blue-500/5 after:via-transparent after:to-pink-500/5",
+        "after:animate-[glitch-reverse_6s_ease-in-out_infinite]",
         className
       )}
+      style={{
+        ...(visible && {
+          background: 'linear-gradient(90deg, rgba(6, 182, 212, 0.03) 0%, transparent 50%, rgba(168, 85, 247, 0.03) 100%)',
+        })
+      }}
     >
+      <style jsx>{`
+        @keyframes glitch {
+          0%, 100% { transform: translateX(0) skewX(0deg); opacity: 0.1; }
+          20% { transform: translateX(-2px) skewX(-1deg); opacity: 0.15; }
+          40% { transform: translateX(2px) skewX(1deg); opacity: 0.08; }
+          60% { transform: translateX(-1px) skewX(0.5deg); opacity: 0.12; }
+          80% { transform: translateX(1px) skewX(-0.5deg); opacity: 0.1; }
+        }
+        @keyframes glitch-reverse {
+          0%, 100% { transform: translateX(0) skewX(0deg); opacity: 0.08; }
+          25% { transform: translateX(1px) skewX(0.5deg); opacity: 0.12; }
+          50% { transform: translateX(-1px) skewX(-0.5deg); opacity: 0.06; }
+          75% { transform: translateX(1px) skewX(0.3deg); opacity: 0.1; }
+        }
+      `}</style>
       {children}
     </motion.div>
   );
@@ -127,14 +152,14 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600"
+          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100"
+              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
             />
           )}
           <span className="relative z-20">{item.name}</span>
@@ -155,7 +180,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         width: visible ? "90%" : "100%",
         paddingRight: visible ? "12px" : "0px",
         paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        borderRadius: visible ? "1rem" : "0px",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -165,7 +190,9 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       }}
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80",
+        "before:absolute before:inset-0 before:rounded-[inherit] before:opacity-0",
+        visible && "bg-white/80 dark:bg-neutral-950/80",
+        visible && "dark:before:opacity-100 before:bg-linear-to-br before:from-cyan-500/10 before:to-purple-500/10 before:animate-[pulse_4s_ease-in-out_infinite]",
         className,
       )}
     >
@@ -204,7 +231,7 @@ export const MobileNavMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,42,53,0.06),0_1px_1px_rgba(0,0,0,0.05),0_0_0_1px_rgba(34,42,53,0.04),0_0_4px_rgba(34,42,53,0.08),0_16px_68px_rgba(47,48,55,0.05),0_1px_0_rgba(255,255,255,0.1)_inset]",
+            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,42,53,0.06),0_1px_1px_rgba(0,0,0,0.05),0_0_0_1px_rgba(34,42,53,0.04),0_0_4px_rgba(34,42,53,0.08),0_16px_68px_rgba(47,48,55,0.05),0_1px_0_rgba(255,255,255,0.1)_inset] dark:bg-neutral-950",
             className,
           )}
         >
@@ -223,9 +250,9 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-black" onClick={onClick} />
+    <IconX className="text-black dark:text-white" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black" onClick={onClick} />
+    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
   );
 };
 
@@ -233,7 +260,7 @@ export const NavbarLogo = () => {
   return (
     <Link
       href="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-semibold text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-semibold text-black dark:text-white"
     >
       IC
     </Link>
@@ -263,7 +290,7 @@ export const NavbarButton = ({
   const variantStyles = {
     primary:
       "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    secondary: "bg-transparent shadow-none",
+    secondary: "bg-transparent shadow-none dark:text-white",
     dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
     gradient:
       "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",

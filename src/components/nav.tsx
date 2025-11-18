@@ -7,19 +7,19 @@ export default function Nav() {
   const navItems = [
     {
       name: "About",
-      link: "#about",
+      link: "/#about",
     },
     {
       name: "Agenda",
-      link: "#agenda",
+      link: "/#agenda",
     },
     {
       name: "FAQ",
-      link: "#faq",
+      link: "/#faq",
     },
     {
       name: "Contact",
-      link: "#contact",
+      link: "/#contact",
     },
   ];
 
@@ -31,7 +31,7 @@ export default function Nav() {
       <NavBody>
         <NavbarLogo />
         <NavItems items={navItems} />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 z-10">
           <NavbarButton href='#timeline' variant="secondary">Timeline</NavbarButton>
           <NavbarButton href='/register' variant="primary">Register</NavbarButton>
         </div>

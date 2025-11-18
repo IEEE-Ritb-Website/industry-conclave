@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Loader2, ArrowLeft, Calendar, MapPin, Users, GraduationCap, Building, UserCheck, Check } from 'lucide-react'
 import Link from 'next/link'
 import { CollegeSelector } from '@/components/registration/CollegeSelector'
+import Heading from '../shared/heading'
 
 type RegistrationType = 'COLLEGE_STUDENT' | 'IEEE_STUDENT' | 'ORGANIZATION'
 
@@ -208,27 +209,12 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <Link href="/register" className="inline-flex items-center text-indigo-600 hover:text-indigo-700 mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Registration Types
-        </Link>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="min-h-screen py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+      <Heading title={config.title} subtitle={config.description} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
           {/* Event Info */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 mb-4">
-              <Icon className="w-8 h-8 text-indigo-600" />
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900">
-                  {config.title}
-                </h1>
-                <p className="text-xl text-gray-600 mt-1">
-                  {config.description}
-                </p>
-              </div>
-            </div>
 
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
@@ -258,7 +244,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white">
+            <Card className="border-0 shadow-lg bg-linear-to-br from-indigo-600 to-purple-600 text-white">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-4">What's Included?</h3>
                 <ul className="space-y-2">
@@ -378,7 +364,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                    </p>
                  </div>
 
-                 <div className="bg-gray-50 rounded-2xl p-4">
+                 <div className="rounded-2xl p-4">
                    <div className="flex items-center justify-between mb-2">
                      <span className="text-lg font-medium">Registration Fee</span>
                      <span className="text-2xl font-bold text-indigo-600">{config.price}</span>
@@ -390,7 +376,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
 
                 <Button 
                   type="submit" 
-                  className="w-full rounded-2xl py-3 text-lg"
+                  className="w-full rounded-2xl py-3 bg-accent/90 hover:bg-accent text-white hover:text-white"
                   disabled={isLoading}
                 >
                   {isLoading ? (

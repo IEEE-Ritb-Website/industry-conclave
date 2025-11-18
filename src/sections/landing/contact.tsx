@@ -32,20 +32,6 @@ export default function ContactSection() {
                                 </div>
                             </div>
                         </Card>
-
-                        <Card className="p-6 bg-background border-border">
-                            <div className="flex gap-4">
-                                <User className="text-accent shrink-0" size={24} />
-                                <div>
-                                    <h3 className="font-semibold mb-1">Coordinators</h3>
-                                    {CONFIG.eventDetails.coordinators.map((coordinator, index) => (
-                                        <p key={index} className="text-muted-foreground">
-                                            {coordinator.name}: {coordinator.phone}
-                                        </p>
-                                    ))}
-                                </div>
-                            </div>
-                        </Card>
                     </div>
 
                     {/* Contact Form */}

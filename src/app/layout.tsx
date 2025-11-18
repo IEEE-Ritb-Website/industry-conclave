@@ -4,6 +4,7 @@ import '@/styles/globals.css'
 import Navbar from '@/components/nav'
 import ToastProvider from '@/components/shared/ToastProvider'
 import Footer from '@/components/footer'
+import { cn } from '@/lib/utils'
 
 const poppins = Poppins({ weight: ['400', '500', '600'], subsets: ['latin'] })
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={cn(poppins.className, "dark")}>
         <ToastProvider />
         <Navbar />
         <main className="min-h-screen">

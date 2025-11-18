@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function FAQSection() {
     const [openIndex, setOpenIndex] = useState<number | null>(0)
     return (
-        <section id="faq" className="py-24">
+        <section id="faq" className="py-24 px-4">
             <div className="max-w-6xl mx-auto">
                 <Heading title="Frequently Asked Questions" subtitle="" />
 
