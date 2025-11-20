@@ -230,12 +230,6 @@ NEXT_PUBLIC_ADMIN_PASSWORD="your_secure_admin_password"
 
 This project is licensed under the ISC License.
 
-## 🆘 Support
-
-For any issues or questions:
-- Email: info@techconclave.com
-- Phone: +91 98765 43210
-
 ---
 
 Built with ❤️ for the tech community

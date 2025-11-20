@@ -36,7 +36,7 @@ export default function Nav() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4 z-10">
-          <NavbarButton href='#timeline' variant="secondary">Timeline</NavbarButton>
+          <NavbarButton href='/#timeline' variant="secondary">Timeline</NavbarButton>
           <NavbarButton href='/register' variant="primary">Register</NavbarButton>
         </div>
       </NavBody>
@@ -70,12 +70,13 @@ export default function Nav() {
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
+              href='/#timeline'
             >
               Timeline
             </NavbarButton>
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
+              variant="gradient"
               className="w-full"
               href='/register'
             >

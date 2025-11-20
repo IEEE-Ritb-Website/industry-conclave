@@ -69,16 +69,43 @@ export default function AdminPage() {
     setLoading(true)
     try {
       const response = await fetch('/api/admin/registrations')
-      if (response.ok) {
-        const data = await response.json()
-        setRegistrations(data)
-      }
-    } catch (error) {
-      console.error('Failed to fetch registrations:', error)
+      if (!response.ok) return
+  
+      const raw = await response.json()
+  
+      const normalized = raw.map((r: any) => ({
+        id: r._id,
+        fullName: r.fullName,
+        email: r.email,
+        phone: r.phone,
+        college:
+          r.registrationType === "COLLEGE_STUDENT"
+            ? r.collegeName || "N/A"
+            : r.registrationType === "IEEE_STUDENT"
+            ? r.collegeName || "N/A"
+            : r.organizationName || "N/A",
+        registrationType: r.registrationType,
+        attendingWorkshop: r.attendingWorkshop,
+        createdAt: r.createdAt,
+        payments: [
+          {
+            status: r.isPaymentCompleted ? "SUCCESS" : "PENDING",
+            amount:
+              r.registrationType === "COLLEGE_STUDENT" ? 350 :
+              r.registrationType === "IEEE_STUDENT" ? 250 :
+              r.registrationType === "ORGANIZATION" ? 500 : 0,
+            createdAt: r.createdAt,
+          },
+        ],
+      }))
+  
+      setRegistrations(normalized)
+    } catch (err) {
+      console.error('Failed to fetch registrations:', err)
     } finally {
       setLoading(false)
     }
-  }
+  }  
 
   const exportToCSV = () => {
     const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Payment Status', 'Amount', 'Registration Date']
@@ -107,7 +134,7 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle>Admin Login</CardTitle>
@@ -140,12 +167,14 @@ export default function AdminPage() {
     pending: registrations.filter(reg => reg.payments[0]?.status === 'PENDING').length,
   }
 
+  console.log(registrations)
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Manage event registrations and payments</p>
+          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+          <p className="text-gray-200">Manage event registrations and payments</p>
         </div>
 
         {/* Stats Cards */}
@@ -155,7 +184,7 @@ export default function AdminPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total Registrations</p>
-                  <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+                  <p className="text-3xl font-bold text-white">{stats.total}</p>
                 </div>
                 <Users className="w-8 h-8 text-blue-600" />
               </div>
@@ -255,7 +284,7 @@ export default function AdminPage() {
                   </thead>
                   <tbody>
                     {filteredRegistrations.map((registration) => (
-                      <tr key={registration.id} className="border-b hover:bg-gray-50">
+                      <tr key={registration.id} className="border-b">
                         <td className="py-3 px-4 font-medium">{registration.fullName}</td>
                         <td className="py-3 px-4">{registration.email}</td>
                         <td className="py-3 px-4">{registration.college}</td>

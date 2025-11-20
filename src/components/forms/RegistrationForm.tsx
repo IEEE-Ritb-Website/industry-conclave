@@ -301,7 +301,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                   <Input
                     id="phone"
                     {...register('phone')}
-                    placeholder="9876543210"
+                    placeholder="9999999999"
                     className="rounded-2xl"
                   />
                   {errors.phone && (

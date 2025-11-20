@@ -1,4 +1,5 @@
-import Link from 'next/link'
+"use client";
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle, Calendar, MapPin, Mail, ArrowLeft, Download, Share2 } from 'lucide-react'
@@ -16,10 +17,10 @@ export default function SuccessPage() {
           <h1 className="text-4xl font-bold text-white mb-4">
             Payment Successful!
           </h1>
-            <p className="text-xl text-gray-300 mb-2">
+          <p className="text-xl text-gray-300 mb-2">
             Thank you for registering for Industry Conclave 2025. Your payment has been confirmed!
           </p>
-            <p className="text-lg text-green-600 font-medium">
+          <p className="text-lg text-green-600 font-medium">
             📧 We'll send you a confirmation email shortly. Please check your inbox.
           </p>
         </div>
@@ -37,10 +38,6 @@ export default function SuccessPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="rounded-xl p-4">
-                <p className="text-sm text-gray-400 mb-1">Registration ID</p>
-                <p className="font-mono font-semibold text-lg">TC2025-XXXXXX</p>
-              </div>
               <div className="space-y-2">
                 <div className="flex items-center text-gray-400">
                   <Calendar className="w-4 h-4 mr-2" />
@@ -151,7 +148,26 @@ export default function SuccessPage() {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button variant="outline" className="rounded-2xl px-6 py-3">
+          <Button
+            variant="outline"
+            className="rounded-2xl px-6 py-3"
+            onClick={() => {
+              const url = "https://conclave.ritb.in";
+
+              if (navigator.share) {
+                navigator
+                  .share({
+                    title: "RITB Conclave 2025",
+                    text: "Join me at RITB Conclave 2025!",
+                    url,
+                  })
+                  .catch((err) => console.log("Share cancelled", err));
+              } else {
+                navigator.clipboard.writeText(url);
+                alert("Link copied to clipboard!");
+              }
+            }}
+          >
             <Share2 className="w-4 h-4 mr-2" />
             Share Event
           </Button>
@@ -167,10 +183,6 @@ export default function SuccessPage() {
             <a href={`mailto:${CONFIG.profile.email}`} className="flex items-center text-indigo-600 hover:text-indigo-700">
               <Mail className="w-4 h-4 mr-2" />
               {CONFIG.profile.email}
-            </a>
-            <span className="text-gray-400">•</span>
-            <a href="tel:+919876543210" className="flex items-center text-indigo-600 hover:text-indigo-700">
-              +91 98765 43210
             </a>
           </div>
         </div>

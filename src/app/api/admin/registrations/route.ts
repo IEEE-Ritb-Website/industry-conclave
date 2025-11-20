@@ -1,21 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { NextResponse } from 'next/server'
+import { getRegistrations } from '@/lib/mongo'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const registrations = await prisma.registration.findMany({
-      include: {
-        payments: {
-          orderBy: {
-            createdAt: 'desc'
-          }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    })
-
+    const registrations = await getRegistrations()
     return NextResponse.json(registrations)
   } catch (error) {
     console.error('Failed to fetch registrations:', error)

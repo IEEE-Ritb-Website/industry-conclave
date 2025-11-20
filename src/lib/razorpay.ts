@@ -21,7 +21,7 @@ export const createOrder = async (amount: number, currency: string = 'INR') => {
       receipt: `receipt_${Date.now()}`,
       payment_capture: true,
     })
-    console.log('Razorpay order created:', order)
+    // console.log('Razorpay order created:', order)
     return order
   } catch (error) {
     console.error('Error creating Razorpay order:', error)

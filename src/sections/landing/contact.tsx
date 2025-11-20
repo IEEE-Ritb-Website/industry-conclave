@@ -1,10 +1,54 @@
+"use client"
+
 import Heading from "@/components/shared/heading"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CONFIG } from "@/configs/config"
-import { Mail, MapPin, User } from "lucide-react"
+import { Mail, MapPin } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { contactSchema, ContactFormData } from "@/lib/validations"
+import { useState } from "react"
+import { toast } from "sonner"
 
 export default function ContactSection() {
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<ContactFormData>({
+        resolver: zodResolver(contactSchema),
+    })
+
+    const onSubmit = async (data: ContactFormData) => {
+        setIsSubmitting(true)
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+
+            if (response.ok) {
+                toast.success('Message sent successfully!')
+                reset()
+            } else {
+                const error = await response.json()
+                toast.error(error.error || 'Failed to send message')
+            }
+        } catch (error) {
+            console.error('Contact form submission error:', error)
+            toast.error('Failed to send message. Please try again.')
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
     return (
         <section id="contact" className="relative py-24 px-4 sm:px-6 lg:px-8 ">
             {/* Radial Gradient Background from Bottom */}
@@ -41,36 +85,54 @@ export default function ContactSection() {
                         </Card>
                     </div>
 
-                    {/* Contact Form */}
-                    <Card className="scroll-reveal p-8 bg-background border-border">
-                        <form className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Name</label>
-                                <input
-                                    type="text"
-                                    className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors"
-                                    placeholder="Your name"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Email</label>
-                                <input
-                                    type="email"
-                                    className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors"
-                                    placeholder="your@email.com"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Message</label>
-                                <textarea
-                                    rows={4}
-                                    className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors resize-none"
-                                    placeholder="Your message..."
-                                />
-                            </div>
-                            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">Send Message</Button>
-                        </form>
-                    </Card>
+                     {/* Contact Form */}
+                     <Card className="scroll-reveal p-8 bg-background border-border">
+                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                             <div>
+                                 <label className="block text-sm font-medium mb-2">Name</label>
+                                 <input
+                                     type="text"
+                                     {...register("name")}
+                                     className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors"
+                                     placeholder="Your name"
+                                 />
+                                 {errors.name && (
+                                     <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                                 )}
+                             </div>
+                             <div>
+                                 <label className="block text-sm font-medium mb-2">Email</label>
+                                 <input
+                                     type="email"
+                                     {...register("email")}
+                                     className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors"
+                                     placeholder="your@email.com"
+                                 />
+                                 {errors.email && (
+                                     <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                 )}
+                             </div>
+                             <div>
+                                 <label className="block text-sm font-medium mb-2">Message</label>
+                                 <textarea
+                                     rows={4}
+                                     {...register("message")}
+                                     className="w-full px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:border-accent transition-colors resize-none"
+                                     placeholder="Your message..."
+                                 />
+                                 {errors.message && (
+                                     <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                                 )}
+                             </div>
+                             <Button
+                                 type="submit"
+                                 disabled={isSubmitting}
+                                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                             >
+                                 {isSubmitting ? 'Sending...' : 'Send Message'}
+                             </Button>
+                         </form>
+                     </Card>
                 </div>
             </div>
         </section>
