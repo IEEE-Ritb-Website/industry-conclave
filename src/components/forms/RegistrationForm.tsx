@@ -209,7 +209,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-24 px-4">
       <div className="max-w-6xl mx-auto">
       <Heading title={config.title} subtitle={config.description} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">

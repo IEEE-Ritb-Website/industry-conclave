@@ -112,34 +112,34 @@ export const CONFIG = {
     ],
     faqs: [
         {
-            question: "When and where is Industry Conclave 2025?",
+            question: "When and where is the IEEE CIS Industry Conclave 2025?",
             answer:
-                "Industry Conclave 2025 will be held on September 20-21, 2025 at Nimhans Convention Centre in Bangalore. We also offer online attendance options.",
+                "The IEEE CIS Industry Conclave 2025 will be held on December 5–6, 2025, at Ramaiah Institute of Technology, Bangalore.",
         },
         {
-            question: "How do I register for the conference?",
+            question: "How do I register for the conclave?",
             answer:
-                'You can register through our website by clicking the "Register Now" button. Early bird tickets are available at a discounted rate until June 7th.',
+                'You can register through our official website by clicking the "Register Now" button.',
         },
         {
-            question: "What is included in the ticket?",
+            question: "What is included in the registration?",
             answer:
-                "Your ticket includes access to all sessions, workshops, meals, and networking events. Virtual attendees get access to live streams and recorded sessions.",
+                "Your registration grants access to the full conclave experience, including: Access to all technical sessions, hands-on workshops, official event merchandise, certificate of participation, meals during the event, and the IEEE networking session.",
         },
         {
-            question: "Can I submit a talk or workshop proposal?",
+            question: "Can I submit a proposal for the conclave?",
             answer:
-                "Yes! We accept talk and workshop proposals until June 7th. Visit our speaker portal to submit your proposal.",
-        },
-        {
-            question: "Is there accommodation available?",
-            answer:
-                "We have partnered with local hotels to offer special rates for attendees. Details will be shared with registered participants.",
+                "Yes — we are currently accepting only sponsorship and stall proposals for the event. Organizations, startups, and companies can apply through the Sponsorship & Exhibition Portal on our website.",
         },
         {
             question: "What is your refund policy?",
             answer:
-                "Refunds are available until August 31st. After that date, tickets are non-refundable but can be transferred to another person.",
+                "All ticket purchases are non-refundable.",
+        },
+        {
+            question: "Who can attend the conclave?",
+            answer:
+                "The event is open to students, professionals, researchers, tech enthusiasts, startups, and companies interested in AI, ML, Cloud, Robotics, IoT, VLSI, and emerging technologies.",
         },
     ],
     timeline: {

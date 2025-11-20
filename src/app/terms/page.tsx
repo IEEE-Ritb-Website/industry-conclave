@@ -87,7 +87,7 @@ const termsSections = [
 
 export default function TermsOfServicePage() {
     return (
-        <div className="py-12 relative px-4 sm:px-6 lg:px-8">
+        <div className="py-24 relative px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <Heading
                     title='Terms of Service'

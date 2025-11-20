@@ -33,26 +33,26 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
   // Fetch colleges with pagination
   const fetchColleges = useCallback(async (pageNum = 1, search = '', append = false) => {
     if (!append) setLoading(true)
-    
+
     try {
       const params = new URLSearchParams({
         page: pageNum.toString(),
         limit: '50',
         ...(search && { search })
       })
-      
+
       const res = await fetch(`/api/colleges?${params}`)
       const data = await res.json()
-      
+
       if (append) {
         setColleges(prev => [...prev, ...data.colleges])
       } else {
         setColleges(data.colleges)
       }
-      
+
       setHasMore(data.pagination.hasNext)
       setTotalPages(data.pagination.totalPages)
-      
+
       if (value && !append) {
         setSelectedCollege(value)
       }
@@ -75,12 +75,12 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current)
     }
-    
+
     searchTimeoutRef.current = setTimeout(() => {
       setPage(1)
       fetchColleges(1, searchTerm, false)
     }, 300)
-    
+
     return () => {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current)
@@ -133,23 +133,23 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
             onClick={() => setIsOpen(!isOpen)}
             disabled={disabled}
             className={`
-              w-full px-4 py-3 text-left bg-white border border-gray-300 rounded-lg
+              w-full px-4 py-3 text-left bg-background border border-gray-300 rounded-lg
               shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
               ${error ? 'border-red-500' : 'border-gray-300'}
             `}
           >
             <div className="flex items-center justify-between">
-              <span className={selectedCollege ? 'text-gray-900' : 'text-gray-500'}>
+              <span className={selectedCollege ? 'text-neutral-100' : 'text-gray-500'}>
                 {selectedCollege || 'Select your college'}
               </span>
               <ChevronDown className="ml-2 h-4 w-4 text-gray-400" />
             </div>
           </button>
         </div>
-        
+
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+          <div className="absolute z-10 mt-1 w-full bg-background border border-gray-300 rounded-lg shadow-lg">
             <div className="p-4">
               <div className="flex items-center border-b border-gray-200 pb-3">
                 <Search className="h-4 w-4 text-gray-400" />
@@ -163,12 +163,12 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
                 />
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="ml-2 p-2 hover:bg-gray-100 rounded"
+                  className="ml-2 p-2 hover:bg-gray-700 rounded"
                 >
                   <X className="h-4 w-4 text-gray-400" />
                 </button>
               </div>
-              
+
               <div className="max-h-96 overflow-y-auto" ref={listRef}>
                 {loading && colleges.length === 0 ? (
                   <div className="flex items-center justify-center py-8">
@@ -185,14 +185,13 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
                           onChange(college.name)
                           setIsOpen(false)
                         }}
-                        className={`w-full text-left px-4 py-3 hover:bg-blue-50 border border-b border-transparent hover:border-blue-200 ${
-                          selectedCollege === college.name 
-                            ? 'bg-blue-50 border-blue-200' 
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-700 border border-b border-transparent hover:border-blue-200 ${selectedCollege === college.name
+                            ? 'bg-blue-50 border-blue-200'
                             : 'border-transparent'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center">
-                          <span className="text-gray-900">
+                          <span className="text-neutral-100">
                             {college.name}
                           </span>
                           <span className="text-sm text-gray-500 ml-2">
@@ -201,7 +200,7 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
                         </div>
                       </button>
                     ))}
-                    
+
                     {hasMore && (
                       <div className="flex items-center justify-center py-4">
                         <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -214,7 +213,7 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
             </div>
           </div>
         )}
-        
+
         {error && (
           <p className="mt-2 text-sm text-red-600">{error}</p>
         )}

@@ -10,6 +10,10 @@ export default function Nav() {
       link: "/#about",
     },
     {
+      name: "Speakers",
+      link: "/speakers",
+    },
+    {
       name: "Agenda",
       link: "/#agenda",
     },

@@ -60,7 +60,7 @@ const registrationTypes = [
 
 export default function RegisterPage() {
   return (
-    <div className="py-12 relative px-4 sm:px-6 lg:px-8">
+    <div className="py-24 relative px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <Heading title='Register for the event' subtitle="Join us for the amazing event" />
 

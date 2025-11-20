@@ -6,7 +6,14 @@ import { Mail, MapPin, User } from "lucide-react"
 
 export default function ContactSection() {
     return (
-        <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 ">
+        <section id="contact" className="relative py-24 px-4 sm:px-6 lg:px-8 ">
+            {/* Radial Gradient Background from Bottom */}
+            <div
+                className="absolute inset-0 -z-1 opacity-55"
+                style={{
+                    background: "radial-gradient(125% 125% at 50% 90%, transparent 40%, #6366f1 100%)",
+                }}
+            />
             <div className="max-w-6xl mx-auto">
                 <Heading title="Get In Touch" subtitle="Have questions? We'd love to hear from you" />
 
