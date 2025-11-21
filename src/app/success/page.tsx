@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,6 +9,18 @@ import { CONFIG } from '@/configs/config'
 import Link from 'next/link';
 
 export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+      </div>
+    }>
+      <SuccessPageInner />
+    </Suspense>
+  )
+}
+
+function SuccessPageInner() {
   const searchParams = useSearchParams()
   const registrationId = searchParams.get('registrationId')
   const [isConfirming, setIsConfirming] = useState(true)
