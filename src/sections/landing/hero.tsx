@@ -20,7 +20,7 @@ export default function HeroSection() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center px-4">
+            <div className="relative z-10 flex flex-col items-center justify-center px-4 md:pt-10">
                 <div className="inline-block mb-4 px-4 py-2 bg-purple-500/30 border border-purple-600/30 text-purple-400 font-semibold rounded-full backdrop-opacity-80 backdrop-filter backdrop-blur-sm">
                     <span className="text-sm font-medium">
                         {CONFIG.eventDetails.dates} • {CONFIG.eventDetails.location}
@@ -28,7 +28,7 @@ export default function HeroSection() {
                 </div>
 
                 <div className="mb-6 flex flex-col items-center justify-center">
-                    <div className="text-xl mb-4 font-semibold text-center">
+                    <div className="text-xl font-semibold text-center">
                         IEEE CIS
                     </div>
                     <TextHoverEffect text="INDUSTRY" />

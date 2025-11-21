@@ -20,6 +20,7 @@ import { Loader2, ArrowLeft, Calendar, MapPin, Users, GraduationCap, Building, U
 import Link from 'next/link'
 import { CollegeSelector } from '@/components/registration/CollegeSelector'
 import Heading from '../shared/heading'
+import { CONFIG } from '@/configs/config'
 
 type RegistrationType = 'COLLEGE_STUDENT' | 'IEEE_STUDENT' | 'ORGANIZATION'
 
@@ -36,8 +37,8 @@ const registrationTypeConfig = {
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Event merchandise',
-      'Certificate of participation',
+      'Exclusive goodies',
+      // 'Certificate of participation',
       'Meals during the event'
     ]
   },
@@ -49,8 +50,8 @@ const registrationTypeConfig = {
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Event merchandise',
-      'Certificate of participation',
+      'Exclusive goodies',
+      // 'Certificate of participation',
       'Meals during the event',
       'IEEE networking session'
     ]
@@ -63,8 +64,8 @@ const registrationTypeConfig = {
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Premium event merchandise',
-      'Certificate of participation',
+      'Exclusive goodies',
+      // 'Certificate of participation',
       'Meals during the event',
       'Networking dinner',
       'VIP access'
@@ -222,15 +223,14 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                   <div className="flex items-center space-x-3">
                     <Calendar className="w-5 h-5 text-indigo-600" />
                     <div>
-                      <p className="font-medium">November 21-22, 2025</p>
+                      <p className="font-medium">December 5-6, 2025</p>
                       <p className="text-sm text-gray-600">2-day technical extravaganza</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <MapPin className="w-5 h-5 text-indigo-600" />
                     <div>
-                      <p className="font-medium">Engineering College Campus</p>
-                      <p className="text-sm text-gray-600">Main Road, City</p>
+                      <p className="font-medium">{CONFIG.eventDetails.location}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
