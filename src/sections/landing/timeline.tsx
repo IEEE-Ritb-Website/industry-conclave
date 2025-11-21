@@ -15,10 +15,10 @@ export default function TimelineSection() {
                         <p className="mb-5 text-neutral-400">
                             <strong>Inauguration & Keynote Speeches</strong>
                         </p>
-                        <p className="mb-5 text-neutral-400">
+                        {/* <p className="mb-5 text-neutral-400">
                             Speakers: Prashant Mishra, Dr. Anjani <br />
                             Venue: ESB Seminar Hall 1
-                        </p>
+                        </p> */}
                     </div>
                 ),
             },
@@ -26,7 +26,7 @@ export default function TimelineSection() {
                 title: "11:30 AM",
                 content: (
                     <div>
-                        <p className="mb-5 text-neutral-400">
+                        <p className="mb-5 text-2xl text-neutral-400">
                             <strong>Tea Break</strong> (11:30 AM – 12:00 PM)
                         </p>
                     </div>
@@ -40,7 +40,7 @@ export default function TimelineSection() {
                             <strong>Parallel Sessions</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software Track:</strong> Ramesh Naidu <br />
                                 Venue: DES Hi-Tech Seminar Hall
@@ -53,7 +53,7 @@ export default function TimelineSection() {
                                 <strong>Hardware Track:</strong> Siddanth S. Iyer <br />
                                 Time: 12:00 PM – 1:00 PM
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -75,7 +75,7 @@ export default function TimelineSection() {
                             <strong>Afternoon Sessions</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software Track:</strong> Sourav <br />
                                 Venue: ESB Seminar Hall 1
@@ -92,7 +92,7 @@ export default function TimelineSection() {
                                 <strong>General Activity:</strong> Tech Detective <br />
                                 Time: 2–5 PM, Venue: CSE-AIML Lab ESB
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -104,7 +104,7 @@ export default function TimelineSection() {
                             <strong>Sessions (3–4 PM)</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>General:</strong> BFSI – Prasad Chitta (Venue: DES)
                             </li>
@@ -114,7 +114,7 @@ export default function TimelineSection() {
                             <li>
                                 <strong>Hardware:</strong> IoT Talk
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -126,7 +126,7 @@ export default function TimelineSection() {
                             <strong>Sessions (4–5 PM)</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software:</strong> Hrishikesh
                             </li>
@@ -136,7 +136,7 @@ export default function TimelineSection() {
                             <li>
                                 <strong>General:</strong> Gaurav Pathak
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -149,7 +149,7 @@ export default function TimelineSection() {
                     <div>
                         <h3 className="text-2xl md:text-4xl font-bold dark:text-neutral-100 mb-8">6 December 2025</h3>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software Track:</strong> Cyber Security <br />
                                 Venue: ESB Seminar Hall 1
@@ -162,7 +162,7 @@ export default function TimelineSection() {
                                 <strong>Hardware:</strong> SoC Talk <br />
                                 Venue: DES Seminar Hall
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -171,7 +171,7 @@ export default function TimelineSection() {
                 title: "11:00 AM",
                 content: (
                     <div>
-                        <p className="mb-5 text-neutral-400">
+                        <p className="mb-5 text-2xl text-neutral-400">
                             <strong>Tea Break</strong> (11:00 AM – 11:30 AM)
                         </p>
                     </div>
@@ -186,7 +186,7 @@ export default function TimelineSection() {
                             <strong>Midday Sessions</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software:</strong> Gen AI – HCL Tech <br />
                                 Venue: ESB Seminar Hall 1
@@ -199,7 +199,7 @@ export default function TimelineSection() {
                                 <strong>General:</strong> Session TBA <br />
                                 Venue: DES Seminar Hall
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -223,7 +223,7 @@ export default function TimelineSection() {
                             <strong>Afternoon Workshops & Sessions</strong>
                         </p>
 
-                        <ul className="text-neutral-400 space-y-3">
+                        {/* <ul className="text-neutral-400 space-y-3">
                             <li>
                                 <strong>Software:</strong> API Session <br />
                                 Venue: ESB Seminar Hall 2
@@ -244,7 +244,7 @@ export default function TimelineSection() {
                                 <strong>General Workshop:</strong> AI in Healthcare Workshop <br />
                                 Time: 1:30–3:30 PM, Venue: ISE Lab 1 & 2
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 ),
             },
@@ -255,11 +255,11 @@ export default function TimelineSection() {
                     <div>
                         <p className="mb-5 text-neutral-400">
                             <strong>Software Track:</strong> AIML Talk <br />
-                            Venue: ESB Seminar Hall 1
+                            {/* Venue: ESB Seminar Hall 1 */}
                         </p>
-                        <p className="mb-5 text-neutral-400">
+                        {/* <p className="mb-5 text-neutral-400">
                             <strong>Hardware Session:</strong> TBA
-                        </p>
+                        </p> */}
                     </div>
                 ),
             },
@@ -271,10 +271,10 @@ export default function TimelineSection() {
                         <p className="mb-5 text-neutral-400">
                             <strong>Panel Discussion</strong> (3:30 PM – 5:00 PM)
                         </p>
-                        <p className="mb-5 text-neutral-400">
+                        {/* <p className="mb-5 text-neutral-400">
                             Venue: ESB Seminar Hall 1 <br />
                             Track: General
-                        </p>
+                        </p> */}
                     </div>
                 ),
             },

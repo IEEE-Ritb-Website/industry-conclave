@@ -17,11 +17,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Calendar, MapPin, Users, GraduationCap, Building, UserCheck, Check, Briefcase } from 'lucide-react'
-import { CollegeSelector } from '@/components/registration/CollegeSelector'
+import { Loader2, Calendar, MapPin, Users, GraduationCap, Building, UserCheck, Briefcase } from 'lucide-react'
+
 import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
-import { RegistrationPricing, RegistrationTypes } from '@/types'
+import { PaymentProductId, RegistrationPricing, RegistrationTypes } from '@/types'
 import { HoverBorderGradient } from '../ui/hover-border-gradient'
 
 interface RegistrationFormProps {
@@ -30,7 +30,7 @@ interface RegistrationFormProps {
 
 const registrationTypeConfig = {
   [RegistrationTypes.COLLEGE_STUDENTS]: {
-    title: 'College Student Registration',
+    title: 'MSRIT Student Registration',
     description: 'For students currently enrolled in college',
     icon: GraduationCap,
     price: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
@@ -97,7 +97,7 @@ const registrationTypeConfig = {
 }
 
 export default function RegistrationForm({ registrationType }: RegistrationFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'submitted'>('idle')
   const router = useRouter()
   const config = registrationTypeConfig[registrationType]
 
@@ -135,118 +135,86 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
 
 
 
+  // Updated onSubmit function in your RegistrationForm component
+  // Replace the entire onSubmit function with this:
+
   const onSubmit = async (data: RegistrationFormData) => {
-    setIsLoading(true)
+    if (buttonState !== 'idle') {
+      return // Prevent multiple submissions
+    }
+
+    setButtonState('loading')
 
     try {
-      // Create registration record first
-      const response = await fetch('/api/register', {
+      const config = registrationTypeConfig[registrationType]
+
+      // Build request body based on registration type
+      const requestBody: any = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        registrationType: registrationType,
+        attendingWorkshop: data.attendingWorkshop,
+      }
+
+      // Add type-specific fields - ensure required fields are always present as strings
+      if (registrationType === RegistrationTypes.COLLEGE_STUDENTS ||
+          registrationType === RegistrationTypes.IEEE_STUDENTS ||
+          registrationType === RegistrationTypes.NON_IEEE_STUDENTS) {
+        requestBody.collegeName = (data as any).collegeName || ''
+      }
+
+      if (registrationType === RegistrationTypes.IEEE_STUDENTS ||
+          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        requestBody.ieeeMemberId = (data as any).ieeeMemberId || ''
+      }
+
+      if (registrationType === RegistrationTypes.NON_IEEE_PROFESSIONALS ||
+          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        requestBody.organizationName = (data as any).organizationName || ''
+      }
+
+      if (registrationType === RegistrationTypes.IEEE_STUDENTS ||
+          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        requestBody.ieeeMemberId = (data as any).ieeeMemberId
+      }
+
+      if (registrationType === RegistrationTypes.NON_IEEE_PROFESSIONALS ||
+          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        requestBody.organizationName = (data as any).organizationName
+      }
+
+      // Call register API to create registration and get checkout URL
+      const registerResponse = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(requestBody),
       })
 
-      const result = await response.json()
+      const registerResult = await registerResponse.json()
 
-      if (!response.ok) {
-        const errorMessage = result.error || 'Registration failed. Please try again.'
+      if (!registerResponse.ok) {
+        const errorMessage = registerResult.error || 'Failed to create registration.'
         toast.error(errorMessage)
-        console.error('Registration failed:', result.error)
+        setButtonState('idle')
         return
       }
 
-      const config = registrationTypeConfig[registrationType]
-
-      // Initialize Razorpay payment
-      const Razorpay = (window as any).Razorpay
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: result.amount, // Amount comes from server for security
-        currency: result.currency || 'INR',
-        name: 'TechConclave 2025',
-        description: `${config.title} Fee`,
-        image: '/logo.png',
-        order_id: result.orderId,
-        handler: async function (response: any) {
-          try {
-            // Verify payment and update registration
-            const verifyResponse = await fetch('/api/payment/verify', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                registrationId: result.registrationId,
-              }),
-            })
-
-            const verifyResult = await verifyResponse.json()
-
-            if (verifyResponse.ok) {
-              toast.success('Payment successful! Registration confirmed.')
-              router.push('/success')
-            } else {
-              const errorMessage = verifyResult.error || 'Payment verification failed. Please contact support if amount was deducted.'
-              toast.error(errorMessage)
-              throw new Error(errorMessage)
-            }
-          } catch (error) {
-            console.error('Payment verification error:', error)
-            const errorMessage = error instanceof Error ? error.message : 'Payment verification failed. Please contact support if amount was deducted.'
-            toast.error(errorMessage)
-          }
-        },
-        prefill: {
-          name: data.fullName,
-          email: data.email,
-          contact: data.phone,
-        },
-        theme: {
-          color: '#6366f1',
-        },
-        modal: {
-          ondismiss: function () {
-            setIsLoading(false)
-            toast.info('Payment cancelled. You can try again.')
-          }
-        }
-      }
-
-      if (!Razorpay) {
-        toast.error('Payment system is not available. Please refresh the page and try again.')
-        setIsLoading(false)
-        return
-      }
-
-      try {
-        const rzp = new Razorpay(options)
-        rzp.open()
-      } catch (razorpayError) {
-        console.error('Razorpay initialization error:', razorpayError)
-        toast.error('Failed to initialize payment. Please try again.')
-        setIsLoading(false)
+      // Redirect to checkout URL
+      if (registerResult.checkout_url) {
+        setButtonState('submitted')
+        window.location.href = registerResult.checkout_url
+      } else {
+        toast.error('Invalid registration response. Please try again.')
+        setButtonState('idle')
       }
 
     } catch (error) {
       console.error('Registration error:', error)
-      let errorMessage = 'Registration failed. Please try again.'
-
-      if (error instanceof Error) {
-        if (error.message.includes('fetch')) {
-          errorMessage = 'Network error. Please check your connection and try again.'
-        } else {
-          errorMessage = error.message
-        }
-      }
-
-      toast.error(errorMessage)
-    } finally {
-      setIsLoading(false)
+      toast.error('Registration failed. Please try again.')
+      setButtonState('idle')
     }
   }
 
@@ -352,13 +320,20 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                     )}
                   </div>
 
-                  {(registrationType === RegistrationTypes.COLLEGE_STUDENTS || registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.NON_IEEE_STUDENTS) && (
-                    <CollegeSelector
-                      value={watch('collegeName') || ''}
-                      onChange={(value) => setValue('collegeName', value)}
-                      error={(errors as any).collegeName?.message}
-                    />
-                  )}
+                   {(registrationType === RegistrationTypes.COLLEGE_STUDENTS || registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.NON_IEEE_STUDENTS) && (
+                     <div className="space-y-2">
+                       <Label htmlFor="collegeName">College Name *</Label>
+                       <Input
+                         id="collegeName"
+                         {...register('collegeName')}
+                         placeholder="Enter your college name"
+                         className="rounded-2xl"
+                       />
+                       {(errors as any).collegeName && (
+                         <p className="text-sm text-red-600">{(errors as any).collegeName.message}</p>
+                       )}
+                     </div>
+                   )}
 
                   {(registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.IEEE_PROFESSIONALS) && (
                     <div className="space-y-2">
@@ -413,24 +388,29 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       <span className="text-2xl font-bold text-indigo-600">₹{config.price}</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      Payment will be processed securely via Razorpay
+                      Payment will be processed securely via Dodo Payments
                     </p>
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full rounded-2xl py-3 bg-accent/90 hover:bg-accent text-white hover:text-white"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      `Register & Pay ${config.price}`
-                    )}
-                  </Button>
+                   <Button
+                     type="submit"
+                     className="w-full rounded-2xl py-3 bg-accent/90 hover:bg-accent text-white hover:text-white"
+                     disabled={buttonState !== 'idle'}
+                   >
+                     {buttonState === 'loading' ? (
+                       <>
+                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                         Processing...
+                       </>
+                     ) : buttonState === 'submitted' ? (
+                       <>
+                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                         Redirecting to payment...
+                       </>
+                     ) : (
+                       `Register & Pay ${config.price}`
+                     )}
+                   </Button>
 
                   <p className="text-xs text-gray-500 text-center">
                     By registering, you agree to our terms and conditions.

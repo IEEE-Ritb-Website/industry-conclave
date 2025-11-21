@@ -130,7 +130,7 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
 
   try {
     const info = await transporter.sendMail(msg)
-    console.log('Confirmation email sent successfully:', info.messageId)
+    // console.log('Confirmation email sent successfully:', info.messageId)
   } catch (error) {
     console.error('Error sending confirmation email:', error)
     throw error

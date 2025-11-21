@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, GraduationCap, UserCheck, Building, Users, Briefcase } from 'lucide-react'
+import { GraduationCap, UserCheck, Building, Users, Briefcase } from 'lucide-react'
 import Heading from '@/components/shared/heading'
 import { CardSpotlight } from '@/components/ui/card-spotlight'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,7 @@ import { RegistrationTypes, RegistrationPricing } from '@/types'
 const registrationTypes = [
   {
     type: RegistrationTypes.COLLEGE_STUDENTS,
-    title: 'College Student',
+    title: 'MSRIT Student',
     description: 'For students currently enrolled in college',
     price: `₹${RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS]}`,
     icon: GraduationCap,
@@ -22,7 +22,7 @@ const registrationTypes = [
       'Certificate of participation',
       'Meals during the event'
     ],
-    color: 'royalblue'
+    color: 'green'
   },
   {
     type: RegistrationTypes.IEEE_STUDENTS,
@@ -38,7 +38,7 @@ const registrationTypes = [
       'Meals during the event',
       'IEEE networking session'
     ],
-    color: 'seagreen'
+    color: 'lightseagreen'
   },
   {
     type: RegistrationTypes.NON_IEEE_STUDENTS,
@@ -70,7 +70,7 @@ const registrationTypes = [
       'Networking dinner',
       'VIP access'
     ],
-    color: 'orange'
+    color: 'blue'
   },
   {
     type: RegistrationTypes.NON_IEEE_PROFESSIONALS,
@@ -97,11 +97,11 @@ export default function RegisterPage() {
       <div className="max-w-7xl mx-auto">
         <Heading title='Register for the event' subtitle="Join us for the amazing event" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 place-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 place-items-center">
           {registrationTypes.map((regType, index) => {
             const Icon = regType.icon
             return (
-              <CardSpotlight key={regType.type} color={regType.color} className={`w-full h-full flex flex-col ${index === 0 && "col-span-2"}`}>
+              <CardSpotlight key={regType.type} color={regType.color} className={`w-full h-full flex flex-col ${index === 0 && "md:col-span-2"}`}>
                 <div className="flex flex-col justify-between">
                   <div className="flex items-center gap-3 mb-4">
                     <Icon className="w-8 h-8 text-white" />

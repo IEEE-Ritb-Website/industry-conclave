@@ -65,11 +65,11 @@ export const paymentsCollection = async (): Promise<Collection<PaymentDoc>> => {
 
 export const findRegistrationByEmail = async (email: string) => {
   const regCol = await registrationsCollection()
-  const reg = await regCol.findOne({ email: email })
+  const reg = await regCol.findOne({ email: email, isPaymentCompleted: true })
   return reg
 }
 
-export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'isPaymentCompleted' | 'createdAt' | 'updatedAt'>): Promise<RegistrationDoc> => {
+export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'createdAt' | 'updatedAt'>): Promise<RegistrationDoc> => {
   const regCol = await registrationsCollection()
   const now = new Date()
   const doc: RegistrationDoc = {
@@ -81,7 +81,7 @@ export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'is
     organizationName: data.organizationName,
     ieeeMemberId: data.ieeeMemberId,
     attendingWorkshop: data.attendingWorkshop ?? false,
-    isPaymentCompleted: false,
+    isPaymentCompleted: false, // Initially false, will be set to true after payment verification
     createdAt: now,
     updatedAt: now
   }
@@ -123,43 +123,42 @@ export const getRegistrations = async (): Promise<Array<any>> => {
 }
 
 export const findRegistrationById = async (id: string) => {
-  const regCol = await registrationsCollection()
-  const obj = new ObjectId(id)
-  const reg = await regCol.findOne({ _id: obj })
-  return reg
+  // console.log('Finding registration with id:', id)
+  try {
+    const regCol = await registrationsCollection()
+    const obj = new ObjectId(id)
+    // console.log('ObjectId for find:', obj)
+    const reg = await regCol.findOne({ _id: obj })
+    console.log('Found registration:', reg ? 'yes' : 'no')
+    if (reg) {
+      console.log('Registration payment status:', reg.isPaymentCompleted)
+    }
+    return reg
+  } catch (error) {
+    console.error('Error in findRegistrationById:', error)
+    throw error
+  }
 }
 
 export const getRegistrationById = findRegistrationById
 
-export const updatePaymentStatus = async (registrationId: string, razorpayOrderId: string, razorpayPaymentId: string, razorpaySignature: string) => {
-  const payCol = await paymentsCollection()
-  const now = new Date()
-  const result = await payCol.updateMany(
-    {
-      registrationId,
-      razorpayOrderId
-    },
-    {
-      $set: {
-        razorpayPaymentId,
-        razorpaySignature,
-        status: 'SUCCESS',
-        updatedAt: now
-      }
-    }
-  )
-  return result
-}
-
 export const setRegistrationPaymentCompleted = async (id: string) => {
-  const regCol = await registrationsCollection()
-  const obj = new ObjectId(id)
-  const now = new Date()
-  const result = await regCol.updateOne(
-    { _id: obj },
-    { $set: { isPaymentCompleted: true, updatedAt: now } }
-  )
-  return result
+  console.log('Attempting to update registration with id:', id)
+  try {
+    const regCol = await registrationsCollection()
+    const obj = new ObjectId(id)
+    console.log('ObjectId created:', obj)
+    const now = new Date()
+    const result = await regCol.updateOne(
+      { _id: obj },
+      { $set: { isPaymentCompleted: true, updatedAt: now } }
+    )
+    // console.log('Update operation completed:', result)
+    return result
+  } catch (error) {
+    console.error('Error in setRegistrationPaymentCompleted:', error)
+    throw error
+  }
 }
 
 export const getRegistrationForEmail = async (id: string) => {

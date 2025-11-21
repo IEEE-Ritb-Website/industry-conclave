@@ -1,28 +1,84 @@
 "use client";
 
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckCircle, Calendar, MapPin, Mail, ArrowLeft, Download, Share2 } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, Mail, ArrowLeft, Download, Share2, Loader2 } from 'lucide-react'
 import { CONFIG } from '@/configs/config'
+import Link from 'next/link';
 
 export default function SuccessPage() {
+  const searchParams = useSearchParams()
+  const registrationId = searchParams.get('registrationId')
+  const [isConfirming, setIsConfirming] = useState(true)
+  const [confirmationError, setConfirmationError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (registrationId) {
+      // Confirm payment and send email
+      fetch('/api/confirm-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ registrationId }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log('Payment confirmed successfully')
+          } else {
+            setConfirmationError(data.error || 'Failed to confirm payment')
+          }
+        })
+        .catch(error => {
+          console.error('Confirmation error:', error)
+          setConfirmationError('Failed to confirm payment')
+        })
+        .finally(() => {
+          setIsConfirming(false)
+        })
+    } else {
+      setIsConfirming(false)
+      setConfirmationError('No registration ID found')
+    }
+  }, [registrationId])
   return (
     <div className="min-h-screen py-24 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Success Message */}
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-green-600" />
+            {isConfirming ? (
+              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            ) : confirmationError ? (
+              <div className="w-10 h-10 text-red-600">⚠️</div>
+            ) : (
+              <CheckCircle className="w-10 h-10 text-green-600" />
+            )}
           </div>
           <h1 className="text-4xl font-bold text-white mb-4">
-            Payment Successful!
+            {isConfirming ? 'Confirming Payment...' : confirmationError ? 'Confirmation Issue' : 'Payment Successful!'}
           </h1>
           <p className="text-xl text-gray-300 mb-2">
-            Thank you for registering for Industry Conclave 2025. Your payment has been confirmed!
+            {isConfirming
+              ? 'Please wait while we confirm your payment...'
+              : confirmationError
+                ? 'There was an issue confirming your payment.'
+                : 'Thank you for registering for Industry Conclave 2025. Your payment has been confirmed!'
+            }
           </p>
-          <p className="text-lg text-green-600 font-medium">
-            📧 We'll send you a confirmation email shortly. Please check your inbox.
-          </p>
+          {!isConfirming && !confirmationError && (
+            <p className="text-lg text-green-600 font-medium">
+              📧 We'll send you a confirmation email shortly. Please check your inbox.
+            </p>
+          )}
+          {confirmationError && (
+            <p className="text-lg text-red-600 font-medium">
+              {confirmationError}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
@@ -99,50 +155,28 @@ export default function SuccessPage() {
             <CardTitle>Important Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-3">What to Bring</h4>
-                <ul className="space-y-2 text-gray-400">
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Valid ID proof for verification</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Laptop for workshops and hackathon</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Power bank and chargers</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Notebook and pen</span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3">Event Schedule</h4>
-                <ul className="space-y-2 text-gray-400">
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Day 1: 9:00 AM - 8:00 PM</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Day 2: 9:00 AM - 6:00 PM</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Meals included during event hours</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <span>Certificate provided on completion</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <h4 className="font-semibold mb-3">What to Bring</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                <span>Valid ID proof for verification</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                <span>Laptop for workshops and hackathon</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                <span>Power bank and chargers</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                <span>Notebook and pen</span>
+              </li>
+            </ul>
+            <Button className='mt-4 w-full' variant={"outline"} asChild>
+              <Link href="/#timeline">View Timeline</Link>
+            </Button>
           </CardContent>
         </Card>
 

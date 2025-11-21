@@ -1,28 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { findRegistrationByEmail, createRegistration, createPayment } from '@/lib/mongo'
+import { findRegistrationByEmail, createRegistration } from '@/lib/mongo'
 import { registrationSchema } from '@/lib/validations'
-import { createOrder } from '@/lib/razorpay'
-import { RegistrationTypes, RegistrationPricing } from '@/types'
+import { RegistrationPricing, PaymentProductId } from '@/types'
 import { z } from 'zod'
+import DodoPayments from 'dodopayments'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    // Validate input
-    const validatedData = registrationSchema.parse(body)
-
-    // Check if email already exists
-    const existingRegistration = await findRegistrationByEmail(validatedData.email)
-    if (existingRegistration) {
+    let body;
+    try {
+      body = await request.json()
+    } catch (parseError) {
+      console.error('Failed to parse request body:', parseError)
       return NextResponse.json(
-        { error: 'This email is already registered. Please use a different email.' },
+        { error: 'Invalid JSON in request body' },
         { status: 400 }
       )
     }
 
-    // Get amount from pricing configuration (server-side only)
-    const amount = RegistrationPricing[validatedData.registrationType as RegistrationTypes]
+    // console.log('Registration request body:', body)
 
+    // Validate input
+    let validatedData;
+    try {
+      validatedData = registrationSchema.parse(body)
+    } catch (validationError) {
+      console.error('Validation error:', validationError)
+      if (validationError instanceof z.ZodError) {
+        const errorMessages = validationError.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
+        return NextResponse.json(
+          { error: `Validation failed: ${errorMessages.join(', ')}` },
+          { status: 400 }
+        )
+      }
+      return NextResponse.json(
+        { error: 'Validation failed' },
+        { status: 400 }
+      )
+    }
+
+    // Check if email already exists (prevent duplicate registrations)
+    try {
+      const existingRegistration = await findRegistrationByEmail(validatedData.email)
+      if (existingRegistration) {
+        return NextResponse.json(
+          { error: 'This email is already registered. Please check your email for payment instructions or contact support if you need help.' },
+          { status: 400 }
+        )
+      }
+    } catch (dbError) {
+      console.error('Database error checking existing registration:', dbError)
+      return NextResponse.json(
+        { error: 'Database connection error. Please try again later.' },
+        { status: 500 }
+      )
+    }
+
+    // Get amount from pricing configuration
+    const amount = RegistrationPricing[validatedData.registrationType]
     if (!amount) {
       return NextResponse.json(
         { error: 'Invalid registration type' },
@@ -30,52 +65,86 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create Razorpay order first
-    const order = await createOrder(amount, 'INR')
-
-    // Create registration document
-    const registrationInput: any = {
-      fullName: validatedData.fullName,
-      email: validatedData.email,
-      phone: validatedData.phone,
-      registrationType: validatedData.registrationType,
-      attendingWorkshop: validatedData.attendingWorkshop
-    }
-    if ('collegeName' in validatedData) registrationInput.collegeName = validatedData.collegeName
-    if ('organizationName' in validatedData) registrationInput.organizationName = validatedData.organizationName
-    if ('ieeeMemberId' in validatedData) registrationInput.ieeeMemberId = validatedData.ieeeMemberId
-
-    const registration = await createRegistration(registrationInput)
-
-    // Create payment record
-    await createPayment(
-      registration._id!.toString(),
-      amount,
-      'INR',
-      (order as any).id
-    )
-
-    return NextResponse.json({
-      success: true,
-      registrationId: registration._id!.toString(),
-      orderId: (order as any).id,
-      amount: (order as any).amount,
-      currency: (order as any).currency
-    })
-
-  } catch (error) {
-    console.error('Registration error:', error)
-
-    if (error instanceof z.ZodError) {
-      const errorMessages = error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
+    // Create registration in database
+    let registration;
+    try {
+      registration = await createRegistration({
+        fullName: validatedData.fullName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        registrationType: validatedData.registrationType,
+        attendingWorkshop: validatedData.attendingWorkshop,
+        collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
+        organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
+        ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
+        isPaymentCompleted: false,
+      })
+    } catch (dbError) {
+      console.error('Database error creating registration:', dbError)
       return NextResponse.json(
-        { error: `Please check your input: ${errorMessages.join(', ')}` },
-        { status: 400 }
+        { error: 'Failed to create registration. Please try again later.' },
+        { status: 500 }
       )
     }
 
+    const registrationId = registration._id!.toString()
+
+    // Create checkout session using Dodo Payments SDK
+    try {
+      console.log('Creating checkout session for product:', PaymentProductId[validatedData.registrationType])
+
+      const client = new DodoPayments({
+        bearerToken: process.env.DODO_PAYMENTS_API_KEY!,
+        environment: process.env.DODO_PAYMENTS_ENVIRONMENT === 'live_mode' ? 'live_mode' : 'test_mode',
+      })
+
+      const checkoutSessionResponse = await client.checkoutSessions.create({
+        product_cart: [{
+          product_id: PaymentProductId[validatedData.registrationType],
+          quantity: 1
+        }],
+        customer: {
+          email: validatedData.email,
+          name: validatedData.fullName,
+        },
+        billing_address: {
+          country: 'IN',
+        },
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/success?registrationId=${registrationId}`,
+        billing_currency: 'INR'
+      })
+
+      console.log('Checkout session created:', checkoutSessionResponse.session_id)
+
+      // The SDK response should include the checkout_url
+      if (!checkoutSessionResponse.checkout_url) {
+        console.error('No checkout_url in SDK response:', checkoutSessionResponse)
+        return NextResponse.json(
+          { error: 'Invalid checkout session response' },
+          { status: 500 }
+        )
+      }
+
+      return NextResponse.json({
+        success: true,
+        checkout_url: checkoutSessionResponse.checkout_url,
+        registrationId: registrationId,
+        amount: amount,
+        currency: 'INR'
+      })
+
+    } catch (checkoutError) {
+      console.error('Checkout session creation error:', checkoutError)
+      return NextResponse.json(
+        { error: 'Failed to create payment session. Please try again.' },
+        { status: 500 }
+      )
+    }
+
+  } catch (error) {
+    console.error('Unexpected registration error:', error)
     return NextResponse.json(
-      { error: 'Registration failed' },
+      { error: 'An unexpected error occurred. Please try again later.' },
       { status: 500 }
     )
   }

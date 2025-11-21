@@ -49,7 +49,7 @@ export default function HeroSection() {
                         </Link>
                     </Button>
                     <Button variant={"outline"} asChild className="w-full sm:w-auto">
-                        <Link href={"/register"}>View Schedule</Link>
+                        <Link href={"/#timeline"}>View Schedule</Link>
                     </Button>
                 </div>
 
