@@ -271,9 +271,8 @@ export default function AdminPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {Object.entries(stats.byType).map(([type, count]) => (
-                <div key={type} className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-2xl font-bold text-blue-600">{count}</p>
+              {Object.entries(stats.byType).map(([type]) => (
+                <div key={type} className="text-center p-4">
                   <p className="text-sm text-gray-600">
                     {type.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
                   </p>

@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={cn(poppins.className, "dark")}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(poppins.className, "dark")} suppressHydrationWarning>
         <ToastProvider />
         <Navbar />
         <main className="min-h-screen">

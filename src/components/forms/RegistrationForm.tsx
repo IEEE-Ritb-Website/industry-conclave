@@ -23,82 +23,20 @@ import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
 import { PaymentProductId, RegistrationPricing, RegistrationTypes } from '@/types'
 import { HoverBorderGradient } from '../ui/hover-border-gradient'
+import { registrationDetails } from '@/app/register/page'
 
 interface RegistrationFormProps {
   registrationType: RegistrationTypes
 }
 
-const registrationTypeConfig = {
-  [RegistrationTypes.COLLEGE_STUDENTS]: {
-    title: 'MSRIT Student Registration',
-    description: 'For students currently enrolled in college',
-    icon: GraduationCap,
-    price: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Meals during the event'
-    ]
-  },
-  [RegistrationTypes.IEEE_STUDENTS]: {
-    title: 'IEEE Student Registration',
-    description: 'Special discount for IEEE student members',
-    icon: UserCheck,
-    price: RegistrationPricing[RegistrationTypes.IEEE_STUDENTS],
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Meals during the event',
-      'IEEE networking session'
-    ]
-  },
-  [RegistrationTypes.NON_IEEE_STUDENTS]: {
-    title: 'Non-IEEE Student Registration',
-    description: 'For students not enrolled in IEEE',
-    icon: Users,
-    price: RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS],
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Meals during the event'
-    ]
-  },
-  [RegistrationTypes.IEEE_PROFESSIONALS]: {
-    title: 'IEEE Professional Registration',
-    description: 'For IEEE professional members',
-    icon: Briefcase,
-    price: RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS],
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Meals during the event',
-      'Networking dinner',
-      'VIP access'
-    ]
-  },
-  [RegistrationTypes.NON_IEEE_PROFESSIONALS]: {
-    title: 'Non-IEEE Professional Registration',
-    description: 'For professionals not enrolled in IEEE',
-    icon: Building,
-    price: RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Meals during the event',
-      'Networking dinner',
-      'VIP access'
-    ]
-  }
-}
+const registrationTypeConfig = registrationDetails.reduce((acc, detail) => {
+  acc[detail.type] = detail;
+  return acc;
+}, {} as Record<RegistrationTypes, typeof registrationDetails[0]>);
 
 export default function RegistrationForm({ registrationType }: RegistrationFormProps) {
   const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'submitted'>('idle')
-  const router = useRouter()
+  // const router = useRouter()
   const config = registrationTypeConfig[registrationType]
 
   const getSchema = () => {

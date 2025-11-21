@@ -5,68 +5,92 @@ import { prasantMisra, drAnjaniPriyadarshini, vyshakTm, rameshNaiduLaveti, sande
 export default function SpeakersPage() {
     const speakers = [
         {
-            "image": prasantMisra,
-            "speakerName": "Dr. Prasant Misra",
-            "topic": "Decision Making in Electric Vehicles & the Future of Smart Mobility",
-            "shortDescription": "Senior Scientist at TCS Research and Visiting Faculty at IISc Bangalore with 18+ years of experience in Optimization, Smart Mobility, IoT, and EV Systems.",
-            "linkedin": "",
-            "eventName": "EVs (Keynote)"
+            image: prasantMisra,
+            speakerName: "Dr. Prasant Misra",
+            topic: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
+            shortDescription:
+                "Senior Scientist @ TCS Research and Visiting Faculty @ IISc. ACM Distinguished Speaker, TR35 India, Marie Curie Fellow. Expert in Optimization, Smart Mobility, IoT, and EV Systems.",
+            linkedin: "https://www.linkedin.com/in/prasantmisra/",
+            eventName: "EVs (Keynote)"
         },
         {
-            "image": drAnjaniPriyadarshini,
-            "speakerName": "Dr. Anjani Priyadarshini",
-            "topic": "Quantum AI: Computing Beyond Classical Limits",
-            "shortDescription": "Quantum Computing Lead at AWS India and PhD in High Energy Physics from IISc. Expert in computational mathematics, quantum systems, and policy frameworks.",
-            "linkedin": "https://www.linkedin.com/in/dr-anjani-priyadarsini",
-            "eventName": "Quantum AI"
+            image: drAnjaniPriyadarshini,
+            speakerName: "Dr. Anjani Priyadarshini",
+            topic: "Quantum AI: Computing Beyond Classical Limits",
+            shortDescription:
+                "Quantum Technologies Lead at AWS India with a PhD in High Energy Physics from IISc. Expert in computational mathematics, theoretical physics, and quantum ecosystems.",
+            linkedin:
+                "https://www.linkedin.com/in/dr-anjani-priyadarsini?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+            eventName: "QuantumAI"
         },
         {
-            "image": "/assets/VimalBastin",
-            "speakerName": "Vimal Bastin Edwin Joseph",
-            "topic": "Keynote (TBA)",
-            "shortDescription": "Industry expert and technology leader delivering insights into emerging systems and innovation-driven tech ecosystems.",
-            "linkedin": "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
-            "eventName": "Emerging Tech Keynote"
+            image: "/assets/VimalBastin",
+            speakerName: "Vimal Bastin Edwin Joseph",
+            topic: "Keynote (Topic TBD)",
+            shortDescription:
+                "Senior engineering leader and keynote speaker with experience across large-scale systems, innovation, and emerging technologies.",
+            linkedin:
+                "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
+            eventName: "Keynote"
         },
         {
-            "image": vyshakTm,
-            "speakerName": "Vyshak T M",
-            "topic": "The Convergent Chain: Building IoT-Driven, API-Powered Supply Chain Intelligence",
-            "shortDescription": "IoT & Supply Chain specialist focused on sensor data, API architectures, and intelligent decision systems for hardware logistics.",
-            "linkedin": "https://www.linkedin.com/in/vyshaktm180903/",
-            "eventName": "IoT & AI"
+            image: vyshakTm,
+            speakerName: "Vyshak T M",
+            topic:
+                "The Convergent Chain: Building IoT-Driven, API-Powered Supply Chain Intelligence",
+            shortDescription:
+                "IoT & API Developer and Supply Chain Analyst. Specializes in building intelligent, data-driven logistics systems and connected hardware APIs.",
+            linkedin: "https://www.linkedin.com/in/vyshaktm180903/",
+            eventName: "IoT & AI"
         },
         {
-            "image": rameshNaiduLaveti,
-            "speakerName": "Ramesh Naidu Laveti",
-            "topic": "Trustworthy and Secure AI: Building Safe Systems for the Future",
-            "shortDescription": "Expert in Secure & Trustworthy AI frameworks with a focus on adversarial robustness, fairness, governance, and safe deployment of large-scale AI.",
-            "linkedin": "https://www.linkedin.com/in/rameshnl/",
-            "eventName": "Secure AI Systems"
+            image: rameshNaiduLaveti,
+            speakerName: "Ramesh Naidu Laveti",
+            topic:
+                "Trustworthy and Secure AI: Building Safe Systems for the Future",
+            shortDescription:
+                "Associate Director/Scientist-F @ C-DAC. Expert in AI for Health, Security, HPC analytics, and hybrid ML systems with focus on robust & ethical AI.",
+            linkedin: "https://www.linkedin.com/in/rameshnl/",
+            eventName: "Secure AI Systems"
         },
         {
-            "image": "/assets/speakers/kunal-saxena.jpg",
-            "speakerName": "Dr. Kunal Saxena",
-            "topic": "Data-Driven Digital Marketing: Strategies for the AI-Powered Era",
-            "shortDescription": "Digital Marketing Expert with 17 years of experience. Works with Google on AI & Maps. Global speaker, PhD holder, polyglot (30+ languages).",
-            "linkedin": "https://in.linkedin.com/in/dr-kunal-saxena-975527106",
-            "eventName": "Data Driven Digital Marketing"
+            image: "/assets/speakers/kunal-saxena.jpg",
+            speakerName: "Dr. Kunal Saxena",
+            topic:
+                "Data-Driven Digital Marketing: Strategies for the AI-Powered Era",
+            shortDescription:
+                "Global Digital Marketing Leader with 17+ years experience. Works with Google on AI & Maps. Speaker at NASA, Harvard, MIT, IITs, and IIMs.",
+            linkedin:
+                "https://in.linkedin.com/in/dr-kunal-saxena-975527106?utm_source=share&utm_medium=member_mweb&utm_campaign=share_via&utm_content=profile",
+            eventName: "Data Driven Digital Marketing"
         },
         {
-            "image": sandeshJayarama,
-            "speakerName": "Sandesh Jayarama",
-            "topic": "Entrepreneurship & New Business Strategies",
-            "shortDescription": "SVP – New Business Initiatives & Strategy at Perfios. Expert in scaling fintech systems and building high-growth digital ecosystems.",
-            "linkedin": "https://www.linkedin.com/in/sandeshj",
-            "eventName": "Entrepreneurship"
+            image: sandeshJayarama,
+            speakerName: "Sandesh Jayarama",
+            topic: "Entrepreneurship & New Business Strategy",
+            shortDescription:
+                "SVP – New Business Initiatives & Strategy at Perfios. Former McKinsey consultant with deep experience in fintech, digital banking & enterprise architecture.",
+            linkedin:
+                "https://www.linkedin.com/in/sandeshj?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+            eventName: "Entrepreneurship"
         },
         {
-            "image": ayanS,
-            "speakerName": "Ayan S.R.",
-            "topic": "ROS2 and Intelligent Robotics",
-            "shortDescription": "Roboticist, entrepreneur, innovator & Shark Tank India S3 founder of Katidhan. Specializes in autonomous systems and ROS2 robotics.",
-            "linkedin": "https://www.linkedin.com/in/ayansr/",
-            "eventName": "ROS2 & Robotics"
+            image: ayanS,
+            speakerName: "Ayan S.R.",
+            topic: "ROS2 & Intelligent Robotics",
+            shortDescription:
+                "Founder of Katidhan, Shark Tank India S3. Builds scalable sustainable robotics & IoT systems. Innovation strategist across design, engineering & business.",
+            linkedin: "https://www.linkedin.com/in/ayansr/",
+            eventName: "ROS2"
+        },
+        {
+            image: "/assets/hrishikesh-haritas.jpg",
+            speakerName: "Hrishikesh Haritas",
+            topic: "Explainable AI & Federated Learning",
+            shortDescription:
+                "Research Associate at IISc working on Explainable AI, Federated Learning & GNNs. BE in AI & ML with strong research background in transparent & privacy-preserving AI systems.",
+            linkedin: "",
+            eventName: "AI Research"
         }
     ];
 
@@ -82,7 +106,7 @@ export default function SpeakersPage() {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-6"
                 >
                     {speakers.map((session: any, index: number) => (
-                        <div key={`session-${index}`} className={`${[0, 3].includes(index) && "md:col-span-2"} ${index === 3 && "md:row-span-2"}`}>
+                        <div key={`session-${index}`} className={``}>
                             <SessionCard {...session} />
                         </div>
                     ))}

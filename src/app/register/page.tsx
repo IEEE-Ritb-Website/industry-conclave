@@ -8,19 +8,18 @@ import { Button } from '@/components/ui/button'
 import { CONFIG } from '@/configs/config'
 import { RegistrationTypes, RegistrationPricing } from '@/types'
 
-const registrationTypes = [
+export const registrationDetails = [
   {
     type: RegistrationTypes.COLLEGE_STUDENTS,
     title: 'MSRIT Student',
     description: 'For students currently enrolled in college',
-    price: `₹${RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS]}`,
+    price: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
     icon: GraduationCap,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Event merchandise',
-      'Certificate of participation',
-      'Meals during the event'
+      'Exclusive goodies',
+      'Food and refreshments during the event',
     ],
     color: 'green'
   },
@@ -28,15 +27,13 @@ const registrationTypes = [
     type: RegistrationTypes.IEEE_STUDENTS,
     title: 'IEEE Student',
     description: 'Special discount for IEEE student members',
-    price: `₹${RegistrationPricing[RegistrationTypes.IEEE_STUDENTS]}`,
+    price: RegistrationPricing[RegistrationTypes.IEEE_STUDENTS],
     icon: UserCheck,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Event merchandise',
-      'Certificate of participation',
-      'Meals during the event',
-      'IEEE networking session'
+      'Exclusive goodies',
+      'Food and refreshments during the event',
     ],
     color: 'lightseagreen'
   },
@@ -44,14 +41,13 @@ const registrationTypes = [
     type: RegistrationTypes.NON_IEEE_STUDENTS,
     title: 'Non-IEEE Student',
     description: 'For students not enrolled in IEEE',
-    price: `₹${RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS]}`,
+    price: RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS],
     icon: Users,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Event merchandise',
-      'Certificate of participation',
-      'Meals during the event'
+      'Exclusive goodies',
+      'Food and refreshments during the event',
     ],
     color: 'purple'
   },
@@ -59,16 +55,13 @@ const registrationTypes = [
     type: RegistrationTypes.IEEE_PROFESSIONALS,
     title: 'IEEE Professional',
     description: 'For IEEE professional members',
-    price: `₹${RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS]}`,
+    price: RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS],
     icon: Briefcase,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Premium event merchandise',
-      'Certificate of participation',
-      'Meals during the event',
-      'Networking dinner',
-      'VIP access'
+      'Exclusive goodies',
+      'Food and refreshments during the event',
     ],
     color: 'blue'
   },
@@ -76,16 +69,13 @@ const registrationTypes = [
     type: RegistrationTypes.NON_IEEE_PROFESSIONALS,
     title: 'Non-IEEE Professional',
     description: 'For professionals not enrolled in IEEE',
-    price: `₹${RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS]}`,
+    price: RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
     icon: Building,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
-      'Premium event merchandise',
-      'Certificate of participation',
-      'Meals during the event',
-      'Networking dinner',
-      'VIP access'
+      'Exclusive goodies',
+      'Food and refreshments during the event',
     ],
     color: 'red'
   }
@@ -98,7 +88,7 @@ export default function RegisterPage() {
         <Heading title='Register for the event' subtitle="Join us for the amazing event" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 place-items-center">
-          {registrationTypes.map((regType, index) => {
+          {registrationDetails.map((regType, index) => {
             const Icon = regType.icon
             return (
               <CardSpotlight key={regType.type} color={regType.color} className={`w-full h-full flex flex-col ${index === 0 && "md:col-span-2"}`}>
@@ -115,12 +105,13 @@ export default function RegisterPage() {
 
                   {/* Price */}
                   <div className="mb-6">
+                    <span className='text-2xl text-white mr-2'>₹</span>
                     <span className="text-4xl font-bold text-white">{regType.price}</span>
                     <span className="text-neutral-400 ml-2">per person</span>
 
                     {/* Features */}
                     <div className="grow mb-6">
-                      <ul className="space-y-3">
+                      <ul className="space-y-3 mt-4">
                         {regType.features.map((feature, idx) => (
                           <Step key={idx} title={feature} />
                         ))}
