@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { findRegistrationByEmail, createRegistration, createPayment } from '@/lib/mongo'
 import { registrationSchema } from '@/lib/validations'
 import { createOrder } from '@/lib/razorpay'
+import { RegistrationTypes, RegistrationPricing } from '@/types'
 import { z } from 'zod'
 
 export async function POST(request: NextRequest) {
@@ -14,26 +15,20 @@ export async function POST(request: NextRequest) {
     const existingRegistration = await findRegistrationByEmail(validatedData.email)
     if (existingRegistration) {
       return NextResponse.json(
-        { error: 'Email already registered' },
+        { error: 'This email is already registered. Please use a different email.' },
         { status: 400 }
       )
     }
 
-    // Determine amount based on registration type
-    const getAmount = (type: string) => {
-      switch (type) {
-        case 'COLLEGE_STUDENT':
-          return 350
-        case 'IEEE_STUDENT':
-          return 250
-        case 'ORGANIZATION':
-          return 500
-        default:
-          return 350
-      }
-    }
+    // Get amount from pricing configuration (server-side only)
+    const amount = RegistrationPricing[validatedData.registrationType as RegistrationTypes]
 
-    const amount = getAmount(validatedData.registrationType)
+    if (!amount) {
+      return NextResponse.json(
+        { error: 'Invalid registration type' },
+        { status: 400 }
+      )
+    }
 
     // Create Razorpay order first
     const order = await createOrder(amount, 'INR')
@@ -72,8 +67,9 @@ export async function POST(request: NextRequest) {
     console.error('Registration error:', error)
 
     if (error instanceof z.ZodError) {
+      const errorMessages = error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
       return NextResponse.json(
-        { error: 'Invalid input data', details: error.issues },
+        { error: `Please check your input: ${errorMessages.join(', ')}` },
         { status: 400 }
       )
     }

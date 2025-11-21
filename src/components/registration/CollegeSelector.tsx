@@ -124,12 +124,11 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
   return (
     <div className="relative">
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-white mb-1">
           Select College *
         </label>
         <div className="relative">
           <button
-            type="button"
             onClick={() => setIsOpen(!isOpen)}
             disabled={disabled}
             className={`
@@ -140,7 +139,7 @@ export function CollegeSelector({ value, onChange, error, disabled }: CollegeSel
             `}
           >
             <div className="flex items-center justify-between">
-              <span className={selectedCollege ? 'text-neutral-100' : 'text-gray-500'}>
+              <span className={selectedCollege ? 'text-neutral-100' : 'text-neutral-300'}>
                 {selectedCollege || 'Select your college'}
               </span>
               <ChevronDown className="ml-2 h-4 w-4 text-gray-400" />

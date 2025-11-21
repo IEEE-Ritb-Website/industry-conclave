@@ -1,18 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, GraduationCap, UserCheck, Building } from 'lucide-react'
+import { ArrowLeft, GraduationCap, UserCheck, Building, Users, Briefcase } from 'lucide-react'
 import Heading from '@/components/shared/heading'
 import { CardSpotlight } from '@/components/ui/card-spotlight'
 import { Button } from '@/components/ui/button'
 import { CONFIG } from '@/configs/config'
+import { RegistrationTypes, RegistrationPricing } from '@/types'
 
 const registrationTypes = [
   {
-    type: 'COLLEGE_STUDENT',
+    type: RegistrationTypes.COLLEGE_STUDENTS,
     title: 'College Student',
     description: 'For students currently enrolled in college',
-    price: '₹350',
+    price: `₹${RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS]}`,
     icon: GraduationCap,
     features: [
       'Access to all technical sessions',
@@ -24,10 +25,10 @@ const registrationTypes = [
     color: 'royalblue'
   },
   {
-    type: 'IEEE_STUDENT',
+    type: RegistrationTypes.IEEE_STUDENTS,
     title: 'IEEE Student',
-    description: 'Special discount for IEEE members',
-    price: '₹250',
+    description: 'Special discount for IEEE student members',
+    price: `₹${RegistrationPricing[RegistrationTypes.IEEE_STUDENTS]}`,
     icon: UserCheck,
     features: [
       'Access to all technical sessions',
@@ -40,11 +41,26 @@ const registrationTypes = [
     color: 'seagreen'
   },
   {
-    type: 'ORGANIZATION',
-    title: 'Organization',
-    description: 'For professionals and organizations',
-    price: '₹500',
-    icon: Building,
+    type: RegistrationTypes.NON_IEEE_STUDENTS,
+    title: 'Non-IEEE Student',
+    description: 'For students not enrolled in IEEE',
+    price: `₹${RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS]}`,
+    icon: Users,
+    features: [
+      'Access to all technical sessions',
+      'Hands-on workshops',
+      'Event merchandise',
+      'Certificate of participation',
+      'Meals during the event'
+    ],
+    color: 'purple'
+  },
+  {
+    type: RegistrationTypes.IEEE_PROFESSIONALS,
+    title: 'IEEE Professional',
+    description: 'For IEEE professional members',
+    price: `₹${RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS]}`,
+    icon: Briefcase,
     features: [
       'Access to all technical sessions',
       'Hands-on workshops',
@@ -55,6 +71,23 @@ const registrationTypes = [
       'VIP access'
     ],
     color: 'orange'
+  },
+  {
+    type: RegistrationTypes.NON_IEEE_PROFESSIONALS,
+    title: 'Non-IEEE Professional',
+    description: 'For professionals not enrolled in IEEE',
+    price: `₹${RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS]}`,
+    icon: Building,
+    features: [
+      'Access to all technical sessions',
+      'Hands-on workshops',
+      'Premium event merchandise',
+      'Certificate of participation',
+      'Meals during the event',
+      'Networking dinner',
+      'VIP access'
+    ],
+    color: 'red'
   }
 ]
 
@@ -65,12 +98,11 @@ export default function RegisterPage() {
         <Heading title='Register for the event' subtitle="Join us for the amazing event" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 place-items-center">
-          {registrationTypes.map((regType) => {
+          {registrationTypes.map((regType, index) => {
             const Icon = regType.icon
             return (
-              <CardSpotlight key={regType.type} color={regType.color} className="w-full max-w-sm h-full flex flex-col">
+              <CardSpotlight key={regType.type} color={regType.color} className={`w-full h-full flex flex-col ${index === 0 && "col-span-2"}`}>
                 <div className="flex flex-col justify-between">
-                  {/* Header */}
                   <div className="flex items-center gap-3 mb-4">
                     <Icon className="w-8 h-8 text-white" />
                     <div>
@@ -85,19 +117,19 @@ export default function RegisterPage() {
                   <div className="mb-6">
                     <span className="text-4xl font-bold text-white">{regType.price}</span>
                     <span className="text-neutral-400 ml-2">per person</span>
-                  </div>
 
-                  {/* Features */}
-                  <div className="grow mb-6">
-                    <ul className="space-y-3">
-                      {regType.features.map((feature, idx) => (
-                        <Step key={idx} title={feature} />
-                      ))}
-                    </ul>
+                    {/* Features */}
+                    <div className="grow mb-6">
+                      <ul className="space-y-3">
+                        {regType.features.map((feature, idx) => (
+                          <Step key={idx} title={feature} />
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
                   {/* Button */}
-                  <div className="relative z-50">
+                  <div className={`relative z-50`}>
                     <Button className="w-full" asChild>
                       <Link href={`/register/${regType.type.toLowerCase()}`}>
                         Register Now

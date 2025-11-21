@@ -1,11 +1,12 @@
 import { MongoClient, Db, Collection, ObjectId } from 'mongodb'
+import { RegistrationTypes } from '@/types'
 
 type RegistrationDoc = {
   _id?: ObjectId
   fullName: string
   email: string
   phone: string
-  registrationType: 'COLLEGE_STUDENT' | 'IEEE_STUDENT' | 'ORGANIZATION'
+  registrationType: RegistrationTypes
   collegeName?: string
   organizationName?: string
   ieeeMemberId?: string
@@ -68,7 +69,7 @@ export const findRegistrationByEmail = async (email: string) => {
   return reg
 }
 
-export const createRegistration = async (data: Partial<RegistrationDoc> & { registrationType: RegistrationDoc['registrationType'] }): Promise<RegistrationDoc> => {
+export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'isPaymentCompleted' | 'createdAt' | 'updatedAt'>): Promise<RegistrationDoc> => {
   const regCol = await registrationsCollection()
   const now = new Date()
   const doc: RegistrationDoc = {

@@ -1,33 +1,53 @@
+import { RegistrationTypes } from "@/types"
 import { z } from "zod"
 
 export const baseRegistrationSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  email: z.email("Please enter a valid email address"),
   phone: z.string().regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit phone number"),
-  registrationType: z.enum(["COLLEGE_STUDENT", "IEEE_STUDENT", "ORGANIZATION"]),
+  registrationType: z.enum([
+    RegistrationTypes.NON_IEEE_PROFESSIONALS,
+    RegistrationTypes.NON_IEEE_STUDENTS,
+    RegistrationTypes.IEEE_PROFESSIONALS,
+    RegistrationTypes.IEEE_STUDENTS,
+    RegistrationTypes.COLLEGE_STUDENTS,
+  ]),
   attendingWorkshop: z.boolean(),
 })
 
 export const collegeStudentSchema = baseRegistrationSchema.extend({
-  registrationType: z.literal("COLLEGE_STUDENT"),
+  registrationType: z.literal(RegistrationTypes.COLLEGE_STUDENTS),
   collegeName: z.string().min(2, "College name must be at least 2 characters"),
 })
 
 export const ieeeStudentSchema = baseRegistrationSchema.extend({
-  registrationType: z.literal("IEEE_STUDENT"),
+  registrationType: z.literal(RegistrationTypes.IEEE_STUDENTS),
   collegeName: z.string().min(2, "College name must be at least 2 characters"),
   ieeeMemberId: z.string().min(1, "IEEE Member ID is required"),
 })
 
-export const organizationSchema = baseRegistrationSchema.extend({
-  registrationType: z.literal("ORGANIZATION"),
+export const nonIeeeProfessionalSchema = baseRegistrationSchema.extend({
+  registrationType: z.literal(RegistrationTypes.NON_IEEE_PROFESSIONALS),
   organizationName: z.string().min(2, "Organization name must be at least 2 characters"),
+})
+
+export const nonIeeeStudentSchema = baseRegistrationSchema.extend({
+  registrationType: z.literal(RegistrationTypes.NON_IEEE_STUDENTS),
+  collegeName: z.string().min(2, "College name must be at least 2 characters"),
+})
+
+export const ieeeProfessionalSchema = baseRegistrationSchema.extend({
+  registrationType: z.literal(RegistrationTypes.IEEE_PROFESSIONALS),
+  organizationName: z.string().min(2, "Organization name must be at least 2 characters"),
+  ieeeMemberId: z.string().min(1, "IEEE Member ID is required"),
 })
 
 export const registrationSchema = z.discriminatedUnion("registrationType", [
   collegeStudentSchema,
   ieeeStudentSchema,
-  organizationSchema,
+  nonIeeeStudentSchema,
+  nonIeeeProfessionalSchema,
+  ieeeProfessionalSchema,
 ])
 
 export type RegistrationFormData = z.infer<typeof registrationSchema>

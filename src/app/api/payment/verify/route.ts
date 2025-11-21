@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     if (!isValidSignature) {
       return NextResponse.json(
-        { error: 'Invalid payment signature' },
+        { error: 'Payment verification failed. Please contact support if amount was deducted from your account.' },
         { status: 400 }
       )
     }
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (!success) {
       return NextResponse.json(
-        { error: 'Payment record not found' },
+        { error: 'Payment record not found. Please contact support if amount was deducted.' },
         { status: 404 }
       )
     }
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Invalid input data', details: error.issues },
+        { error: 'Invalid payment data received. Please contact support.' },
         { status: 400 }
       )
     }

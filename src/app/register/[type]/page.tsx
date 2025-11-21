@@ -1,5 +1,6 @@
 import Script from 'next/script'
 import RegistrationForm from '@/components/forms/RegistrationForm'
+import { RegistrationTypes } from '@/types'
 
 interface PageProps {
   params: Promise<{
@@ -9,13 +10,9 @@ interface PageProps {
 
 export default async function RegisterTypePage({ params }: PageProps) {
   const { type } = await params
-  const registrationType = type.toUpperCase() as 'COLLEGE_STUDENT' | 'IEEE_STUDENT' | 'ORGANIZATION'
-  
-  // Validate the registration type
-  const validTypes = ['COLLEGE_STUDENT', 'IEEE_STUDENT', 'ORGANIZATION']
-  if (!validTypes.includes(registrationType)) {
-    return <div>Invalid registration type</div>
-  }
+  const registrationType = type.toLowerCase() as RegistrationTypes;
+
+  const validTypes = Object.values(RegistrationTypes);
 
   return (
     <>
