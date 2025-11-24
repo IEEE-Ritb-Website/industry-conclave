@@ -122,23 +122,58 @@ export const InfiniteMovingLogos = ({
 // Example usage with popular tech company logos
 export const defaultLogos = [
   {
-    name: "OpenAI",
-    image: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
-    alt: "OpenAI Logo",
+    name: "TCS",
+    image: "https://be.tricentis.com/media-assets/2024/04/TCS_NewLogo_Final_CMYK_Black.png",
+    alt: "TCS Logo",
   },
   {
-    name: "Microsoft",
-    image: "https://cdn.worldvectorlogo.com/logos/microsoft-5.svg",
-    alt: "Microsoft Logo",
+    name: "AWS",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png",
+    alt: "AWS Logo",
   },
   {
-    name: "Apple",
-    image: "https://cdn.worldvectorlogo.com/logos/apple-11.svg",
-    alt: "Apple Logo",
+    name: "Samsung Research",
+    image: "https://pngimg.com/d/samsung_logo_PNG14.png",
+    alt: "Samsung Research Logo",
   },
   {
-    name: "Netflix",
-    image: "https://cdn.worldvectorlogo.com/logos/netflix-3.svg",
-    alt: "Netflix Logo",
+    name: "Centre for Development of Advanced Computing",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Logo_for_the_Centre_for_Development_of_Advanced_Computing.svg/640px-Logo_for_the_Centre_for_Development_of_Advanced_Computing.svg.png",
+    alt: "Logo",
+  },
+  {
+    name: "S-Vyasa",
+    image: "https://f2.leadsquaredcdn.com/t/t20250124170053/content/common/images/S-VYASA%20Logo.png",
+    alt: "Logo",
+  },
+  {
+    name: "Perfios",
+    image: "https://perfios.ai/wp-content/uploads/2025/07/Perfios-New-Logo-with-Tagline-3-768x355.png",
+    alt: "Logo",
+  },
+  {
+    name: "Katidhan",
+    image: "https://image.pitchbook.com/rJRZi59GE6FufR8O1nsAWiadZwB1722864132140_200x200",
+    alt: "Logo",
+  },
+  {
+    name: "Boeing",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Boeing_full_logo.svg/1200px-Boeing_full_logo.svg.png",
+    alt: "Logo",
+  },
+  {
+    name: "HCLTech",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/HCLTech-new-logo.svg/1280px-HCLTech-new-logo.svg.png",
+    alt: "Logo",
+  },
+  {
+    name: "arm",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Arm_logo_2017.svg/1200px-Arm_logo_2017.svg.png",
+    alt: "Logo",
+  },
+  {
+    name: "Google",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
+    alt: "Logo",
   },
 ];

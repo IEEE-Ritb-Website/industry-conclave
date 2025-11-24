@@ -7,12 +7,14 @@ import AgendaSection from '@/sections/landing/agenda'
 import { InfiniteMovingLogos } from '@/components/ui/infinite-moving-logos'
 import CTASection from '@/sections/landing/cta'
 import TracksSection from '@/sections/landing/tracks'
+import Heading from '@/components/shared/heading'
 
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <Heading title='People Joining us from' subtitle='' />
       <InfiniteMovingLogos />
       <AboutSection />
       {/* <div style={{ width: '100%', height: '600px', position: 'relative' }}>
