@@ -35,7 +35,7 @@ export default function HeroSection() {
                     <TextHoverEffect text="CONCLAVE" />
                     <BlurText text="2025" />
                     <p className="text-md font-light text-center">
-                    Deploying the future, today 🚀
+                        {CONFIG.headline}
                     </p>
                 </div>
 
@@ -54,7 +54,7 @@ export default function HeroSection() {
                 </div>
 
                 <div className="w-full max-w-md flex flex-col sm:flex-row gap-6 sm:gap-8 items-center justify-between pt-8">
-                    <div className="text-center">
+                    <div className="md:block hidden text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-accent">500+</div>
                         <div className="text-sm sm:text-md text-muted-foreground">Attendees</div>
                     </div>

@@ -1,11 +1,19 @@
 import { Github, Linkedin, Instagram, Link, Facebook, BookOpen, Users, Building, Handshake } from "lucide-react";
 
 export const CONFIG = {
-    name: 'Industry Conclave',
+    name: 'IEEE CIS Industry Conclave 2025',
+    headline: "Deploying the future, today 🚀",
     shortDescription: 'Gain Industry Insights and Network with Professionals at Industry Conclave 2025',
     eventDetails: {
         dates: "5-6 December 2025",
+        day1: "5 December",
+        day2: "6 December",
+        day1Start: "2025-12-05T09:30:00+05:30", // 9:30 AM IST
+        day1End: "2025-12-05T17:00:00+05:30", // 5:00 PM IST
+        day2Start: "2025-12-06T10:00:00+05:30", // 10:00 AM IST
+        day2End: "2025-12-06T17:00:00+05:30", // 5:00 PM IST
         location: 'MSRIT, Bengaluru',
+        map: "https://maps.app.goo.gl/Twc6x45gvaEdPnQh6",
         coordinators: [
             {
                 name: 'Priyanshu Bhojwani',

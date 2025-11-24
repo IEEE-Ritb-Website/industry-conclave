@@ -286,8 +286,8 @@ export default function TimelineSection() {
             <Heading title={"Timeline"} subtitle="" />
             <Tabs defaultValue="day1" className="w-full mt-2 flex items-center justify-center">
                 <TabsList>
-                    <TabsTrigger value="day1">Day 1</TabsTrigger>
-                    <TabsTrigger value="day2">Day 2</TabsTrigger>
+                    <TabsTrigger className="text-lg p-2" value="day1">Day 1</TabsTrigger>
+                    <TabsTrigger className="text-lg p-2" value="day2">Day 2</TabsTrigger>
                 </TabsList>
                 <TabsContent value="day1" className="w-full">
                     <Timeline data={data.day1} />

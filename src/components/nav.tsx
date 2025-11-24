@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, Navbar, NavbarButton, NavbarLogo, NavBody, NavItems } from './ui/resizable-navbar'
+import Link from 'next/link';
 
 export default function Nav() {
   const navItems = [
@@ -55,15 +56,22 @@ export default function Nav() {
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
         >
+          <Link
+              href={"/"}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="relative text-neutral-600"
+            >
+              <span className="block">Home</span>
+            </Link>
           {navItems.map((item, idx) => (
-            <a
+            <Link
               key={`mobile-link-${idx}`}
               href={item.link}
               onClick={() => setIsMobileMenuOpen(false)}
               className="relative text-neutral-600"
             >
               <span className="block">{item.name}</span>
-            </a>
+            </Link>
           ))}
           <div className="flex w-full flex-col gap-4">
             <NavbarButton

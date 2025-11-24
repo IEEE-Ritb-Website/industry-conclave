@@ -1,12 +1,16 @@
 import nodemailer from 'nodemailer'
 import { CONFIG } from '@/configs/config'
+import { MailOptions } from 'nodemailer/lib/json-transport'
+import { calendar } from './calendar'
+
+// TODO: Calendar integation
 
 // Create transporter with SMTP configuration
 const createTransporter = () => {
-  const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com'
-  const smtpPort = parseInt(process.env.SMTP_PORT || '587')
-  const smtpUser = process.env.SMTP_USER
-  const smtpPass = process.env.SMTP_PASS
+  const smtpHost = process.env.SMTP_HOST!
+  const smtpPort = parseInt(process.env.SMTP_PORT!)
+  const smtpUser = process.env.SMTP_USER!
+  const smtpPass = process.env.SMTP_PASS!
 
   if (!smtpUser || !smtpPass) {
     console.log('SMTP credentials not configured, skipping email sending')
@@ -38,10 +42,17 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
     return // Silently skip if not configured
   }
 
-  const msg = {
+  const msg: MailOptions = {
     from: process.env.FROM_EMAIL!,
     to: email,
-    subject: 'Registration Confirmed - Tech Conclave 2025',
+    subject: `Registration Confirmed - ${CONFIG.name}`,
+    attachments: [
+      {
+        filename: "event.ics",
+        content: calendar.toString(),
+        contentType: "text/calendar",
+      }
+    ],
     html: `
       <!DOCTYPE html>
       <html>
@@ -92,32 +103,32 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
         <body>
           <div class="header">
             <h1>🎉 Registration Confirmed!</h1>
-            <h2>Tech Conclave 2025</h2>
-            <p>March 15-16, 2025 | Engineering College Campus</p>
+            <h2>IEEE CIS Industry Conclave 2025</h2>
+            <p>${CONFIG.eventDetails.dates} | ${CONFIG.eventDetails.location}</p>
           </div>
           
           <div class="content">
             <p>Hi <strong>${name}</strong>,</p>
-            <p>Thank you for registering for Tech Conclave 2025! We're excited to have you join us for this amazing 2-day event.</p>
+            <p>Thank you for registering for ${CONFIG.name}! We're excited to have you join us for this amazing 2-day event.</p>
                         
             <h3>🎫 What's Included</h3>
             <ul>
               <li>Access to all technical sessions and workshops</li>
               <li>Networking opportunities with industry experts</li>
-              <li>Event merchandise and certificate</li>
-              <li>Meals and refreshments during the event</li>
+              <li>Exciting goodies</li>
+              <li>Food and refreshments during the event</li>
             </ul>
             
             <h3>📅 Event Schedule</h3>
-            <p><strong>Day 1 (March 15):</strong> Keynotes, Technical Sessions, Hackathon Kickoff</p>
-            <p><strong>Day 2 (March 16):</strong> Workshops, Project Showcase, Closing Ceremony</p>
+            <p><strong>Day 1 (${CONFIG.eventDetails.day1}):</strong> Keynotes, Workshops, Technical Sessions</p>
+            <p><strong>Day 2 (${CONFIG.eventDetails.day2}):</strong> Keynotes, Workshops, Technical Sessions</p>
             
             <p>Please arrive at the venue 30 minutes before the event starts. Don't forget to bring a valid ID proof for verification.</p>
             
             <p>If you have any questions, feel free to reach out to us at <a href="mailto:${CONFIG.profile.email}">${CONFIG.profile.email}</a></p>
             
             <p>See you there!</p>
-            <p><strong>Team Tech Conclave</strong></p>
+            <p><strong>Team ${CONFIG.name}</strong></p>
           </div>
           
           <div class="footer">
@@ -196,7 +207,7 @@ export const sendContactEmail = async (name: string, email: string, message: str
         <body>
           <div class="header">
             <h1>📬 New Contact Message</h1>
-            <h2>Tech Conclave 2025</h2>
+            <h2>${CONFIG.name}</h2>
           </div>
 
           <div class="content">
