@@ -26,12 +26,13 @@ export default function SessionCard({
 }: SessionCardProps) {
     return (
         <HoverBorderGradient
-            containerClassName="rounded-2xl h-full"
+            containerClassName="rounded-2xl w-full h-full"
             className="
                 flex 
                 flex-col 
                 h-full 
                 min-h-0
+                w-full
                 p-4 
                 gap-3
                 bg-neutral-950/70
