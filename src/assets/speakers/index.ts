@@ -9,7 +9,7 @@ export { default as monicaShityalkar } from "./monica shityalkar.jpeg";
 export { default as niteshPrasad } from "./nitesh_prasad.jpeg";
 export { default as prasadChitt } from "./prasad chitt.jpeg";
 export { default as prasantMisra } from "./prasant misra.jpeg";
-export { default as rajathKumarS } from "./rajath_kumar_s.jpeg";
+export { default as rajathKumarS } from "./Rajath_Kumar_S.jpeg";
 export { default as rameshNaiduLaveti } from "./rameshnaidulaveti.jpeg";
 export { default as sandeshJayarama } from "./Sandesh Jayarama.jpeg";
 export { default as shashank1811 } from "./Shashank_1811.jpg";
