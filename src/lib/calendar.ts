@@ -5,11 +5,12 @@ export const calendar = ical({
     name: CONFIG.name,
     timezone: "Asia/Kolkata",
     description: CONFIG.shortDescription,
-    method: ICalCalendarMethod.REQUEST,
+    method: ICalCalendarMethod.PUBLISH,
 });
 
 calendar.createEvent({
     id: "conclave-day-1-2025",
+    summary: CONFIG.name,
     start: new Date(CONFIG.eventDetails.day1Start),
     end: new Date(CONFIG.eventDetails.day1End),
     description: CONFIG.shortDescription,
@@ -22,6 +23,7 @@ calendar.createEvent({
 
 calendar.createEvent({
     id: "conclave-day-2-2025",
+    summary: CONFIG.name,
     start: new Date(CONFIG.eventDetails.day2Start),
     end: new Date(CONFIG.eventDetails.day2End),
     description: CONFIG.shortDescription,
