@@ -101,7 +101,7 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Sessions (3–4 PM)</strong>
+                            <strong>Evening Session</strong>
                         </p>
 
                         {/* <ul className="text-neutral-400 space-y-3">
@@ -123,7 +123,7 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Sessions (4–5 PM)</strong>
+                            <strong>Ending Session</strong>
                         </p>
 
                         {/* <ul className="text-neutral-400 space-y-3">

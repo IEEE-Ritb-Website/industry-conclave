@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
     console.log('Confirming payment for registration:', registrationId)
 
     // Update registration to completed
-    const updateResult = await setRegistrationPaymentCompleted(registrationId)
-    console.log('Update result:', updateResult)
+    await setRegistrationPaymentCompleted(registrationId)
+    // console.log('Update result:', updateResult)
 
     // Get the registration
     const registration = await getRegistrationById(registrationId)
@@ -33,7 +33,8 @@ export async function POST(request: NextRequest) {
       await sendConfirmationEmail(
         registration.email,
         registration.fullName,
-        registration._id!.toString()
+        registration._id!.toString(),
+        registration.registrationType,
       )
       console.log('Confirmation email sent to:', registration.email)
     } catch (emailError) {

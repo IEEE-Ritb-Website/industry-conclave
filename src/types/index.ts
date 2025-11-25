@@ -7,6 +7,14 @@ export enum RegistrationTypes {
     COLLEGE_STUDENTS = "college_students",
 }
 
+export const RegistrationTypeNames = {
+    [RegistrationTypes.NON_IEEE_PROFESSIONALS]: "Non-IEEE Professional",
+    [RegistrationTypes.NON_IEEE_STUDENTS]: "Non-IEEE Student",
+    [RegistrationTypes.IEEE_PROFESSIONALS]: "IEEE Professional",
+    [RegistrationTypes.IEEE_STUDENTS]: "IEEE Student",
+    [RegistrationTypes.COLLEGE_STUDENTS]: "MSRIT Student",
+}
+
 export const RegistrationPricing = {
     [RegistrationTypes.NON_IEEE_PROFESSIONALS]: 349,
     [RegistrationTypes.NON_IEEE_STUDENTS]: 299,

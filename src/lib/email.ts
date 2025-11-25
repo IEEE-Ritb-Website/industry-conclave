@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import { CONFIG } from '@/configs/config'
 import { MailOptions } from 'nodemailer/lib/json-transport'
 import { calendar } from './calendar'
+import { RegistrationTypeNames, RegistrationTypes } from '@/types'
 
 // TODO: Calendar integation
 
@@ -35,7 +36,7 @@ const createTransporter = () => {
   })
 }
 
-export const sendConfirmationEmail = async (email: string, name: string, registrationId: string) => {
+export const sendConfirmationEmail = async (email: string, name: string, registrationId: string, registrationType: RegistrationTypes) => {
   const transporter = createTransporter()
   if (!transporter) {
     console.log('Email transporter not configured, skipping email sending')
@@ -54,89 +55,132 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
       }
     ],
     html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Registration Confirmation</title>
-          <style>
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-              line-height: 1.6;
-              color: #333;
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-            }
-            .header {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              color: white;
-              padding: 30px;
-              border-radius: 16px;
-              text-align: center;
-              margin-bottom: 30px;
-            }
-            .content {
-              background: #f8fafc;
-              padding: 30px;
-              border-radius: 16px;
-              margin-bottom: 20px;
-            }
-            .registration-id {
-              background: #e0e7ff;
-              color: #4338ca;
-              padding: 15px;
-              border-radius: 8px;
-              font-family: monospace;
-              font-size: 18px;
-              text-align: center;
-              margin: 20px 0;
-            }
-            .footer {
-              text-align: center;
-              color: #6b7280;
-              font-size: 14px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>🎉 Registration Confirmed!</h1>
-            <h2>IEEE CIS Industry Conclave 2025</h2>
-            <p>${CONFIG.eventDetails.dates} | ${CONFIG.eventDetails.location}</p>
-          </div>
-          
-          <div class="content">
-            <p>Hi <strong>${name}</strong>,</p>
-            <p>Thank you for registering for ${CONFIG.name}! We're excited to have you join us for this amazing 2-day event.</p>
-                        
-            <h3>🎫 What's Included</h3>
-            <ul>
-              <li>Access to all technical sessions and workshops</li>
-              <li>Networking opportunities with industry experts</li>
-              <li>Exciting goodies</li>
-              <li>Food and refreshments during the event</li>
-            </ul>
-            
-            <h3>📅 Event Schedule</h3>
-            <p><strong>Day 1 (${CONFIG.eventDetails.day1}):</strong> Keynotes, Workshops, Technical Sessions</p>
-            <p><strong>Day 2 (${CONFIG.eventDetails.day2}):</strong> Keynotes, Workshops, Technical Sessions</p>
-            
-            <p>Please arrive at the venue 30 minutes before the event starts. Don't forget to bring a valid ID proof for verification.</p>
-            
-            <p>If you have any questions, feel free to reach out to us at <a href="mailto:${CONFIG.profile.email}">${CONFIG.profile.email}</a></p>
-            
-            <p>See you there!</p>
-            <p><strong>Team ${CONFIG.name}</strong></p>
-          </div>
-          
-          <div class="footer">
-            <p>This is an automated confirmation email. Please do not reply to this message.</p>
-          </div>
-        </body>
-      </html>
-    `,
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f3f4f6;
+      }
+      .header {
+        background: #1e3a8a;
+        color: white;
+        padding: 32px 24px;
+        border-radius: 16px;
+        text-align: center;
+        margin-bottom: 26px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+      }
+      .header h2 {
+        margin: 4px 0 10px;
+        font-size: 18px;
+        font-weight: 500;
+        opacity: 0.9;
+      }
+      .content {
+        background: white;
+        padding: 28px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      }
+      h3 {
+        margin-top: 26px;
+        margin-bottom: 10px;
+        color: #1e3a8a;
+      }
+      ul {
+        padding-left: 20px;
+        margin-bottom: 16px;
+      }
+      .info-box {
+        background: #eef2ff;
+        padding: 16px;
+        border-radius: 10px;
+        margin: 16px 0;
+        border-left: 4px solid #4f46e5;
+      }
+      .footer {
+        text-align: center;
+        color: #6b7280;
+        font-size: 13px;
+        margin-top: 20px;
+      }
+      a {
+        color: #1e40af;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+      <h1>🎉 Registration Confirmed!</h1>
+      <h2>${CONFIG.name}</h2>
+      <p>${CONFIG.eventDetails.dates} • ${CONFIG.eventDetails.location}</p>
+    </div>
+
+    <div class="content">
+      <p>Hi <strong>${name}</strong>,</p>
+      <p>Great news — your registration is confirmed! Get ready to be part of one of the most exciting tech and innovation gatherings of the year.</p>
+
+      <h3>🧾 Your Registration Details</h3>
+
+      <div class="info-box">
+        <p><strong>Name:</strong> ${name}<br>
+        <strong>Registration ID:</strong> ${registrationId}</p>
+        <strong>Category:</strong> ${RegistrationTypeNames[registrationType]}</p>
+      </div>
+
+      <h3>✨ What Awaits You</h3>
+      <ul>
+        <li>🔥 Inspiring keynotes & hands-on workshops</li>
+        <li>🤝 Networking with industry pioneers & innovators</li>
+        <li>🎁 Exclusive participant goodies</li>
+        <li>🍽️ Food & refreshments to keep you powered up</li>
+      </ul>
+
+      <h3>🕒 Event Schedule</h3>
+      <p><strong>Day 1 (${CONFIG.eventDetails.day1}):</strong> Keynotes, Workshops, Technical Sessions</p>
+      <p><strong>Day 2 (${CONFIG.eventDetails.day2}):</strong> Keynotes, Workshops, Technical Sessions</p>
+
+      <h3>📍 Venue</h3>
+      <p>${CONFIG.eventDetails.location}</p>
+
+      <h3>Before You Arrive</h3>
+      <ul>
+        <li>Reach 30 minutes early for smooth entry</li>
+        <li>Carry a valid ID proof for verification</li>
+      </ul>
+
+      <p>Have any questions? Reach out to us at  
+        <a href="mailto:${CONFIG.profile.email}">${CONFIG.profile.email}</a>
+      </p>
+
+      <p>We can’t wait to welcome you — expect ideas, inspiration, and incredible tech energy! 🚀</p>
+
+      <p><strong>Team ${CONFIG.name}</strong></p>
+    </div>
+
+    <div class="footer">
+      <p>This is an automated confirmation email. Please do not reply to this message.</p>
+    </div>
+
+  </body>
+</html>
+`,
   }
 
   try {

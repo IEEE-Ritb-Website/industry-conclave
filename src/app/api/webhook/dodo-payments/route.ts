@@ -63,7 +63,8 @@ export const POST = Webhooks({
           await sendConfirmationEmail(
             registration.email,
             registration.fullName,
-            registration._id!.toString()
+            registration._id!.toString(),
+            registration.registrationType,
           )
           console.log('Confirmation email sent to:', registration.email)
         } catch (emailError) {
