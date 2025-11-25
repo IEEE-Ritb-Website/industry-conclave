@@ -3,7 +3,7 @@ import TimelineSection from '@/sections/landing/timeline'
 import AboutSection from '@/sections/landing/about'
 import FAQSection from '@/sections/landing/faq'
 import ContactSection from '@/sections/landing/contact'
-import AgendaSection from '@/sections/landing/agenda'
+// import AgendaSection from '@/sections/landing/agenda'
 import { InfiniteMovingLogos } from '@/components/ui/infinite-moving-logos'
 import CTASection from '@/sections/landing/cta'
 import TracksSection from '@/sections/landing/tracks'
@@ -25,7 +25,7 @@ export default function HomePage() {
         />
       </div> */}
       <TracksSection />
-      <AgendaSection />
+      {/* <AgendaSection /> */}
       <TimelineSection />
       <ContactSection />
       <FAQSection />

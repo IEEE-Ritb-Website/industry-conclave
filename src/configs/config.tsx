@@ -1,4 +1,4 @@
-import { Github, Linkedin, Instagram, Link, Facebook, BookOpen, Users, Building, Handshake } from "lucide-react";
+import { Github, Linkedin, Instagram, Link, Facebook, BookOpen, Users, Building, Handshake, Utensils, Gift } from "lucide-react";
 
 export const CONFIG = {
     name: 'IEEE CIS Industry Conclave 2025',
@@ -106,6 +106,16 @@ export const CONFIG = {
             icon: Users,
             title: "Community",
             description: "Connect with professionals and students across the nation",
+        },
+        {
+            icon: Utensils,
+            title: "Hospitality",
+            description: "Enjoy a thoughtfully arranged lunch experience designed to help participants relax, connect, and network with peers and industry professionals during the conclave.",
+        },
+        {
+            icon: Gift,
+            title: "Goodies & Merchandise",
+            description: "Participants will receive exclusive IEEE-branded goodies as part of the event experience—celebrating involvement, encouraging engagement, and creating lasting memories of the conclave.",
         },
         {
             icon: BookOpen,

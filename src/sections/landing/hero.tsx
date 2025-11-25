@@ -1,3 +1,4 @@
+import { speakersList } from "@/app/speakers/page";
 import { Button } from "@/components/ui/button";
 import BlurText from "@/components/ui/reactbits/blur-text";
 import PixelBlast from "@/components/ui/reactbits/pixel-blast";
@@ -59,7 +60,12 @@ export default function HeroSection() {
                         <div className="text-sm sm:text-md text-muted-foreground">Attendees</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-accent">10+</div>
+                        <div className="text-3xl sm:text-4xl font-bold text-accent">{
+                            speakersList.length < 15 ? 10 :
+                                speakersList.length < 20 ? 15 :
+                                    speakersList.length < 30 ? 20 : 30
+                        }+
+                        </div>
                         <div className="text-sm sm:text-md text-muted-foreground">Speakers</div>
                     </div>
                     <div className="text-center">

@@ -12,7 +12,7 @@ export default function Footer() {
                             <span className="text-primary-foreground font-bold text-xs">IC</span>
                         </div>
                         <h3 className="font-semibold mb-2">{CONFIG.name}</h3>
-                        <p className="text-sm text-muted-foreground">India's largest open-source conference</p>
+                        <p className="text-sm text-muted-foreground">{CONFIG.shortDescription}</p>
                     </div>
 
                     {/* Quick Links */}
