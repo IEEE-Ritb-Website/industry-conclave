@@ -70,7 +70,7 @@ export const CardSpotlight = ({
       </motion.div>
       
       {/* Content wrapper with relative positioning and higher z-index */}
-      <div className="relative z-10">
+      <div className="relative z-10 h-full">
         {children}
       </div>
     </div>

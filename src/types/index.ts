@@ -15,6 +15,14 @@ export const RegistrationTypeNames = {
     [RegistrationTypes.COLLEGE_STUDENTS]: "MSRIT Student",
 }
 
+export const DiscountedRegistraionPricing = {
+    [RegistrationTypes.NON_IEEE_PROFESSIONALS]: 349,
+    [RegistrationTypes.NON_IEEE_STUDENTS]: 249,
+    [RegistrationTypes.IEEE_PROFESSIONALS]: 299,
+    [RegistrationTypes.IEEE_STUDENTS]: 199,
+    [RegistrationTypes.COLLEGE_STUDENTS]: 149,
+}
+
 export const RegistrationPricing = {
     [RegistrationTypes.NON_IEEE_PROFESSIONALS]: 349,
     [RegistrationTypes.NON_IEEE_STUDENTS]: 299,

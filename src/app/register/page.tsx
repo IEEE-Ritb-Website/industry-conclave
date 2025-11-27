@@ -6,14 +6,16 @@ import Heading from '@/components/shared/heading'
 import { CardSpotlight } from '@/components/ui/card-spotlight'
 import { Button } from '@/components/ui/button'
 import { CONFIG } from '@/configs/config'
-import { RegistrationTypes, RegistrationPricing } from '@/types'
+import { RegistrationTypes, RegistrationPricing, DiscountedRegistraionPricing } from '@/types'
+import { HoverBorderGradient } from '@/components/ui/hover-border-gradient'
 
 export const registrationDetails = [
   {
     type: RegistrationTypes.COLLEGE_STUDENTS,
     title: 'MSRIT Student',
     description: 'For students currently enrolled in college',
-    price: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
+    originalPrice: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
+    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.COLLEGE_STUDENTS],
     icon: GraduationCap,
     features: [
       'Access to all technical sessions',
@@ -27,7 +29,8 @@ export const registrationDetails = [
     type: RegistrationTypes.IEEE_STUDENTS,
     title: 'IEEE Student',
     description: 'Special discount for IEEE student members',
-    price: RegistrationPricing[RegistrationTypes.IEEE_STUDENTS],
+    originalPrice: RegistrationPricing[RegistrationTypes.IEEE_STUDENTS],
+    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.IEEE_STUDENTS],
     icon: UserCheck,
     features: [
       'Access to all technical sessions',
@@ -41,7 +44,8 @@ export const registrationDetails = [
     type: RegistrationTypes.NON_IEEE_STUDENTS,
     title: 'Non-IEEE Student',
     description: 'For students not enrolled in IEEE',
-    price: RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS],
+    originalPrice: RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS],
+    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.NON_IEEE_STUDENTS],
     icon: Users,
     features: [
       'Access to all technical sessions',
@@ -55,7 +59,8 @@ export const registrationDetails = [
     type: RegistrationTypes.IEEE_PROFESSIONALS,
     title: 'IEEE Professional',
     description: 'For IEEE professional members',
-    price: RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS],
+    originalPrice: RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS],
+    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.IEEE_PROFESSIONALS],
     icon: Briefcase,
     features: [
       'Access to all technical sessions',
@@ -69,7 +74,8 @@ export const registrationDetails = [
     type: RegistrationTypes.NON_IEEE_PROFESSIONALS,
     title: 'Non-IEEE Professional',
     description: 'For professionals not enrolled in IEEE',
-    price: RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
+    originalPrice: RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
+    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
     icon: Building,
     features: [
       'Access to all technical sessions',
@@ -90,9 +96,10 @@ export default function RegisterPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 place-items-center">
           {registrationDetails.map((regType, index) => {
             const Icon = regType.icon
+            const hasDiscount = regType.discountPrice < regType.originalPrice;
             return (
               <CardSpotlight key={regType.type} color={regType.color} className={`w-full h-full flex flex-col ${index === 0 && "md:col-span-2"}`}>
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between h-full">
                   <div className="flex items-center gap-3 mb-4">
                     <Icon className="w-8 h-8 text-white" />
                     <div>
@@ -102,11 +109,19 @@ export default function RegisterPage() {
                       <p className="text-sm text-neutral-400">{regType.description}</p>
                     </div>
                   </div>
+                  {hasDiscount && <DiscountBadge /> }
 
                   {/* Price */}
-                  <div className="mb-6">
+                  <div className="mb-6 mt-4">
                     <span className='text-2xl text-white mr-2'>₹</span>
-                    <span className="text-4xl font-bold text-white">{regType.price}</span>
+                    <span className="text-4xl font-bold text-white">
+                      {hasDiscount ? regType.discountPrice : regType.originalPrice}
+                    </span>
+                    {hasDiscount && (
+                      <span className="ml-2 text-xl text-neutral-400 line-through">
+                        ₹{regType.originalPrice}
+                      </span>
+                    )}
                     <span className="text-neutral-400 ml-2">per person</span>
 
                     {/* Features */}
@@ -145,6 +160,17 @@ export default function RegisterPage() {
     </div>
   )
 }
+
+const DiscountBadge = () => {
+  return (
+    <HoverBorderGradient
+      containerClassName="rounded-2xl h-full"
+      className={`bg-linear-to-br from-purple-500/50 to-pink-500/40 text-sm`}
+    >
+      Discounted Price
+    </HoverBorderGradient>
+  );
+};
 
 const Step = ({ title }: { title: string }) => {
   return (
