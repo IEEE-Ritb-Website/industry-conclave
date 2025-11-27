@@ -323,7 +323,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                   <div className="rounded-2xl p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-lg font-medium">Registration Fee</span>
-                      <span className="text-2xl font-bold text-indigo-600">₹{config.price}</span>
+                      <span className="text-2xl font-bold text-indigo-600">₹{config.discountPrice}</span>
                     </div>
                     <p className="text-sm text-gray-600">
                       Payment will be processed securely via Dodo Payments
@@ -346,7 +346,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                          Redirecting to payment...
                        </>
                      ) : (
-                       `Register & Pay ${config.price}`
+                       `Register & Pay ${config.discountPrice}`
                      )}
                    </Button>
 

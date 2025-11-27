@@ -1,11 +1,18 @@
 'use client'
 
 import { X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "motion/react"
+import { usePathname } from "next/navigation"
 
 const TopNotification = () => {
   const [open, setOpen] = useState(true);
+  const pathname = usePathname();
+
+  // Close notification on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   if (!open) return null;
 
