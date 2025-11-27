@@ -5,6 +5,7 @@ import Navbar from '@/components/nav'
 import ToastProvider from '@/components/shared/ToastProvider'
 import Footer from '@/components/footer'
 import { cn } from '@/lib/utils'
+import TopNotification from '@/components/shared/top-notification'
 
 const poppins = Poppins({ weight: ['400', '500', '600'], subsets: ['latin'] })
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={cn(poppins.className, "dark")} suppressHydrationWarning>
         <ToastProvider />
         <Navbar />
+        <TopNotification />
         <main className="min-h-screen">
           {children}
         </main>

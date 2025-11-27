@@ -25,12 +25,44 @@ import {
 
 export const speakersList = [
     {
+        image: prasantMisra,
+        speakerName: "Dr. Prasant Misra",
+        topic: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
+        shortDescription: "Senior Scientist @ TCS Research | Visiting Faculty @ CPS/IISc | ACM Distinguished Speaker | MIT TR35 India | Marie Curie (ERCIM AB) Fellow | AusAID Australian Leadership Awards. Dr. Prasant Misra is a Senior Scientist at TCS Research and Visiting Faculty at IISc, specializing in Optimization and Operations Research for intelligent CPS, EVs, Smart Mobility, and IoT. An ACM Distinguished Speaker and TR35 India awardee, he is a recognized leader shaping Smart City policy and currently serves as Chair-Elect of the IEEE Bangalore Section.",
+        linkedin: "https://www.linkedin.com/in/prasantmisra/",
+        eventName: "EVs (keynote)"
+    },
+    {
+        image: drAnjaniPriyadarshini,
+        speakerName: "Dr. Anjani Priyadarshini",
+        topic: "Quantum AI: Computing Beyond Classical Limits",
+        shortDescription: "Quantum Computing Lead at AWS India and a PhD holder in High Energy Physics from IISc. An expert in computational mathematics and theoretical physics, she drives the adoption of quantum technologies and shapes policy frameworks for the quantum ecosystem in India.",
+        linkedin: "https://www.linkedin.com/in/dr-anjani-priyadarsini?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        eventName: "QuantumAI"
+    },
+    {
+        image: vimalBastin,
+        speakerName: "Vimal Bastin Edwin Joseph",
+        topic: "Keynote speaker",
+        shortDescription: "",
+        linkedin: "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
+        eventName: "Keynote"
+    },
+    {
         image: rajathKumarS,
         speakerName: "Rajath Kumar K S",
         topic: "Building Intelligent AI Agents: From Concepts to Deployment",
         shortDescription: "Founder @ AnalogData.ai | GenAI & AI Architect | Scaling LLM, RAG & Automation Platforms | Delivering Enterprise-Grade AI Education | Corporate Trainer | Python · Flutter/Android · FastAPI · Django. Rajath Kumar K S is the Founder of AnalogData.ai and an AI Architect with deep expertise in scalable GenAI, LLM, and RAG systems. With 10+ years across AI, backend, and mobile development, he builds enterprise-grade AI solutions and delivers practical, industry-focused AI training.",
         linkedin: "https://www.linkedin.com/in/rajathkumarks/",
         eventName: "AI agent workshop"
+    },
+    {
+        image: niteshPrasad,
+        speakerName: "Nitesh Prasad",
+        topic: "Building Real Impact: Tech, Careers & Entrepreneurship in the AI Age",
+        shortDescription: "Managing Director – LeanMultiverse | SAFe® SPC | Ex-Microsoft & PwC | Driving Enterprise & Company Transformation through SAFe® | Trainer (Scrum Master, Product Owner, Leading SAFe®) | PMP | CSM | MCT AI. Nitesh Prasad, known as Corporate Wala Youtuber, is a Microsoft-Certified AI Trainer and career strategist who has mentored thousands of young professionals. With experience at PwC and leading tech initiatives, he empowers students to navigate the modern job landscape and build impactful AI-driven careers.",
+        linkedin: "https://www.linkedin.com/in/nitesh-prasad-safe/",
+        eventName: "panel discussion"
     },
     {
         image: anishKumar,
@@ -47,14 +79,6 @@ export const speakersList = [
         shortDescription: "Senior Product Security Leader - India Site, Jeppesen ForeFlight. Dr. Jayaprakash G. is a Senior Product Security Leader at Boeing with 17+ years of expertise across AI security, cloud security, product protection, and enterprise cybersecurity. A CISSP- and CISM-certified researcher, speaker, and mentor, he has led end-to-end security programs, authored patents, and advanced global cybersecurity awareness.",
         linkedin: "https://www.linkedin.com/in/dr-jayaprakash-g-0489aa5/",
         eventName: "Cybersecurity in AI"
-    },
-    {
-        image: niteshPrasad,
-        speakerName: "Nitesh Prasad",
-        topic: "Building Real Impact: Tech, Careers & Entrepreneurship in the AI Age",
-        shortDescription: "Managing Director – LeanMultiverse | SAFe® SPC | Ex-Microsoft & PwC | Driving Enterprise & Company Transformation through SAFe® | Trainer (Scrum Master, Product Owner, Leading SAFe®) | PMP | CSM | MCT AI. Nitesh Prasad, known as Corporate Wala Youtuber, is a Microsoft-Certified AI Trainer and career strategist who has mentored thousands of young professionals. With experience at PwC and leading tech initiatives, he empowers students to navigate the modern job landscape and build impactful AI-driven careers.",
-        linkedin: "https://www.linkedin.com/in/nitesh-prasad-safe/",
-        eventName: "panel discussion"
     },
     {
         image: shashank1811,
@@ -88,30 +112,6 @@ export const speakersList = [
         shortDescription: "Driving AI/ML Innovation | Technical Manager – Data Science at Mico | IIM Ahmedabad Certified. A Technical Manager specializing in Data Science with 9+ years of experience delivering AI/ML solutions across banking, consulting, and automotive domains, currently leading data science initiatives at Mico. With deep expertise in technical leadership, deep learning, and MLOps, he holds a patent in automotive engineering and a General Management certification from IIM Ahmedabad.",
         linkedin: "https://www.linkedin.com/in/iimakshayjoshi/",
         eventName: "Data Analytics"
-    },
-    {
-        image: prasantMisra,
-        speakerName: "Dr. Prasant Misra",
-        topic: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
-        shortDescription: "Senior Scientist @ TCS Research | Visiting Faculty @ CPS/IISc | ACM Distinguished Speaker | MIT TR35 India | Marie Curie (ERCIM AB) Fellow | AusAID Australian Leadership Awards. Dr. Prasant Misra is a Senior Scientist at TCS Research and Visiting Faculty at IISc, specializing in Optimization and Operations Research for intelligent CPS, EVs, Smart Mobility, and IoT. An ACM Distinguished Speaker and TR35 India awardee, he is a recognized leader shaping Smart City policy and currently serves as Chair-Elect of the IEEE Bangalore Section.",
-        linkedin: "https://www.linkedin.com/in/prasantmisra/",
-        eventName: "EVs (keynote)"
-    },
-    {
-        image: drAnjaniPriyadarshini,
-        speakerName: "Dr. Anjani Priyadarshini",
-        topic: "Quantum AI: Computing Beyond Classical Limits",
-        shortDescription: "Quantum Computing Lead at AWS India and a PhD holder in High Energy Physics from IISc. An expert in computational mathematics and theoretical physics, she drives the adoption of quantum technologies and shapes policy frameworks for the quantum ecosystem in India.",
-        linkedin: "https://www.linkedin.com/in/dr-anjani-priyadarsini?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-        eventName: "QuantumAI"
-    },
-    {
-        image: vimalBastin,
-        speakerName: "Vimal Bastin Edwin Joseph",
-        topic: "Keynote speaker",
-        shortDescription: "",
-        linkedin: "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
-        eventName: "Keynote"
     },
     {
         image: vyshakTm,

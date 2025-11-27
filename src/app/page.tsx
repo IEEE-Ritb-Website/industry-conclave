@@ -8,6 +8,7 @@ import { InfiniteMovingLogos } from '@/components/ui/infinite-moving-logos'
 import CTASection from '@/sections/landing/cta'
 import TracksSection from '@/sections/landing/tracks'
 import Heading from '@/components/shared/heading'
+import SpeakerHighlights from '@/sections/landing/speaker-highlights'
 
 
 export default function HomePage() {
@@ -16,6 +17,7 @@ export default function HomePage() {
       <HeroSection />
       <Heading title='People Joining us from' subtitle='' />
       <InfiniteMovingLogos />
+      <SpeakerHighlights />
       <AboutSection />
       {/* <div style={{ width: '100%', height: '600px', position: 'relative' }}>
         <Threads
