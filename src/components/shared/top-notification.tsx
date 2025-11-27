@@ -1,17 +1,20 @@
-'use client'
+"use client";
 
-import { X } from "lucide-react"
-import { useState, useEffect } from "react"
-import { motion } from "motion/react"
-import { usePathname } from "next/navigation"
+import { X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
+import { usePathname } from "next/navigation";
 
 const TopNotification = () => {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
+  const initialPath = useRef(pathname); // stores the pathname at first load
 
-  // Close notification on route change
   useEffect(() => {
-    setOpen(false);
+    // Only close if route changes AFTER initial render
+    if (pathname !== initialPath.current) {
+      setOpen(false);
+    }
   }, [pathname]);
 
   if (!open) return null;
@@ -23,8 +26,8 @@ const TopNotification = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       style={{ transformOrigin: "top center" }}
       className="
-        absolute top-0 left-0 w-full mt-14 
-        bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 
+        absolute top-0 left-0 w-full mt-14
+        bg-linear-to-r from-red-600 via-orange-500 to-yellow-500
         text-white py-3 px-4 shadow-md z-50
       "
     >
@@ -33,8 +36,8 @@ const TopNotification = () => {
           🚀 Hurry up! Slots are filling fast!
         </p>
 
-        <button 
-          onClick={() => setOpen(false)} 
+        <button
+          onClick={() => setOpen(false)}
           className="text-white hover:text-neutral-200 transition"
         >
           <X size={20} />
