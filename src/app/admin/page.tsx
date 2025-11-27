@@ -69,7 +69,7 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === 'admin123') {
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD!) {
       setIsAuthenticated(true)
     } else {
       alert('Invalid password')
