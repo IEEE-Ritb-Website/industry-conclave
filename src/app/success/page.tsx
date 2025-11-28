@@ -23,39 +23,14 @@ export default function SuccessPage() {
 function SuccessPageInner() {
   const searchParams = useSearchParams()
   const registrationId = searchParams.get('registrationId')
-  const [isConfirming, setIsConfirming] = useState(true)
+  const [isConfirming, setIsConfirming] = useState(false)
   const [confirmationError, setConfirmationError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (registrationId) {
-      // Confirm payment and send email
-      fetch('/api/confirm-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ registrationId }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            console.log('Payment confirmed successfully')
-          } else {
-            setConfirmationError(data.error || 'Failed to confirm payment')
-          }
-        })
-        .catch(error => {
-          console.error('Confirmation error:', error)
-          setConfirmationError('Failed to confirm payment')
-        })
-        .finally(() => {
-          setIsConfirming(false)
-        })
-    } else {
-      setIsConfirming(false)
-      setConfirmationError('No registration ID found')
-    }
-  }, [registrationId])
+    // Don't try to confirm payment - just show success message
+    setIsConfirming(false)
+    setConfirmationError(null)
+  }, [])
   return (
     <div className="min-h-screen py-24 px-4">
       <div className="max-w-4xl mx-auto">
@@ -70,21 +45,27 @@ function SuccessPageInner() {
               <CheckCircle className="w-10 h-10 text-green-600" />
             )}
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
-            {isConfirming ? 'Confirming Payment...' : confirmationError ? 'Confirmation Issue' : 'Payment Successful!'}
+<h1 className="text-4xl font-bold text-white mb-4">
+            {isConfirming ? 'Confirming Payment...' : confirmationError ? 'Confirmation Issue' : 'Registration Under Review!'}
           </h1>
           <p className="text-xl text-gray-300 mb-2">
             {isConfirming
               ? 'Please wait while we confirm your payment...'
               : confirmationError
-                ? 'There was an issue confirming your payment.'
-                : 'Thank you for registering for Industry Conclave 2025. Your payment has been confirmed!'
-            }
+                ? 'There was an issue with your registration.'
+                : 'Registration Under Review!'}
           </p>
           {!isConfirming && !confirmationError && (
-            <p className="text-lg text-green-600 font-medium">
-              📧 We'll send you a confirmation email shortly. Please check your inbox.
-            </p>
+            <>
+              <p className="text-lg text-green-600 font-medium">
+                📧 Your registration is under review and our team will send you a confirmation email within 48 hours.
+              </p>
+              {registrationId && (
+                <p className="text-sm text-gray-400 mt-2">
+                  Registration ID: <span className="font-mono bg-gray-800 px-2 py-1 rounded">{registrationId}</span>
+                </p>
+              )}
+            </>
           )}
           {confirmationError && (
             <p className="text-lg text-red-600 font-medium">
@@ -101,10 +82,10 @@ function SuccessPageInner() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Registration Confirmed</span>
+                    <span>Registration Submitted</span>
                   </CardTitle>
                   <CardDescription>
-                    Your spot has been secured for the event
+                    Your registration is under review by our team
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
