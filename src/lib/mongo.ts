@@ -12,6 +12,10 @@ type RegistrationDoc = {
   ieeeMemberId?: string
   attendingWorkshop: boolean
   isPaymentCompleted: boolean
+  howDidYouHearAboutUs?: string
+  paymentScreenshot?: string
+  couponCode?: string
+  finalAmount?: number
   createdAt?: Date
   updatedAt?: Date
 }
@@ -72,7 +76,7 @@ export const findRegistrationByEmail = async (email: string) => {
 export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'createdAt' | 'updatedAt'>): Promise<RegistrationDoc> => {
   const regCol = await registrationsCollection()
   const now = new Date()
-  const doc: RegistrationDoc = {
+const doc: RegistrationDoc = {
     fullName: data.fullName as string,
     email: data.email as string,
     phone: data.phone as string,
@@ -82,6 +86,10 @@ export const createRegistration = async (data: Omit<RegistrationDoc, '_id' | 'cr
     ieeeMemberId: data.ieeeMemberId,
     attendingWorkshop: data.attendingWorkshop ?? false,
     isPaymentCompleted: false, // Initially false, will be set to true after payment verification
+    howDidYouHearAboutUs: data.howDidYouHearAboutUs,
+    paymentScreenshot: data.paymentScreenshot,
+    couponCode: data.couponCode,
+    finalAmount: data.finalAmount,
     createdAt: now,
     updatedAt: now
   }

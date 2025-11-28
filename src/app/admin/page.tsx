@@ -20,6 +20,8 @@ interface Registration {
   isPaymentCompleted: boolean
   createdAt: string
   updatedAt?: string
+  paymentScreenshot?: string
+  paymentScreenshotUrl?: string
   payments: {
     status: string
     amount: number
@@ -81,54 +83,57 @@ export default function AdminPage() {
     try {
       const response = await fetch('/api/admin/registrations')
       if (!response.ok) return
-  
+
       const raw = await response.json()
-  
-        const normalized = raw.map((r: any) => ({
-         id: r._id,
-         fullName: r.fullName,
-         email: r.email,
-         phone: r.phone,
-         college:
-           r.registrationType === RegistrationTypes.COLLEGE_STUDENTS
-             ? r.collegeName || "N/A"
-             : r.registrationType === RegistrationTypes.IEEE_STUDENTS
-             ? r.collegeName || "N/A"
-             : r.registrationType === RegistrationTypes.NON_IEEE_STUDENTS
-             ? r.collegeName || "N/A"
-             : r.organizationName || "N/A",
-         registrationType: r.registrationType as RegistrationTypes,
-         attendingWorkshop: r.attendingWorkshop,
-         ieeeMemberId: r.ieeeMemberId,
-         organizationName: r.organizationName,
-         isPaymentCompleted: r.isPaymentCompleted,
-         createdAt: r.createdAt,
-         updatedAt: r.updatedAt,
-          payments: r.payments && r.payments.length > 0 ? r.payments.map((p: any) => ({
-            status: p.status,
-            amount: p.amount,
-            razorpayOrderId: p.razorpayOrderId,
-            razorpayPaymentId: p.razorpayPaymentId,
-            createdAt: p.createdAt,
-          })) : [
-            {
-              status: r.isPaymentCompleted ? "SUCCESS" : "PENDING",
-              amount: RegistrationPricing[r.registrationType as RegistrationTypes] || 0,
-              createdAt: r.createdAt,
-            },
-          ],
-       }))
-  
+
+      const normalized = raw.map((r: any) => ({
+        id: r._id,
+        fullName: r.fullName,
+        email: r.email,
+        phone: r.phone,
+        college:
+          r.registrationType === RegistrationTypes.COLLEGE_STUDENTS
+            ? r.collegeName || "N/A"
+            : r.registrationType === RegistrationTypes.IEEE_STUDENTS
+              ? r.collegeName || "N/A"
+              : r.registrationType === RegistrationTypes.NON_IEEE_STUDENTS
+                ? r.collegeName || "N/A"
+                : r.organizationName || "N/A",
+        registrationType: r.registrationType as RegistrationTypes,
+        attendingWorkshop: r.attendingWorkshop,
+        ieeeMemberId: r.ieeeMemberId,
+        organizationName: r.organizationName,
+        isPaymentCompleted: r.isPaymentCompleted,
+        createdAt: r.createdAt,
+        updatedAt: r.updatedAt,
+        paymentScreenshot: r.paymentScreenshot,
+        paymentScreenshotUrl: r.paymentScreenshotUrl,
+        paymentScreenshotCid: r.paymentScreenshotCid,
+        payments: r.payments && r.payments.length > 0 ? r.payments.map((p: any) => ({
+          status: p.status,
+          amount: p.amount,
+          razorpayOrderId: p.razorpayOrderId,
+          razorpayPaymentId: p.razorpayPaymentId,
+          createdAt: p.createdAt,
+        })) : [
+          {
+            status: r.isPaymentCompleted ? "SUCCESS" : "PENDING",
+            amount: RegistrationPricing[r.registrationType as RegistrationTypes] || 0,
+            createdAt: r.createdAt,
+          },
+        ],
+      }))
+
       setRegistrations(normalized)
     } catch (err) {
       console.error('Failed to fetch registrations:', err)
     } finally {
       setLoading(false)
     }
-  }  
+  }
 
   const exportToCSV = () => {
-    const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 'Amount', 'Order ID', 'Payment ID', 'Created Date', 'Updated Date']
+    const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 'Amount', 'Order ID', 'Payment ID', 'Screenshot URL', 'Created Date', 'Updated Date']
     const csvContent = [
       headers.join(','),
       ...filteredRegistrations.map(reg => [
@@ -146,6 +151,7 @@ export default function AdminPage() {
         reg.payments[0]?.amount || 0,
         reg.payments[0]?.razorpayOrderId || '',
         reg.payments[0]?.razorpayPaymentId || '',
+        reg.paymentScreenshotUrl || '',
         new Date(reg.createdAt).toLocaleDateString(),
         reg.updatedAt ? new Date(reg.updatedAt).toLocaleDateString() : ''
       ].join(','))
@@ -289,12 +295,12 @@ export default function AdminPage() {
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                   <Input
-                     placeholder="Search by name, email, college, organization, IEEE ID..."
-                     value={searchTerm}
-                     onChange={(e) => setSearchTerm(e.target.value)}
-                     className="pl-10 rounded-2xl"
-                   />
+                  <Input
+                    placeholder="Search by name, email, college, organization, IEEE ID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 rounded-2xl"
+                  />
                 </div>
               </div>
               <div className="flex gap-2">
@@ -352,71 +358,87 @@ export default function AdminPage() {
                       <th className="text-left py-3 px-4">Completed</th>
                       <th className="text-left py-3 px-4">Amount</th>
                       <th className="text-left py-3 px-4">Order ID</th>
+                      <th className="text-left py-3 px-4">Payment Proof</th>
                       <th className="text-left py-3 px-4">Created</th>
                       <th className="text-left py-3 px-4">Updated</th>
                     </tr>
                   </thead>
-                   <tbody>
-                     {filteredRegistrations.map((registration) => (
-                       <tr key={registration.id} className="border-b">
-                         <td className="py-3 px-4 font-medium">{registration.fullName}</td>
-                         <td className="py-3 px-4">{registration.email}</td>
-                         <td className="py-3 px-4">{registration.college}</td>
-                         <td className="py-3 px-4">{registration.phone}</td>
-                         <td className="py-3 px-4">
-                           <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                             {registration.registrationType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
-                           </span>
-                         </td>
-                         <td className="py-3 px-4">
-                           {registration.attendingWorkshop ? (
-                             <CheckCircle className="w-4 h-4 text-green-600" />
-                           ) : (
-                             <XCircle className="w-4 h-4 text-gray-400" />
-                           )}
-                         </td>
-                         <td className="py-3 px-4 text-sm">
-                           {registration.ieeeMemberId || '-'}
-                         </td>
-                          <td className="py-3 px-4">
-                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                              registration.isPaymentCompleted
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-orange-100 text-orange-800'
+                  <tbody>
+                    {filteredRegistrations.map((registration) => (
+                      <tr key={registration.id} className="border-b">
+                        <td className="py-3 px-4 font-medium">{registration.fullName}</td>
+                        <td className="py-3 px-4">{registration.email}</td>
+                        <td className="py-3 px-4">{registration.college}</td>
+                        <td className="py-3 px-4">{registration.phone}</td>
+                        <td className="py-3 px-4">
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {registration.registrationType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {registration.attendingWorkshop ? (
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <XCircle className="w-4 h-4 text-gray-400" />
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-sm">
+                          {registration.ieeeMemberId || '-'}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${registration.isPaymentCompleted
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-orange-100 text-orange-800'
                             }`}>
-                              {registration.isPaymentCompleted ? (
-                                <>
-                                  <CheckCircle className="w-3 h-3 mr-1" />
-                                  Paid
-                                </>
-                              ) : (
-                                <>
-                                  <Clock className="w-3 h-3 mr-1" />
-                                  Pending
-                                </>
-                              )}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4">
                             {registration.isPaymentCompleted ? (
-                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <>
+                                <CheckCircle className="w-3 h-3 mr-1" />
+                                Paid
+                              </>
                             ) : (
-                              <XCircle className="w-4 h-4 text-red-600" />
+                              <>
+                                <Clock className="w-3 h-3 mr-1" />
+                                Pending
+                              </>
                             )}
-                          </td>
-                          <td className="py-3 px-4">₹{registration.payments[0]?.amount || 0}</td>
-                         <td className="py-3 px-4 text-xs font-mono">
-                           {registration.payments[0]?.razorpayOrderId ? registration.payments[0].razorpayOrderId.slice(-8) : '-'}
-                         </td>
-                         <td className="py-3 px-4 text-sm">
-                           {new Date(registration.createdAt).toLocaleDateString()}
-                         </td>
-                         <td className="py-3 px-4 text-sm">
-                           {registration.updatedAt ? new Date(registration.updatedAt).toLocaleDateString() : '-'}
-                         </td>
-                       </tr>
-                     ))}
-                   </tbody>
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {registration.isPaymentCompleted ? (
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <XCircle className="w-4 h-4 text-red-600" />
+                          )}
+                        </td>
+                        <td className="py-3 px-4">₹{registration.payments[0]?.amount || 0}</td>
+                        <td className="py-3 px-4 text-xs font-mono">
+                          {registration.payments[0]?.razorpayOrderId ? registration.payments[0].razorpayOrderId.slice(-8) : '-'}
+                        </td>
+                        <td className="py-3 px-4">
+                          {registration.paymentScreenshot ? (
+                            <a
+                              href={registration.paymentScreenshot}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 underline text-sm inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 transition-colors"
+                              title="View payment screenshot"
+                            >
+                              <Download className="w-3 h-3" />
+                              View Screenshot
+                            </a>
+                          ) : (
+                            <span className="text-gray-400 text-sm">No screenshot</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-sm">
+                          {new Date(registration.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="py-3 px-4 text-sm">
+                          {registration.updatedAt ? new Date(registration.updatedAt).toLocaleDateString() : '-'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
                 {filteredRegistrations.length === 0 && (
                   <div className="text-center py-8 text-gray-500">

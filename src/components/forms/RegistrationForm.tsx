@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
 import {
   type RegistrationFormData,
   collegeStudentSchema,
@@ -17,13 +16,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Calendar, MapPin, Users, GraduationCap, Building, UserCheck, Briefcase } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Loader2, Calendar, MapPin, Users, CheckCircle } from 'lucide-react'
 
 import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
-import { PaymentProductId, RegistrationPricing, RegistrationTypes } from '@/types'
+import { RegistrationTypes } from '@/types'
 import { HoverBorderGradient } from '../ui/hover-border-gradient'
 import { registrationDetails } from '@/app/register/page'
+import PaymentQRCode from '@/components/ui/payment-qr-code'
+import FileUpload from '@/components/ui/file-upload'
 
 interface RegistrationFormProps {
   registrationType: RegistrationTypes
@@ -36,8 +38,15 @@ const registrationTypeConfig = registrationDetails.reduce((acc, detail) => {
 
 export default function RegistrationForm({ registrationType }: RegistrationFormProps) {
   const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'submitted'>('idle')
-  // const router = useRouter()
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>('')
+  const [registrationId, setRegistrationId] = useState<string>('')
+  const [couponCode, setCouponCode] = useState<string>('')
+  const [isCouponValid, setIsCouponValid] = useState<boolean | null>(null)
+  const [couponMessage, setCouponMessage] = useState<string>('')
+  const [validatingCoupon, setValidatingCoupon] = useState<boolean>(false)
   const config = registrationTypeConfig[registrationType]
+  const [discountedPrice, setDiscountedPrice] = useState<number>(config.discountPrice)
 
   const getSchema = () => {
     switch (registrationType) {
@@ -68,10 +77,109 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
       collegeName: '',
       organizationName: '',
       ieeeMemberId: '',
+      howDidYouHearAboutUs: '',
+      paymentScreenshot: '',
+      couponCode: '',
     }
   })
 
+  const handleFileSelect = async (file: File) => {
+    setSelectedFile(file)
 
+    // Upload file immediately
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        setUploadedFileUrl(result.url)
+        setValue('paymentScreenshot', result.url)
+      } else {
+        toast.error('Failed to upload file')
+      }
+    } catch (error) {
+      toast.error('Failed to upload file')
+    }
+  }
+
+  const handleFileRemove = () => {
+    setSelectedFile(null)
+    setUploadedFileUrl('')
+    setValue('paymentScreenshot', '')
+  }
+
+  const validateCoupon = async (code: string) => {
+    if (!code.trim()) {
+      setIsCouponValid(null)
+      setDiscountedPrice(config.discountPrice)
+      setCouponMessage('')
+      return
+    }
+
+    setValidatingCoupon(true)
+
+    try {
+      const response = await fetch('/api/validate-coupon', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          couponCode: code,
+          registrationType: registrationType,
+          originalPrice: config.discountPrice
+        })
+      })
+
+      const result = await response.json()
+
+      if (result.valid) {
+        setIsCouponValid(true)
+        setDiscountedPrice(result.discountedPrice)
+        setCouponMessage(result.message)
+        setValue('couponCode', code)
+      } else {
+        setIsCouponValid(false)
+        setDiscountedPrice(config.discountPrice)
+        setCouponMessage(result.error || 'Invalid coupon code')
+        setValue('couponCode', '')
+      }
+    } catch (error) {
+      setIsCouponValid(false)
+      setDiscountedPrice(config.discountPrice)
+      setCouponMessage('Failed to validate coupon code')
+      setValue('couponCode', '')
+    } finally {
+      setValidatingCoupon(false)
+    }
+  }
+
+  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const code = e.target.value
+    setCouponCode(code)
+
+    // Clear previous validation while typing
+    if (code === '') {
+      setIsCouponValid(null)
+      setDiscountedPrice(config.discountPrice)
+      setCouponMessage('')
+      setValue('couponCode', '')
+      return
+    }
+
+    // Debounce validation
+    const timeoutId = setTimeout(() => {
+      validateCoupon(code)
+    }, 500)
+
+    return () => clearTimeout(timeoutId)
+  }
 
   // Updated onSubmit function in your RegistrationForm component
   // Replace the entire onSubmit function with this:
@@ -81,11 +189,15 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
       return // Prevent multiple submissions
     }
 
+    // Validate that payment screenshot is uploaded
+    if (!data.paymentScreenshot) {
+      toast.error('Please upload a payment screenshot')
+      return
+    }
+
     setButtonState('loading')
 
     try {
-      const config = registrationTypeConfig[registrationType]
-
       // Build request body based on registration type
       const requestBody: any = {
         fullName: data.fullName,
@@ -93,36 +205,30 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
         phone: data.phone,
         registrationType: registrationType,
         attendingWorkshop: data.attendingWorkshop,
+        howDidYouHearAboutUs: data.howDidYouHearAboutUs,
+        paymentScreenshot: data.paymentScreenshot,
+        couponCode: data.couponCode || '',
+        finalAmount: discountedPrice,
       }
 
       // Add type-specific fields - ensure required fields are always present as strings
       if (registrationType === RegistrationTypes.COLLEGE_STUDENTS ||
-          registrationType === RegistrationTypes.IEEE_STUDENTS ||
-          registrationType === RegistrationTypes.NON_IEEE_STUDENTS) {
+        registrationType === RegistrationTypes.IEEE_STUDENTS ||
+        registrationType === RegistrationTypes.NON_IEEE_STUDENTS) {
         requestBody.collegeName = (data as any).collegeName || ''
       }
 
       if (registrationType === RegistrationTypes.IEEE_STUDENTS ||
-          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
         requestBody.ieeeMemberId = (data as any).ieeeMemberId || ''
       }
 
       if (registrationType === RegistrationTypes.NON_IEEE_PROFESSIONALS ||
-          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
+        registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
         requestBody.organizationName = (data as any).organizationName || ''
       }
 
-      if (registrationType === RegistrationTypes.IEEE_STUDENTS ||
-          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
-        requestBody.ieeeMemberId = (data as any).ieeeMemberId
-      }
-
-      if (registrationType === RegistrationTypes.NON_IEEE_PROFESSIONALS ||
-          registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
-        requestBody.organizationName = (data as any).organizationName
-      }
-
-      // Call register API to create registration and get checkout URL
+      // Call register API to create registration
       const registerResponse = await fetch('/api/register', {
         method: 'POST',
         headers: {
@@ -140,20 +246,25 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
         return
       }
 
-      // Redirect to checkout URL
-      if (registerResult.checkout_url) {
-        setButtonState('submitted')
-        window.location.href = registerResult.checkout_url
-      } else {
-        toast.error('Invalid registration response. Please try again.')
-        setButtonState('idle')
-      }
+      // Show success message
+      setButtonState('submitted')
+      setRegistrationId(registerResult.registrationId)
+      toast.success('Registration successful! Check your email for confirmation details.')
 
     } catch (error) {
       console.error('Registration error:', error)
       toast.error('Registration failed. Please try again.')
       setButtonState('idle')
     }
+  }
+
+  // Redirect to success page after successful registration
+  if (buttonState === 'submitted' && registrationId) {
+    // Use Next.js router for client-side navigation with registration ID
+    if (typeof window !== 'undefined') {
+      window.location.href = `/success?registrationId=${registrationId}`
+    }
+    return null // Return null while redirecting
   }
 
   return (
@@ -224,7 +335,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       id="fullName"
                       {...register('fullName')}
                       placeholder="Enter your full name"
-                      className="rounded-2xl"
+                      className="rounded-2xl h-11"
                     />
                     {errors.fullName && (
                       <p className="text-sm text-red-600">{errors.fullName.message}</p>
@@ -238,7 +349,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       type="email"
                       {...register('email')}
                       placeholder="your.email@example.com"
-                      className="rounded-2xl"
+                      className="rounded-2xl h-11"
                     />
                     {errors.email && (
                       <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -251,27 +362,27 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                       id="phone"
                       {...register('phone')}
                       placeholder="9999999999"
-                      className="rounded-2xl"
+                      className="rounded-2xl h-11"
                     />
                     {errors.phone && (
                       <p className="text-sm text-red-600">{errors.phone.message}</p>
                     )}
                   </div>
 
-                   {(registrationType === RegistrationTypes.COLLEGE_STUDENTS || registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.NON_IEEE_STUDENTS) && (
-                     <div className="space-y-2">
-                       <Label htmlFor="collegeName">College Name *</Label>
-                       <Input
-                         id="collegeName"
-                         {...register('collegeName')}
-                         placeholder="Enter your college name"
-                         className="rounded-2xl"
-                       />
-                       {(errors as any).collegeName && (
-                         <p className="text-sm text-red-600">{(errors as any).collegeName.message}</p>
-                       )}
-                     </div>
-                   )}
+                  {(registrationType === RegistrationTypes.COLLEGE_STUDENTS || registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.NON_IEEE_STUDENTS) && (
+                    <div className="space-y-2">
+                      <Label htmlFor="collegeName">College Name *</Label>
+                      <Input
+                        id="collegeName"
+                        {...register('collegeName')}
+                        placeholder="Enter your college name"
+                        className="rounded-2xl h-11"
+                      />
+                      {(errors as any).collegeName && (
+                        <p className="text-sm text-red-600">{(errors as any).collegeName.message}</p>
+                      )}
+                    </div>
+                  )}
 
                   {(registrationType === RegistrationTypes.IEEE_STUDENTS || registrationType === RegistrationTypes.IEEE_PROFESSIONALS) && (
                     <div className="space-y-2">
@@ -280,7 +391,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                         id="ieeeMemberId"
                         {...register('ieeeMemberId')}
                         placeholder="Your IEEE membership ID"
-                        className="rounded-2xl"
+                        className="rounded-2xl h-11"
                       />
                       {(errors as any).ieeeMemberId && (
                         <p className="text-sm text-red-600">{(errors as any).ieeeMemberId.message}</p>
@@ -295,7 +406,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                         id="organizationName"
                         {...register('organizationName')}
                         placeholder="Your organization name"
-                        className="rounded-2xl"
+                        className="rounded-2xl h-11"
                       />
                       {(errors as any).organizationName && (
                         <p className="text-sm text-red-600">{(errors as any).organizationName.message}</p>
@@ -304,51 +415,128 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
                   )}
 
                   <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
                       <input
                         type="checkbox"
                         id="attendingWorkshop"
                         {...register('attendingWorkshop')}
                         className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                       />
-                      <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-neutral-300">
-                        I want to attend the workshop
-                      </Label>
+                      <div className="flex-1">
+                        <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-gray-900 cursor-pointer">
+                          I want to attend the workshop
+                        </Label>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Check this if you want to participate in hands-on workshops
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-200">
-                      Check this if you want to participate in hands-on workshops
-                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="howDidYouHearAboutUs">How did you hear about IEEE CIS Industry Conclave 2025? *</Label>
+                    <Select
+                      value={watch('howDidYouHearAboutUs') || ''}
+                      onValueChange={(value) => setValue('howDidYouHearAboutUs', value)}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="social_media">Social Media</SelectItem>
+                        <SelectItem value="friend_colleague">Friend/Colleague</SelectItem>
+                        <SelectItem value="ieee_chapter">IEEE Chapter</SelectItem>
+                        <SelectItem value="college_poster">College Poster/Notice</SelectItem>
+                        <SelectItem value="email">Email Newsletter</SelectItem>
+                        <SelectItem value="website">IEEE Website</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.howDidYouHearAboutUs && (
+                      <p className="text-sm text-red-600">{errors.howDidYouHearAboutUs.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="couponCode">Coupon Code (Optional)</Label>
+                    <div className="relative">
+                      <Input
+                        id="couponCode"
+                        type="text"
+                        value={couponCode}
+                        onChange={handleCouponChange}
+                        placeholder="Enter coupon code"
+                        className="rounded-2xl h-11 pr-10"
+                      />
+                      {validatingCoupon && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+                        </div>
+                      )}
+                      {isCouponValid === true && !validatingCoupon && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                        </div>
+                      )}
+                      {isCouponValid === false && !validatingCoupon && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <div className="w-4 h-4 text-red-500">×</div>
+                        </div>
+                      )}
+                    </div>
+                    {couponMessage && (
+                      <p className={`text-sm ${isCouponValid ? 'text-green-600' : 'text-red-600'}`}>
+                        {couponMessage}
+                      </p>
+                    )}
                   </div>
 
                   <div className="rounded-2xl p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-lg font-medium">Registration Fee</span>
-                      <span className="text-2xl font-bold text-indigo-600">₹{config.discountPrice}</span>
+                      <div className="text-right">
+                        {discountedPrice < config.discountPrice && (
+                          <div className="line-through text-sm text-gray-500">₹{config.discountPrice}</div>
+                        )}
+                        <span className="text-2xl font-bold text-indigo-600">₹{discountedPrice}</span>
+                      </div>
                     </div>
+                    {discountedPrice < config.discountPrice && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-2 mb-2">
+                        <p className="text-sm text-green-700">
+                          Coupon applied! You saved ₹{config.discountPrice - discountedPrice}
+                        </p>
+                      </div>
+                    )}
                     <p className="text-sm text-gray-600">
-                      Payment will be processed securely via Dodo Payments
+                      Complete payment via UPI and upload screenshot
                     </p>
                   </div>
 
-                   <Button
-                     type="submit"
-                     className="w-full rounded-2xl py-3 bg-accent/90 hover:bg-accent text-white hover:text-white"
-                     disabled={buttonState !== 'idle'}
-                   >
-                     {buttonState === 'loading' ? (
-                       <>
-                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                         Processing...
-                       </>
-                     ) : buttonState === 'submitted' ? (
-                       <>
-                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                         Redirecting to payment...
-                       </>
-                     ) : (
-                       `Register & Pay ${config.discountPrice}`
-                     )}
-                   </Button>
+                  {/* Payment QR Code */}
+                  <PaymentQRCode amount={discountedPrice} />
+
+                  <FileUpload
+                    onFileSelect={handleFileSelect}
+                    onFileRemove={handleFileRemove}
+                    selectedFile={selectedFile}
+                    error={errors.paymentScreenshot?.message}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="w-full rounded-2xl h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-base shadow-lg hover:shadow-xl transition-all duration-200"
+                    disabled={buttonState !== 'idle'}
+                  >
+                    {buttonState === 'loading' ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Processing Registration...
+                      </>
+                    ) : (
+                      'Complete Registration'
+                    )}
+                  </Button>
 
                   <p className="text-xs text-gray-500 text-center">
                     By registering, you agree to our terms and conditions.

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { findRegistrationByEmail, createRegistration } from '@/lib/mongo'
 import { registrationSchema } from '@/lib/validations'
-import { RegistrationPricing, PaymentProductId } from '@/types'
+import { DiscountedRegistraionPricing } from '@/types'
 import { z } from 'zod'
-import DodoPayments from 'dodopayments'
+import { sendVerificationPendingEmail } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,11 +56,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get amount from pricing configuration
-    const amount = RegistrationPricing[validatedData.registrationType]
+    // Get amount from pricing configuration or use final amount from coupon
+    let amount: number
+    if (validatedData.finalAmount && validatedData.finalAmount > 0) {
+      amount = validatedData.finalAmount
+    } else {
+      amount = DiscountedRegistraionPricing[validatedData.registrationType]
+    }
+    
     if (!amount) {
       return NextResponse.json(
-        { error: 'Invalid registration type' },
+        { error: 'Invalid registration type or amount' },
         { status: 400 }
       )
     }
@@ -77,6 +83,10 @@ export async function POST(request: NextRequest) {
         collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
         organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
         ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
+        howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
+        paymentScreenshot: validatedData.paymentScreenshot,
+        couponCode: validatedData.couponCode,
+        finalAmount: amount,
         isPaymentCompleted: false,
       })
     } catch (dbError) {
@@ -89,57 +99,37 @@ export async function POST(request: NextRequest) {
 
     const registrationId = registration._id!.toString()
 
-    // Create checkout session using Dodo Payments SDK
+    // Send verification pending email with all details
     try {
-      console.log('Creating checkout session for product:', PaymentProductId[validatedData.registrationType])
-
-      const client = new DodoPayments({
-        bearerToken: process.env.DODO_PAYMENTS_API_KEY!,
-        environment: process.env.DODO_PAYMENTS_ENVIRONMENT === 'live_mode' ? 'live_mode' : 'test_mode',
-      })
-
-      const checkoutSessionResponse = await client.checkoutSessions.create({
-        product_cart: [{
-          product_id: PaymentProductId[validatedData.registrationType],
-          quantity: 1
-        }],
-        customer: {
-          email: validatedData.email,
-          name: validatedData.fullName,
-        },
-        billing_address: {
-          country: 'IN',
-        },
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/success?registrationId=${registrationId}`,
-        billing_currency: 'INR'
-      })
-
-      console.log('Checkout session created:', checkoutSessionResponse.session_id)
-
-      // The SDK response should include the checkout_url
-      if (!checkoutSessionResponse.checkout_url) {
-        console.error('No checkout_url in SDK response:', checkoutSessionResponse)
-        return NextResponse.json(
-          { error: 'Invalid checkout session response' },
-          { status: 500 }
-        )
-      }
-
-      return NextResponse.json({
-        success: true,
-        checkout_url: checkoutSessionResponse.checkout_url,
-        registrationId: registrationId,
-        amount: amount,
-        currency: 'INR'
-      })
-
-    } catch (checkoutError) {
-      console.error('Checkout session creation error:', checkoutError)
-      return NextResponse.json(
-        { error: 'Failed to create payment session. Please try again.' },
-        { status: 500 }
+      await sendVerificationPendingEmail(
+        validatedData.email,
+        validatedData.fullName,
+        registrationId,
+        validatedData.registrationType,
+        {
+          phone: validatedData.phone,
+          collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
+          organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
+          ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
+          attendingWorkshop: validatedData.attendingWorkshop,
+          howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
+          couponCode: validatedData.couponCode,
+          finalAmount: amount
+        }
       )
+    } catch (emailError) {
+      console.error('Failed to send verification pending email:', emailError)
+      // Continue with registration even if email fails
     }
+
+    // Return success response for manual payment
+    return NextResponse.json({
+      success: true,
+      registrationId: registrationId,
+      amount: amount,
+      currency: 'INR',
+      message: 'Registration successful. Please complete payment and upload screenshot.'
+    })
 
   } catch (error) {
     console.error('Unexpected registration error:', error)
