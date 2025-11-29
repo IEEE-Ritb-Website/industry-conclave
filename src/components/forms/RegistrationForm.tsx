@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
@@ -23,25 +23,27 @@ import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
 import { RegistrationTypes } from '@/types'
 import { HoverBorderGradient } from '../ui/hover-border-gradient'
-import { registrationDetails } from '@/app/register/page'
+import { registrationDetails } from '@/constants/registration'
 import PaymentQRCode from '@/components/ui/payment-qr-code'
 import FileUpload from '@/components/ui/file-upload'
 
 interface RegistrationFormProps {
   registrationType: RegistrationTypes
+  couponCode?: string
+  referralOrg?: string
 }
 
-const registrationTypeConfig = registrationDetails.reduce((acc, detail) => {
+const registrationTypeConfig = registrationDetails.reduce((acc: Record<RegistrationTypes, typeof registrationDetails[0]>, detail) => {
   acc[detail.type] = detail;
   return acc;
 }, {} as Record<RegistrationTypes, typeof registrationDetails[0]>);
 
-export default function RegistrationForm({ registrationType }: RegistrationFormProps) {
+export default function RegistrationForm({ registrationType, couponCode: initialCouponCode, referralOrg }: RegistrationFormProps) {
   const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'submitted'>('idle')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>('')
   const [registrationId, setRegistrationId] = useState<string>('')
-  const [couponCode, setCouponCode] = useState<string>('')
+  const [couponCode, setCouponCode] = useState<string>(initialCouponCode || '')
   const [isCouponValid, setIsCouponValid] = useState<boolean | null>(null)
   const [couponMessage, setCouponMessage] = useState<string>('')
   const [validatingCoupon, setValidatingCoupon] = useState<boolean>(false)
@@ -82,6 +84,8 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
       couponCode: '',
     }
   })
+
+
 
   const handleFileSelect = async (file: File) => {
     setSelectedFile(file)
@@ -133,7 +137,9 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
         body: JSON.stringify({
           couponCode: code,
           registrationType: registrationType,
-          originalPrice: config.discountPrice
+          originalPrice: config.discountPrice,
+          referralOrg: referralOrg,
+          email: emailValue || undefined
         })
       })
 
@@ -181,6 +187,24 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
     return () => clearTimeout(timeoutId)
   }
 
+  // Validate coupon code if provided in URL, but only after email is entered
+  const emailValue = watch('email')
+  useEffect(() => {
+    if (initialCouponCode && initialCouponCode.trim()) {
+      // Only validate coupon if email is provided
+      if (emailValue && emailValue.trim()) {
+        validateCoupon(initialCouponCode)
+      }
+    }
+  }, [initialCouponCode, registrationType, referralOrg, emailValue])
+
+  // Re-validate coupon when email changes if coupon is already set
+  useEffect(() => {
+    if (couponCode && couponCode.trim() && emailValue && emailValue.trim()) {
+      validateCoupon(couponCode)
+    }
+  }, [emailValue, couponCode, registrationType, referralOrg])
+
   // Updated onSubmit function in your RegistrationForm component
   // Replace the entire onSubmit function with this:
 
@@ -208,6 +232,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
         howDidYouHearAboutUs: data.howDidYouHearAboutUs,
         paymentScreenshot: data.paymentScreenshot,
         couponCode: data.couponCode || '',
+        referralOrg: referralOrg,
         finalAmount: discountedPrice,
       }
 
@@ -306,7 +331,7 @@ export default function RegistrationForm({ registrationType }: RegistrationFormP
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-4">What's Included?</h3>
                 <ul className="space-y-2">
-                  {config.features.map((feature, index) => (
+                  {config.features.map((feature: string, index: number) => (
                     <li key={index} className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-white rounded-full" />
                       <span>{feature}</span>

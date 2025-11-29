@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection, ObjectId } from 'mongodb'
-import { RegistrationTypes } from '@/types'
+import { RegistrationTypes, CouponCode, CouponCodeUsage } from '@/types'
 
 type RegistrationDoc = {
   _id?: ObjectId
@@ -15,6 +15,7 @@ type RegistrationDoc = {
   howDidYouHearAboutUs?: string
   paymentScreenshot?: string
   couponCode?: string
+  referralOrg?: string
   finalAmount?: number
   createdAt?: Date
   updatedAt?: Date
@@ -31,6 +32,16 @@ type PaymentDoc = {
   status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED'
   createdAt?: Date
   updatedAt?: Date
+}
+
+type CouponCodeDoc = CouponCode & {
+  _id?: ObjectId
+  createdAt?: Date
+  updatedAt?: Date
+}
+
+type CouponCodeUsageDoc = CouponCodeUsage & {
+  _id?: ObjectId
 }
 
 let client: MongoClient | null = null
@@ -67,6 +78,16 @@ export const paymentsCollection = async (): Promise<Collection<PaymentDoc>> => {
   return database.collection<PaymentDoc>('payments')
 }
 
+export const couponCodesCollection = async (): Promise<Collection<CouponCodeDoc>> => {
+  const database = await getDb()
+  return database.collection<CouponCodeDoc>('couponCodes')
+}
+
+export const couponCodeUsageCollection = async (): Promise<Collection<CouponCodeUsageDoc>> => {
+  const database = await getDb()
+  return database.collection<CouponCodeUsageDoc>('couponCodeUsage')
+}
+
 export const findRegistrationByEmail = async (email: string) => {
   const regCol = await registrationsCollection()
   const reg = await regCol.findOne({ email: email, isPaymentCompleted: true })
@@ -85,10 +106,11 @@ const doc: RegistrationDoc = {
     organizationName: data.organizationName,
     ieeeMemberId: data.ieeeMemberId,
     attendingWorkshop: data.attendingWorkshop ?? false,
-    isPaymentCompleted: false, // Initially false, will be set to true after payment verification
+    isPaymentCompleted: data.isPaymentCompleted ?? false, // Use provided value or default to false
     howDidYouHearAboutUs: data.howDidYouHearAboutUs,
     paymentScreenshot: data.paymentScreenshot,
     couponCode: data.couponCode,
+    referralOrg: data.referralOrg,
     finalAmount: data.finalAmount,
     createdAt: now,
     updatedAt: now
@@ -173,6 +195,104 @@ export const getRegistrationForEmail = async (id: string) => {
   const regCol = await registrationsCollection()
   const reg = await regCol.findOne({ _id: new ObjectId(id) })
   return reg
+}
+
+export const validateCouponCode = async (couponCode: string, registrationType: RegistrationTypes, referralOrg?: string, email?: string): Promise<{ valid: boolean; discount?: number; error?: string }> => {
+  try {
+    const couponCol = await couponCodesCollection()
+    const usageCol = await couponCodeUsageCollection()
+    const regCol = await registrationsCollection()
+    
+    // Find the coupon code
+    const coupon = await couponCol.findOne({ couponCode: couponCode.toUpperCase() })
+    
+    if (!coupon) {
+      return { valid: false, error: 'Invalid coupon code' }
+    }
+    
+    // Check if coupon is valid for specific emails
+    if (coupon.validFor && coupon.validFor.length > 0) {
+      if (!email) {
+        return { valid: false, error: 'This coupon code requires a valid email address' }
+      }
+      
+      if (!coupon.validFor.includes(email.toLowerCase())) {
+        return { valid: false, error: 'This coupon code is not valid for you' }
+      }
+    }
+    
+    // Check if coupon is organization-specific and if referral org matches
+    if (coupon.referralType && coupon.referralType.length > 0) {
+      if (!referralOrg) {
+        return { valid: false, error: 'This coupon code requires a valid organization referral' }
+      }
+      
+      if (!coupon.referralType.includes(referralOrg.toLowerCase())) {
+        return { valid: false, error: 'This coupon code is not valid for this organization' }
+      }
+    }
+    
+    // Check usage limit if maxLimit is specified
+    if (coupon.maxLimit !== undefined) {
+      const usageCount = await usageCol.countDocuments({ couponCode: couponCode.toUpperCase() })
+      if (usageCount >= coupon.maxLimit) {
+        return { valid: false, error: 'Coupon usage limit exceeded' }
+      }
+    }
+    
+    return { valid: true, discount: coupon.discount }
+  } catch (error) {
+    console.error('Error validating coupon code:', error)
+    return { valid: false, error: 'Failed to validate coupon code' }
+  }
+}
+
+export const useCouponCode = async (couponCode: string, registrationId: string): Promise<boolean> => {
+  try {
+    const usageCol = await couponCodeUsageCollection()
+    const now = new Date()
+    
+    const result = await usageCol.insertOne({
+      couponCode: couponCode.toUpperCase(),
+      registrationId,
+      usedAt: now
+    })
+    
+    return result.acknowledged
+  } catch (error) {
+    console.error('Error using coupon code:', error)
+    return false
+  }
+}
+
+export const createCouponCode = async (couponData: CouponCode): Promise<CouponCodeDoc> => {
+  try {
+    const couponCol = await couponCodesCollection()
+    const now = new Date()
+    
+    const doc: CouponCodeDoc = {
+      ...couponData,
+      couponCode: couponData.couponCode.toUpperCase(),
+      createdAt: now,
+      updatedAt: now
+    }
+    
+    const result = await couponCol.insertOne(doc)
+    return { ...doc, _id: result.insertedId }
+  } catch (error) {
+    console.error('Error creating coupon code:', error)
+    throw error
+  }
+}
+
+export const getRegistrationTypeNames = (): Record<RegistrationTypes, string> => {
+  return {
+    [RegistrationTypes.NON_IEEE_PROFESSIONALS]: "Non-IEEE Professional",
+    [RegistrationTypes.NON_IEEE_STUDENTS]: "Non-IEEE Student", 
+    [RegistrationTypes.IEEE_PROFESSIONALS]: "IEEE Professional",
+    [RegistrationTypes.IEEE_STUDENTS]: "IEEE Student",
+    [RegistrationTypes.COLLEGE_STUDENTS]: "MSRIT Student",
+  }
 }
 
 export const closeMongoConnection = async () => {

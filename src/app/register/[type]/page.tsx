@@ -5,10 +5,15 @@ interface PageProps {
   params: Promise<{
     type: string
   }>
+  searchParams: Promise<{
+    coupon?: string
+    referral?: string
+  }>
 }
 
-export default async function RegisterTypePage({ params }: PageProps) {
+export default async function RegisterTypePage({ params, searchParams }: PageProps) {
   const { type } = await params
+  const { coupon, referral } = await searchParams
   const normalizedType = type.toLowerCase().replace(/-/g, '_') as RegistrationTypes;
 
   // Validate that the type is a valid registration type
@@ -26,9 +31,11 @@ export default async function RegisterTypePage({ params }: PageProps) {
 
   const registrationType = normalizedType;
 
-
-
   return (
-    <RegistrationForm registrationType={registrationType} />
+    <RegistrationForm 
+      registrationType={registrationType} 
+      couponCode={coupon} 
+      referralOrg={referral} 
+    />
   )
 }

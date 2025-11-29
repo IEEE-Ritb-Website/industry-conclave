@@ -43,3 +43,18 @@ export const PaymentProductId = {
     [RegistrationTypes.COLLEGE_STUDENTS]:
         process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode" ? "pdt_d2b49qtewsO1c7bwAdfsr" : "pdt_iuiMmjHoFudoXxHodBXnc",
 }
+
+export interface CouponCode {
+    couponCode: string
+    referralType: string[] // Organization names (e.g., ["iisc", "msrit"]) - empty means applicable to everyone
+    maxLimit?: number // Maximum uses per coupon code (optional)
+    discount: number // decimal value of discount (e.g., 0.1 for 10%)
+    validFor?: string[] // Array of emails this coupon is valid for (optional)
+}
+
+export interface CouponCodeUsage {
+    _id?: any // MongoDB ObjectId
+    couponCode: string
+    registrationId: string
+    usedAt: Date
+}

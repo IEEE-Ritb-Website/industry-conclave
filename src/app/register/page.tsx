@@ -1,91 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { GraduationCap, UserCheck, Building, Users, Briefcase } from 'lucide-react'
 import Heading from '@/components/shared/heading'
 import { CardSpotlight } from '@/components/ui/card-spotlight'
 import { Button } from '@/components/ui/button'
 import { CONFIG } from '@/configs/config'
-import { RegistrationTypes, RegistrationPricing, DiscountedRegistraionPricing } from '@/types'
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient'
-
-export const registrationDetails = [
-  {
-    type: RegistrationTypes.COLLEGE_STUDENTS,
-    title: 'MSRIT Student',
-    description: 'For students currently enrolled in college',
-    originalPrice: RegistrationPricing[RegistrationTypes.COLLEGE_STUDENTS],
-    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.COLLEGE_STUDENTS],
-    icon: GraduationCap,
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Food and refreshments during the event',
-    ],
-    color: 'green'
-  },
-  {
-    type: RegistrationTypes.IEEE_STUDENTS,
-    title: 'IEEE Student',
-    description: 'Special discount for IEEE student members',
-    originalPrice: RegistrationPricing[RegistrationTypes.IEEE_STUDENTS],
-    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.IEEE_STUDENTS],
-    icon: UserCheck,
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Food and refreshments during the event',
-    ],
-    color: 'lightseagreen'
-  },
-  {
-    type: RegistrationTypes.NON_IEEE_STUDENTS,
-    title: 'Non-IEEE Student',
-    description: 'For students not enrolled in IEEE',
-    originalPrice: RegistrationPricing[RegistrationTypes.NON_IEEE_STUDENTS],
-    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.NON_IEEE_STUDENTS],
-    icon: Users,
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Food and refreshments during the event',
-    ],
-    color: 'purple'
-  },
-  {
-    type: RegistrationTypes.IEEE_PROFESSIONALS,
-    title: 'IEEE Professional',
-    description: 'For IEEE professional members',
-    originalPrice: RegistrationPricing[RegistrationTypes.IEEE_PROFESSIONALS],
-    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.IEEE_PROFESSIONALS],
-    icon: Briefcase,
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Food and refreshments during the event',
-    ],
-    color: 'blue'
-  },
-  {
-    type: RegistrationTypes.NON_IEEE_PROFESSIONALS,
-    title: 'Non-IEEE Professional',
-    description: 'For professionals not enrolled in IEEE',
-    originalPrice: RegistrationPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
-    discountPrice: DiscountedRegistraionPricing[RegistrationTypes.NON_IEEE_PROFESSIONALS],
-    icon: Building,
-    features: [
-      'Access to all technical sessions',
-      'Hands-on workshops',
-      'Exclusive goodies',
-      'Food and refreshments during the event',
-    ],
-    color: 'red'
-  }
-]
+import { registrationDetails } from '@/constants/registration'
 
 export default function RegisterPage() {
   return (

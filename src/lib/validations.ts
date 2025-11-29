@@ -16,6 +16,7 @@ export const baseRegistrationSchema = z.object({
   howDidYouHearAboutUs: z.string().min(1, "Please let us know how you heard about this event"),
   paymentScreenshot: z.string().min(1, "Please upload a payment screenshot"),
   couponCode: z.string().optional(),
+  referralOrg: z.string().optional(),
   finalAmount: z.number().optional(),
 })
 

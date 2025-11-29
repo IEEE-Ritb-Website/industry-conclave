@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { findRegistrationByEmail, createRegistration } from '@/lib/mongo'
+import { findRegistrationByEmail, createRegistration, useCouponCode } from '@/lib/mongo'
 import { registrationSchema } from '@/lib/validations'
 import { DiscountedRegistraionPricing } from '@/types'
 import { z } from 'zod'
@@ -71,6 +71,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Determine if payment is completed (coupon code means no payment needed)
+    const isPaymentCompleted = !!validatedData.couponCode && amount < DiscountedRegistraionPricing[validatedData.registrationType]
+
     // Create registration in database
     let registration;
     try {
@@ -86,8 +89,9 @@ export async function POST(request: NextRequest) {
         howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
         paymentScreenshot: validatedData.paymentScreenshot,
         couponCode: validatedData.couponCode,
+        referralOrg: validatedData.referralOrg,
         finalAmount: amount,
-        isPaymentCompleted: false,
+        isPaymentCompleted: isPaymentCompleted,
       })
     } catch (dbError) {
       console.error('Database error creating registration:', dbError)
@@ -99,36 +103,72 @@ export async function POST(request: NextRequest) {
 
     const registrationId = registration._id!.toString()
 
-    // Send verification pending email with all details
+    // If coupon code was used, record its usage
+    if (validatedData.couponCode && isPaymentCompleted) {
+      try {
+        await useCouponCode(validatedData.couponCode, registrationId)
+      } catch (couponError) {
+        console.error('Failed to record coupon usage:', couponError)
+        // Continue with registration even if coupon usage recording fails
+      }
+    }
+
+    // Send appropriate email based on payment status
     try {
-      await sendVerificationPendingEmail(
-        validatedData.email,
-        validatedData.fullName,
-        registrationId,
-        validatedData.registrationType,
-        {
-          phone: validatedData.phone,
-          collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
-          organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
-          ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
-          attendingWorkshop: validatedData.attendingWorkshop,
-          howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
-          couponCode: validatedData.couponCode,
-          finalAmount: amount
-        }
-      )
+      if (isPaymentCompleted) {
+        // Send confirmation email for completed registration (coupon used)
+        await sendVerificationPendingEmail(
+          validatedData.email,
+          validatedData.fullName,
+          registrationId,
+          validatedData.registrationType,
+          {
+            phone: validatedData.phone,
+            collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
+            organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
+            ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
+            attendingWorkshop: validatedData.attendingWorkshop,
+            howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
+            couponCode: validatedData.couponCode,
+            referralOrg: validatedData.referralOrg,
+            finalAmount: amount
+          }
+        )
+      } else {
+        // Send verification pending email for manual payment
+        await sendVerificationPendingEmail(
+          validatedData.email,
+          validatedData.fullName,
+          registrationId,
+          validatedData.registrationType,
+          {
+            phone: validatedData.phone,
+            collegeName: 'collegeName' in validatedData ? validatedData.collegeName : undefined,
+            organizationName: 'organizationName' in validatedData ? validatedData.organizationName : undefined,
+            ieeeMemberId: 'ieeeMemberId' in validatedData ? validatedData.ieeeMemberId : undefined,
+            attendingWorkshop: validatedData.attendingWorkshop,
+            howDidYouHearAboutUs: validatedData.howDidYouHearAboutUs,
+            couponCode: validatedData.couponCode,
+            referralOrg: validatedData.referralOrg,
+            finalAmount: amount
+          }
+        )
+      }
     } catch (emailError) {
-      console.error('Failed to send verification pending email:', emailError)
+      console.error('Failed to send email:', emailError)
       // Continue with registration even if email fails
     }
 
-    // Return success response for manual payment
+    // Return appropriate response based on payment status
     return NextResponse.json({
       success: true,
       registrationId: registrationId,
       amount: amount,
       currency: 'INR',
-      message: 'Registration successful. Please complete payment and upload screenshot.'
+      isPaymentCompleted: isPaymentCompleted,
+      message: isPaymentCompleted 
+        ? 'Registration successful! Your registration is confirmed with the coupon code.'
+        : 'Registration successful. Please complete payment and upload screenshot.'
     })
 
   } catch (error) {

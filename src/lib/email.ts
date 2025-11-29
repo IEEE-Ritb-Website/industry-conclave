@@ -47,6 +47,7 @@ export const sendVerificationPendingEmail = async (
     attendingWorkshop: boolean;
     howDidYouHearAboutUs: string;
     couponCode?: string;
+    referralOrg?: string;
     finalAmount: number;
   }
 ) => {
