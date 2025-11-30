@@ -71,8 +71,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Determine if payment is completed (coupon code means no payment needed)
-    const isPaymentCompleted = !!validatedData.couponCode && amount < DiscountedRegistraionPricing[validatedData.registrationType]
+    // Determine if payment is completed (coupon code means no payment needed, or payment screenshot uploaded)
+    const isPaymentCompleted = (!!validatedData.couponCode && amount < DiscountedRegistraionPricing[validatedData.registrationType]) || !!validatedData.paymentScreenshot
 
     // Create registration in database
     let registration;

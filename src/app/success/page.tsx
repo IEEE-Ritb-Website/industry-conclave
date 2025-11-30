@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useState, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { AlertCircleIcon, Loader2 } from 'lucide-react';
 
@@ -24,9 +24,14 @@ function SuccessPageInner() {
   const [registrationNotFound, setRegistrationNotFound] = useState(false)
   const [registration, setRegistration] = useState<any>(null)
   const [isValidating, setIsValidating] = useState(true)
+  const hasValidated = useRef(false)
 
   // Validate registration immediately if ID exists
   useEffect(() => {
+    // Prevent multiple validations in development mode
+    if (hasValidated.current) return
+    hasValidated.current = true
+
     const validateRegistration = async () => {
       if (!registrationId) {
         setRegistrationNotFound(true)
@@ -47,6 +52,7 @@ function SuccessPageInner() {
         // Registration is valid, set the registration data
         setRegistration(result.registration)
         setRegistrationNotFound(false)
+        setIsValidating(false)
       } catch (error) {
         console.error('Error validating registration:', error)
         setRegistrationNotFound(true)
@@ -98,7 +104,6 @@ function SuccessPageInner() {
             ) : confirmationError ? (
               <div className="w-10 h-10 text-4xl text-red-600">⚠️</div>
             ) : (
-              // <CheckCircle className="w-10 h-10 text-green-600" />
               <AlertCircleIcon className='w-10 h-10 text-yellow-400' />
             )}
           </div>
