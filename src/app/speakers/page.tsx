@@ -13,21 +13,20 @@ import {
     monicaShityalkar,
     rajathKumarS,
     drJayaprakash,
-    niteshPrasad,
     gauravPathak,
     prasadChitt,
     shashank1811,
     sreenivasaRamanujamJ,
-    hrishikeshHaritas,
     vimalBastin,
-    drKunalSaxena
+    drKunalSaxena,
+    rakshitPrabhakar
 } from "@/assets/speakers";
 
 export const speakersList = [
     {
         image: prasantMisra,
         speakerName: "Dr. Prasant Misra",
-        topic: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
+        topic: "Decision Making in Electrical Vehicles and the future of Smart Mobility",
         shortDescription: "Senior Scientist @ TCS Research | Visiting Faculty @ CPS/IISc | ACM Distinguished Speaker | MIT TR35 India | Marie Curie (ERCIM AB) Fellow | AusAID Australian Leadership Awards. Dr. Prasant Misra is a Senior Scientist at TCS Research and Visiting Faculty at IISc, specializing in Optimization and Operations Research for intelligent CPS, EVs, Smart Mobility, and IoT. An ACM Distinguished Speaker and TR35 India awardee, he is a recognized leader shaping Smart City policy and currently serves as Chair-Elect of the IEEE Bangalore Section.",
         linkedin: "https://www.linkedin.com/in/prasantmisra/",
         eventName: "EVs (keynote)"
@@ -43,10 +42,10 @@ export const speakersList = [
     {
         image: vimalBastin,
         speakerName: "Vimal Bastin Edwin Joseph",
-        topic: "Keynote speaker",
-        shortDescription: "",
+        topic: "RAN AI",
+        shortDescription: "A distinguished technology leader and innovator, currently serving as a Director at Samsung R&D. His expertise spans the critical domains of electronics, software, and networking, where he drives strategic research and development initiatives for next-generation products. A prolific innovator, he holds 5+ patents and has contributed to the field with 3+ publications.",
         linkedin: "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
-        eventName: "Keynote"
+        eventName: "RAN AI"
     },
     {
         image: rajathKumarS,
@@ -56,14 +55,7 @@ export const speakersList = [
         linkedin: "https://www.linkedin.com/in/rajathkumarks/",
         eventName: "AI agent workshop"
     },
-    {
-        image: niteshPrasad,
-        speakerName: "Nitesh Prasad",
-        topic: "Building Real Impact: Tech, Careers & Entrepreneurship in the AI Age",
-        shortDescription: "Managing Director – LeanMultiverse | SAFe® SPC | Ex-Microsoft & PwC | Driving Enterprise & Company Transformation through SAFe® | Trainer (Scrum Master, Product Owner, Leading SAFe®) | PMP | CSM | MCT AI. Nitesh Prasad, known as Corporate Wala Youtuber, is a Microsoft-Certified AI Trainer and career strategist who has mentored thousands of young professionals. With experience at PwC and leading tech initiatives, he empowers students to navigate the modern job landscape and build impactful AI-driven careers.",
-        linkedin: "https://www.linkedin.com/in/nitesh-prasad-safe/",
-        eventName: "panel discussion"
-    },
+    
     {
         image: anishKumar,
         speakerName: "Anish Kumar",
@@ -103,7 +95,7 @@ export const speakersList = [
         topic: "Algorithms to Alpha: Coding Excellence, Google Engineering, and 7-Figure Trading",
         shortDescription: "Software Engineer II - @Google | 7-figure FnO Trader | Candidate Master @Codeforces | Angel Investor | Ex - Microsoft. Anish De is a Software Engineer II at Google and a 7-figure Futures & Options trader, combining competitive programming excellence with real-world engineering. A Codeforces Candidate Master and AIR 3 in Google CodeJam 2023, he previously worked at Microsoft, LeetCode, and Media.net, and is also an active angel investor mentoring emerging tech talent.",
         linkedin: "https://www.linkedin.com/in/anish-de-1b090a193/",
-        eventName: "Software/General Tech"
+        eventName: "APIs"
     },
     {
         image: akshayJoshi,
@@ -132,7 +124,7 @@ export const speakersList = [
     {
         image: sandeshJayarama,
         speakerName: "Sandesh Jayarama",
-        topic: "Entrepreneurship & New Business Strategy",
+        topic: "Entrepreneurship Talk",
         shortDescription: "SVP – New Business Initiatives & Strategy at Perfios. Former McKinsey consultant with deep experience in fintech, digital banking & enterprise architecture.",
         linkedin: "https://www.linkedin.com/in/sandeshj?utm_source=share_via&utm_content=profile&utm_medium=member_android",
         eventName: "Entrepreneurship"
@@ -153,37 +145,39 @@ export const speakersList = [
         linkedin: "https://in.linkedin.com/in/dr-kunal-saxena-975527106?utm_source=share&utm_medium=member_mweb&utm_campaign=share_via&utm_content=profile",
         eventName: "Data Driven Digital Marketing"
     },
+    
     {
-        image: hrishikeshHaritas,
-        speakerName: "Hrishikesh Haritas",
-        topic: "Explainable AI & Federated Learning",
-        shortDescription: "Research Associate at IISc working on Explainable AI, Federated Learning & GNNs. BE in AI & ML with strong research background in transparent & privacy-preserving AI systems.",
+        image: gauravPathak,
+        speakerName: "Gaurav Pathak",
+        topic: "Topic TBD",
+        shortDescription: "Speaker details coming soon.",
         linkedin: "",
-        eventName: "AI Research"
+        eventName: "TBD"
     },
-    // {
-    //     image: gauravPathak,
-    //     speakerName: "Gaurav Pathak",
-    //     topic: "Topic TBD",
-    //     shortDescription: "Speaker details coming soon.",
-    //     linkedin: "",
-    //     eventName: "TBD"
-    // },
     {
         image: prasadChitt,
         speakerName: "Prasad Chitta",
-        topic: "BFSI Industry Perspective of Responsible AI",
+        topic: "Adaptive AI Visionary & Award-Winning Leader in Decision Intelligence and Enterprise Transformation",
         shortDescription: "Adaptive AI Visionary & Award-Winning Leader in Decision Intelligence and Enterprise Transformation. A visionary AI leader with three decades of excellence driving innovation across BFSI, energy, and utilities. He blends scientific rigor, design thinking, and strategic AI adoption to transform operations and unlock enterprise value.",
         linkedin: "",
-        eventName: "BFSI Industry Perspective of Responsible AI"
+        eventName: "BFSI"
     },
     {
         image: sreenivasaRamanujamJ,
-        speakerName: "Sreenivasa Ramanujam Kanduri",
-        topic: "Industry Expectations from Young Engineers",
+        speakerName: "Dr. Sreenivasa Ramanujam Kanduri",
+        topic: "What Industry Expects from Young Engineers",
         shortDescription: "Dean - Training & Placements at Ramaiah Institute of Technology, Bangalore. A seasoned talent and capability development leader with 20+ years at TCS across roles in technical delivery, academic collaboration, workforce management, and cloud integration. Now serving as Dean of Training & Placements at MSRIT, he drives industry-ready skill development and large-scale employability transformation.",
         linkedin: "",
-        eventName: "Industry Expectations from Young Engineers"
+        eventName: "Career and Placements Guidance"
+    },
+    {
+        image: rakshitPrabhakar,
+        speakerName: "Rakshit Prabhakar",
+        topic: "Hack the Future: An Introduction and Career Guide to Cybersecurity",
+        shortDescription: "A cybersecurity leader with close to 7 years in the industry, actively protecting organizations and mentoring aspiring professionals. Currently with Forcepoint, previously with Trellix (McAfee). An investor in promising startups and growth-focused companies with a passion for travel that inspires global perspectives in technology and business.",
+        email: "rakshit1383@gmail.com",
+        linkedin: "",
+        eventName: "Careers in CY"
     }
 ];
 
