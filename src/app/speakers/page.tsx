@@ -19,7 +19,8 @@ import {
     sreenivasaRamanujamJ,
     vimalBastin,
     drKunalSaxena,
-    rakshitPrabhakar
+    rakshitPrabhakar,
+    hrishikeshHaritas
 } from "@/assets/speakers";
 
 export const speakersList = [
@@ -145,7 +146,13 @@ export const speakersList = [
         linkedin: "https://in.linkedin.com/in/dr-kunal-saxena-975527106?utm_source=share&utm_medium=member_mweb&utm_campaign=share_via&utm_content=profile",
         eventName: "Data Driven Digital Marketing"
     },
-    
+    {
+        image: hrishikeshHaritas,
+        speakerName: "Hrishikesh Haritas",
+        topic: "Explainable AI & Federated Learning",
+        shortDescription: "Research Associate at IISc working on Explainable AI, Federated Learning & GNNs. BE in AI & ML with strong research background in transparent & privacy-preserving AI systems.",
+        eventName: "AI Research",
+    },
     {
         image: gauravPathak,
         speakerName: "Gaurav Pathak",
