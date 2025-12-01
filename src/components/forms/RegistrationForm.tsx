@@ -205,6 +205,26 @@ export default function RegistrationForm({ registrationType, couponCode: initial
     }
   }, [emailValue, couponCode, registrationType, referralOrg])
 
+  // Additional validation: If referral is present and coupon is provided, ensure they're compatible
+  useEffect(() => {
+    if (referralOrg && referralOrg.trim() && initialCouponCode && initialCouponCode.trim()) {
+      // Validate the coupon against the referral organization immediately
+      if (emailValue && emailValue.trim()) {
+        validateCoupon(initialCouponCode)
+      }
+    }
+  }, [referralOrg, initialCouponCode, emailValue, registrationType])
+
+  // Show warning if referral is present but no coupon code is provided
+  useEffect(() => {
+    if (referralOrg && referralOrg.trim() && !initialCouponCode && emailValue && emailValue.trim()) {
+      // Check if there might be organization-specific coupons available
+      // This is a gentle reminder - not a validation error
+      setCouponMessage(`Referral from ${referralOrg} detected. Consider checking for organization-specific coupon codes.`)
+      setIsCouponValid(null)
+    }
+  }, [referralOrg, initialCouponCode, emailValue])
+
   // Updated onSubmit function in your RegistrationForm component
   // Replace the entire onSubmit function with this:
 
@@ -217,6 +237,18 @@ export default function RegistrationForm({ registrationType, couponCode: initial
     if (!data.paymentScreenshot) {
       toast.error('Please upload a payment screenshot')
       return
+    }
+
+    // Additional validation: If referral is present and coupon is provided, ensure coupon is valid
+    if (referralOrg && referralOrg.trim() && data.couponCode && data.couponCode.trim()) {
+      if (isCouponValid === false) {
+        toast.error('Invalid coupon code for this referral organization. Please check your coupon code.')
+        return
+      }
+      if (isCouponValid === null) {
+        toast.error('Please wait for coupon validation to complete')
+        return
+      }
     }
 
     setButtonState('loading')

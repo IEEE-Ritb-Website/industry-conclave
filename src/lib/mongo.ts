@@ -245,7 +245,7 @@ export const validateCouponCode = async (couponCode: string, registrationType: R
       }
       
       if (!coupon.referralType.includes(referralOrg.toLowerCase())) {
-        return { valid: false, error: 'This coupon code is not valid for this organization' }
+        return { valid: false, error: `This coupon code is only valid for: ${coupon.referralType.join(', ')}. Current referral: ${referralOrg}` }
       }
     }
     
