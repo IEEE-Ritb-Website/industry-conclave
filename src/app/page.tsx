@@ -10,7 +10,6 @@ import TracksSection from '@/sections/landing/tracks'
 import Heading from '@/components/shared/heading'
 import SpeakerHighlights from '@/sections/landing/speaker-highlights'
 
-
 export default function HomePage() {
   return (
     <>
@@ -19,15 +18,7 @@ export default function HomePage() {
       <InfiniteMovingLogos />
       <SpeakerHighlights />
       <AboutSection />
-      {/* <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-        <Threads
-          amplitude={1}
-          distance={0}
-          enableMouseInteraction={true}
-        />
-      </div> */}
       <TracksSection />
-      {/* <AgendaSection /> */}
       <TimelineSection />
       <ContactSection />
       <FAQSection />

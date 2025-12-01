@@ -2,6 +2,8 @@ import Image from "next/image";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import TrackLabel from "./ui/track-label-badge";
+import { MessageSquare, PinIcon } from "lucide-react";
 
 interface SessionCardProps {
     image: string;
@@ -12,6 +14,7 @@ interface SessionCardProps {
     linkedin?: string;
     eventName: string;
     coordinator?: string;
+    track?: "software" | "hardware" | "general";
 }
 
 export default function SessionCard({
@@ -23,22 +26,42 @@ export default function SessionCard({
     linkedin,
     eventName,
     coordinator,
+    track,
 }: SessionCardProps) {
+    const getTopicColor = () => {
+        switch (track) {
+            case "software": return "blue-400";
+            case "hardware": return "green-400";
+            case "general": return "purple-400";
+            default: return "blue-400";
+        }
+    };
+
     return (
         <HoverBorderGradient
-            containerClassName="rounded-2xl w-full h-full"
-            className="
+            containerClassName="rounded-2xl w-full h-full relative"
+            className={`
                 flex 
                 flex-col 
                 h-full 
                 min-h-0
                 w-full
-                p-4 
+                p-6 
                 gap-3
                 bg-neutral-950/70
                 rounded-2xl
-            "
+            `}
         >
+            {/* Track Label - Top Right */}
+            {track && (
+                <div className="absolute top-3 right-3 z-10">
+                    <TrackLabel track={track} />
+                </div>
+            )}
+
+            {/* Topic - Enhanced with Track Color and Talk Icon */}
+            <PinIcon size={20} className={`text-${getTopicColor()}`} />
+
             {/* Speaker Image */}
             <div className="w-full flex justify-center">
                 <Image
@@ -55,13 +78,8 @@ export default function SessionCard({
                 {speakerName}
             </h3>
 
-            {/* Topic */}
-            <p className="text-blue-400 text-center font-medium">
-                {topic}
-            </p>
-
             {/* Short Description */}
-            <p className="text-neutral-400 line-clamp-4 leading-relaxed min-h-0">
+            <p className="text-neutral-400 line-clamp-4 leading-relaxed min-h-0 grow">
                 {shortDescription}
             </p>
 
@@ -79,11 +97,17 @@ export default function SessionCard({
                 </p>
             )}
 
+
+            <p className={`font-medium leading-tight text-${getTopicColor()}`}>
+                {topic}
+            </p>
+
             {/* Contact Buttons */}
             <div className="flex items-center justify-center gap-3 mt-auto pt-2">
                 {email && (
                     <Button
                         asChild
+                        size="sm"
                     >
                         <Link href={`mailto:${email}`}>Email</Link>
                     </Button>
@@ -92,6 +116,7 @@ export default function SessionCard({
                 {linkedin && (
                     <Button
                         asChild
+                        size="sm"
                     >
                         <Link href={linkedin} target="_blank">LinkedIn</Link>
                     </Button>

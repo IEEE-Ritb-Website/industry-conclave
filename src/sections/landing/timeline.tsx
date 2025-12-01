@@ -3,6 +3,10 @@
 import Heading from "@/components/shared/heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Timeline } from "@/components/ui/timeline";
+import SpeakerProfile from "@/components/ui/speaker-profile";
+import TrackLabel from "@/components/ui/track-label";
+import { MapPin, Clock, Trophy } from "lucide-react";
+import * as speakerImages from "@/assets/speakers";
 
 export default function TimelineSection() {
     const data = {
@@ -11,24 +15,43 @@ export default function TimelineSection() {
                 title: "09:30 AM",
                 content: (
                     <div>
-                        <h3 className="text-2xl md:text-4xl font-bold dark:text-neutral-100 mb-8">5 December 2025</h3>
+                        <h3 className="text-2xl md:text-4xl font-bold dark:text-neutral-100 mb-8">
+                            5 December 2025
+                        </h3>
+
                         <p className="mb-5 text-neutral-400">
-                            <strong>Inauguration & Keynote Speeches</strong>
+                            <strong>Keynote Speeches</strong> (9:30 AM – 11:30 AM)
                         </p>
-                        {/* <p className="mb-5 text-neutral-400">
-                            Speakers: Prashant Mishra, Dr. Anjani <br />
-                            Venue: ESB Seminar Hall 1
-                        </p> */}
-                    </div>
-                ),
-            },
-            {
-                title: "11:30 AM",
-                content: (
-                    <div>
-                        <p className="mb-5 text-2xl text-neutral-400">
-                            <strong>Tea Break</strong> (11:30 AM – 12:00 PM)
-                        </p>
+
+                        <ul className="space-y-6">
+                            <li>
+                                <SpeakerProfile
+                                    name="Dr. Prasant Misra"
+                                    imageSrc={speakerImages.prasantMisra}
+                                />
+                                <p className="text-neutral-300">
+                                    Decision Making in Electric Vehicles & The Future of Smart Mobility
+                                </p>
+                                <div className="flex items-center gap-2 mt-2 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall-I</span>
+                                </div>
+                            </li>
+
+                            <li>
+                                <SpeakerProfile
+                                    name="Vimal Bastin Edwin Joseph"
+                                    imageSrc={speakerImages.vimalBastin}
+                                />
+                                <p className="text-neutral-300">
+                                    RANtelligence: AI-Powered Radio Access Network – Opportunities & Challenges
+                                </p>
+                                <div className="flex items-center gap-2 mt-2 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall-I</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 ),
             },
@@ -37,143 +60,284 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Parallel Sessions</strong>
+                            <strong>Parallel Sessions</strong> (12:00 PM – 1:00 PM)
                         </p>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
+                        <ul className="space-y-6 text-neutral-400">
+
+                            {/* SOFTWARE */}
                             <li>
-                                <strong>Software Track:</strong> Ramesh Naidu <br />
-                                Venue: DES Hi-Tech Seminar Hall
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Ramesh Naidu Laveti"
+                                    imageSrc={speakerImages.rameshNaiduLaveti}
+                                />
+                                <p className="text-neutral-300">
+                                    Trustworthy and Secure AI: Building Safe Systems for the Future
+                                </p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <MapPin size={16} />
+                                    <span>DES Hi-Tech Seminar Hall</span>
+                                </div>
                             </li>
+
+                            {/* HARDWARE */}
                             <li>
-                                <strong>General Track:</strong> Placement Coordinator Talk <br />
-                                Venue: ESB Seminar Hall 2
+                                <TrackLabel className="mb-4" track="Hardware" />
+                                <SpeakerProfile
+                                    name="Dr. Anjani Priyadarshini"
+                                    imageSrc={speakerImages.drAnjaniPriyadarshini}
+                                />
+                                <p className="text-neutral-300">Quantum AI: Computing Beyond Limits</p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
                             </li>
+
+                            {/* GENERAL */}
                             <li>
-                                <strong>Hardware Track:</strong> Siddanth S. Iyer <br />
-                                Time: 12:00 PM – 1:00 PM
+                                <TrackLabel className="mb-4" track="General" />
+                                <SpeakerProfile
+                                    name="Sreenivasa Ramanujam Kanduri"
+                                    imageSrc={speakerImages.sreenivasaRamanujamJ}
+                                />
+                                <p className="text-neutral-300">Industry Expectation from Young Engineers</p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 2</span>
+                                </div>
                             </li>
-                        </ul> */}
+                        </ul>
                     </div>
                 ),
             },
+
             {
                 title: "01:00 PM",
                 content: (
-                    <div>
-                        <p className="text-xl md:text-3xl mb-5 text-neutral-400">
-                            <strong>Lunch Break</strong> (1:00 PM – 2:00 PM)
-                        </p>
-                    </div>
+                    <p className="text-xl md:text-3xl text-neutral-400">
+                        <strong>Lunch Break</strong> (1:00 PM – 2:00 PM)
+                    </p>
                 ),
             },
+
             {
                 title: "02:00 PM",
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Afternoon Sessions</strong>
+                            <strong>Afternoon Sessions</strong> (2:00 PM – 3:00 PM)
                         </p>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
+                        <ul className="space-y-6">
+
+                            {/* SOFTWARE */}
                             <li>
-                                <strong>Software Track:</strong> Sourav <br />
-                                Venue: ESB Seminar Hall 1
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile name="Sourav K" imageSrc="/api/placeholder/40/40" />
+                                <p className="text-neutral-300">
+                                    The Tech Behind Real-Time Multiplayer Gameplay
+                                </p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
                             </li>
+
+                            {/* HARDWARE */}
                             <li>
-                                <strong>General Track:</strong> Entrepreneurship Talk <br />
-                                Venue: ESB Seminar Hall 2
+                                <TrackLabel className="mb-4" track="Hardware" />
+                                <SpeakerProfile
+                                    name="Ayan S R"
+                                    imageSrc={speakerImages.ayanS}
+                                />
+                                <p className="text-neutral-300">ROS2 & Intelligent Robotics</p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>DES Hi-Tech Seminar Hall</span>
+                                </div>
                             </li>
+
+                            {/* GENERAL */}
                             <li>
-                                <strong>Hardware Track:</strong> ROS2 Talk <br />
-                                Time: 2–3 PM, Venue: DES
+                                <TrackLabel className="mb-4" track="General" />
+                                <SpeakerProfile
+                                    name="Sandesh Jayarama"
+                                    imageSrc={speakerImages.sandeshJayarama}
+                                />
+                                <p className="text-neutral-300">Identifying Opportunities in Entrepreneurship</p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>DES Hi-Tech Seminar Hall</span>
+                                </div>
                             </li>
+
+                            {/* ORBITER */}
                             <li>
-                                <strong>General Activity:</strong> Tech Detective <br />
-                                Time: 2–5 PM, Venue: CSE-AIML Lab ESB
+                                <TrackLabel className="mb-4" track="General" />
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Trophy size={16} className="text-yellow-500" />
+                                    <span className="text-yellow-500 font-semibold">Orbiter Odyssey Challenge</span>
+                                </div>
+                                <p className="text-neutral-300">Technical Challenge</p>
+                                <div className="flex items-center gap-2 text-neutral-400 mt-1">
+                                    <Clock size={16} />
+                                    <span>2:00 PM – 5:00 PM</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-neutral-400 mt-1">
+                                    <Trophy size={16} />
+                                    <span>Prize Pool: ₹10K</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-neutral-400 mt-1">
+                                    <MapPin size={16} />
+                                    <span>CSE-AIML Lab ESB</span>
+                                </div>
                             </li>
-                        </ul> */}
+                        </ul>
                     </div>
                 ),
             },
+
             {
                 title: "03:00 PM",
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Evening Session</strong>
+                            <strong>Evening Sessions</strong> (3:00 PM – 4:00 PM)
                         </p>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
-                            <li>
-                                <strong>General:</strong> BFSI – Prasad Chitta (Venue: DES)
-                            </li>
-                            <li>
-                                <strong>Software:</strong> Data in Digital Marketing
-                            </li>
-                            <li>
-                                <strong>Hardware:</strong> IoT Talk
-                            </li>
-                        </ul> */}
-                    </div>
-                ),
-            },
-            {
-                title: "04:00 PM",
-                content: (
-                    <div>
-                        <p className="mb-5 text-neutral-400">
-                            <strong>Ending Session</strong>
-                        </p>
+                        <ul className="space-y-6">
 
-                        {/* <ul className="text-neutral-400 space-y-3">
+                            {/* SOFTWARE */}
                             <li>
-                                <strong>Software:</strong> Hrishikesh
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Dr. Kunal Saxena"
+                                    imageSrc={speakerImages.drKunalSaxena}
+                                />
+                                <p className="text-neutral-300">
+                                    Data-Driven Digital Marketing: Strategies for the AI-Powered Era
+                                </p>
+                                <div className="flex items-center gap-2 text-neutral-400 mt-1">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
                             </li>
+
+                            {/* HARDWARE */}
                             <li>
-                                <strong>Hardware:</strong> Hardware Session
+                                <TrackLabel className="mb-4" track="Hardware" />
+                                <SpeakerProfile
+                                    name="Vyshak TM"
+                                    imageSrc={speakerImages.vyshakTm}
+                                />
+                                <p className="text-neutral-300">
+                                    The Convergent Chain: Building IoT-Driven, API-Powered Supply Chain Intelligence
+                                </p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
                             </li>
+
+                            {/* GENERAL */}
                             <li>
-                                <strong>General:</strong> Gaurav Pathak
+                                <TrackLabel className="mb-4" track="General" />
+                                <SpeakerProfile
+                                    name="Prasad Chitta"
+                                    imageSrc={speakerImages.prasadChitt}
+                                />
+                                <p className="text-neutral-300">
+                                    BFSI Industry Perspective of Responsible AI
+                                </p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>DES Hi-Tech Seminar Hall</span>
+                                </div>
                             </li>
-                        </ul> */}
+                        </ul>
                     </div>
                 ),
             },
         ],
-
         day2: [
             {
                 title: "10:00 AM",
                 content: (
                     <div>
-                        <h3 className="text-2xl md:text-4xl font-bold dark:text-neutral-100 mb-8">6 December 2025</h3>
+                        <h3 className="text-2xl md:text-4xl font-bold dark:text-neutral-100 mb-8">
+                            6 December 2025
+                        </h3>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
-                            <li>
-                                <strong>Software Track:</strong> Cyber Security <br />
-                                Venue: ESB Seminar Hall 1
-                            </li>
-                            <li>
-                                <strong>General:</strong> AI Debate <br />
-                                Time: 10 AM – 12 PM, Venue: ESB Seminar Hall 2
-                            </li>
-                            <li>
-                                <strong>Hardware:</strong> SoC Talk <br />
-                                Venue: DES Seminar Hall
-                            </li>
-                        </ul> */}
-                    </div>
-                ),
-            },
-
-            {
-                title: "11:00 AM",
-                content: (
-                    <div>
-                        <p className="mb-5 text-2xl text-neutral-400">
-                            <strong>Tea Break</strong> (11:00 AM – 11:30 AM)
+                        <p className="mb-5 text-neutral-400">
+                            <strong>Parallel Sessions</strong>
                         </p>
+
+                        <ul className="space-y-6 text-neutral-400">
+
+                            {/* SOFTWARE */}
+                            <li>
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Dr. Jayaprakash Govindaraj"
+                                    imageSrc={speakerImages.drJayaprakash}
+                                />
+                                <p className="text-neutral-300">
+                                    Cybersecurity & AI: Defending the Digital Future
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <Clock size={16} />
+                                    <span>10:00 AM – 11:00 AM</span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
+                            </li>
+
+                            {/* HARDWARE */}
+                            <li>
+                                <TrackLabel className="mb-4" track="Hardware" />
+                                <SpeakerProfile
+                                    name="Shashank N"
+                                    imageSrc={speakerImages.shashankN}
+                                />
+                                <p className="text-neutral-300">
+                                    Inside the Silicon: Modern VLSI & SoC Architecture
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <Clock size={16} />
+                                    <span>10:00 AM – 11:00 AM</span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
+                            </li>
+
+                            {/* GENERAL */}
+                            <li>
+                                <TrackLabel className="mb-4" track="General" />
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Trophy size={16} className="text-yellow-500" />
+                                    <span className="text-yellow-500 font-semibold">The Great AI Debate</span>
+                                </div>
+                                <p className="text-neutral-300">Student Debate Competition</p>
+                                <div className="flex items-center gap-2">
+                                    <Clock size={16} />
+                                    <span>10:00 AM – 12:00 PM</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Trophy size={16} />
+                                    <span>Prize Pool: ₹10K</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 ),
             },
@@ -183,35 +347,53 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Midday Sessions</strong>
+                            <strong>Midday Sessions</strong> (11:30 AM – 12:30 PM)
                         </p>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
+                        <ul className="space-y-6 text-neutral-400">
+
+                            {/* SOFTWARE */}
                             <li>
-                                <strong>Software:</strong> Gen AI – HCL Tech <br />
-                                Venue: ESB Seminar Hall 1
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Anish Kumar"
+                                    imageSrc={speakerImages.anishKumar}
+                                />
+                                <p className="text-neutral-300">
+                                    Generative AI: Architecting the Next Wave of Intelligent Systems
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
                             </li>
+
+                            {/* HARDWARE */}
                             <li>
-                                <strong>Hardware:</strong> Session TBA <br />
-                                Venue: ESB Seminar Hall 2
+                                <TrackLabel className="mb-4" track="Hardware" />
+                                <SpeakerProfile
+                                    name="Dr. Swetha Amit"
+                                    imageSrc={speakerImages.drSwetha}
+                                />
+                                <p className="text-neutral-300">
+                                    Bio Wearables and Antennas
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
                             </li>
-                            <li>
-                                <strong>General:</strong> Session TBA <br />
-                                Venue: DES Seminar Hall
-                            </li>
-                        </ul> */}
+                        </ul>
                     </div>
                 ),
             },
 
             {
-                title: "12:30 PM",
+                title: "01:00 PM",
                 content: (
-                    <div>
-                        <p className="text-xl md:text-3xl mb-5 text-neutral-400">
-                            <strong>Lunch Break</strong> (12:30 PM – 1:30 PM)
-                        </p>
-                    </div>
+                    <p className="text-xl md:text-3xl mb-5 text-neutral-400">
+                        <strong>Lunch Break</strong> (1:00 PM – 2:00 PM)
+                    </p>
                 ),
             },
 
@@ -220,31 +402,71 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Afternoon Workshops & Sessions</strong>
+                            <strong>Workshops & Parallel Sessions</strong>
                         </p>
 
-                        {/* <ul className="text-neutral-400 space-y-3">
+                        <ul className="space-y-6">
+
+                            {/* SOFTWARE */}
                             <li>
-                                <strong>Software:</strong> API Session <br />
-                                Venue: ESB Seminar Hall 2
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Anish De"
+                                    imageSrc={speakerImages.anishDe}
+                                />
+                                <p className="text-neutral-300">
+                                    Algorithms to Alpha: Coding Excellence, Google Engineering & 7-Figure Trading
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <Clock size={16} />
+                                    <span>1:30 PM – 2:30 PM</span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
                             </li>
+
+                            {/* AGENTIC WORKSHOP */}
                             <li>
-                                <strong>Hardware:</strong> Session TBA <br />
-                                Venue: ESB Seminar Hall 1
+                                <TrackLabel className="mb-4" track="Workshop" />
+                                <SpeakerProfile
+                                    name="Rajath Kumar K S"
+                                    imageSrc={speakerImages.rajathKumarS}
+                                />
+                                <p className="text-neutral-300">
+                                    Building Intelligent AI Agents: From Concepts to Deployment with N8N
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <Clock size={16} />
+                                    <span>1:30 PM – 3:30 PM</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={16} />
+                                    <span>LHC Seminar Hall 1</span>
+                                </div>
                             </li>
+
+                            {/* HEALTHCARE WORKSHOP */}
                             <li>
-                                <strong>General:</strong> General Session <br />
-                                Venue: DES Seminar Hall
+                                <TrackLabel className="mb-4" track="Workshop" />
+                                <SpeakerProfile
+                                    name="Monica Shityalkar"
+                                    imageSrc={speakerImages.monicaShityalkar}
+                                />
+                                <p className="text-neutral-300">
+                                    AI in Healthcare: Predictive Modeling & Diagnostics (Hands-On Lab)
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <Clock size={16} />
+                                    <span>1:30 PM – 3:30 PM</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
                             </li>
-                            <li>
-                                <strong>Software Workshop:</strong> AI Agent Workshop <br />
-                                Time: 1:30–3:30 PM, Venue: LHC Seminar Hall 1
-                            </li>
-                            <li>
-                                <strong>General Workshop:</strong> AI in Healthcare Workshop <br />
-                                Time: 1:30–3:30 PM, Venue: ISE Lab 1 & 2
-                            </li>
-                        </ul> */}
+                        </ul>
                     </div>
                 ),
             },
@@ -254,12 +476,43 @@ export default function TimelineSection() {
                 content: (
                     <div>
                         <p className="mb-5 text-neutral-400">
-                            <strong>Software Track:</strong> AIML Talk <br />
-                            {/* Venue: ESB Seminar Hall 1 */}
+                            <strong>Afternoon Sessions</strong> (2:30 PM – 3:30 PM)
                         </p>
-                        {/* <p className="mb-5 text-neutral-400">
-                            <strong>Hardware Session:</strong> TBA
-                        </p> */}
+
+                        <ul className="space-y-6">
+
+                            {/* SOFTWARE */}
+                            <li>
+                                <TrackLabel className="mb-4" track="Software" />
+                                <SpeakerProfile
+                                    name="Akshay Joshi"
+                                    imageSrc={speakerImages.akshayJoshi}
+                                />
+                                <p className="text-neutral-300">
+                                    The MLOps Manager: Scaling Data Science from Algorithms to Enterprise Value
+                                </p>
+                                <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                                    <MapPin size={16} />
+                                    <span>ESB Seminar Hall 1</span>
+                                </div>
+                            </li>
+
+                            {/* GENERAL */}
+                            <li>
+                                <TrackLabel className="mb-4" track="General" />
+                                <SpeakerProfile
+                                    name="Rakshit Prabhakar"
+                                    imageSrc={speakerImages.rakshitPrabhakar}
+                                />
+                                <p className="text-neutral-300">
+                                    Hack the Future: Introduction & Career Guide to Cybersecurity
+                                </p>
+                                <div className="flex items-center gap-2 text-neutral-400 mt-1">
+                                    <MapPin size={16} />
+                                    <span>Venue TBA</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 ),
             },
@@ -271,10 +524,15 @@ export default function TimelineSection() {
                         <p className="mb-5 text-neutral-400">
                             <strong>Panel Discussion</strong> (3:30 PM – 5:00 PM)
                         </p>
-                        {/* <p className="mb-5 text-neutral-400">
-                            Venue: ESB Seminar Hall 1 <br />
-                            Track: General
-                        </p> */}
+                        <SpeakerProfile
+                            name="Nitesh Kumar"
+                            imageSrc={speakerImages.niteshPrasad}
+                        />
+                        <p className="text-neutral-300">Young Engineers & Emerging Tech Panel</p>
+                        <div className="flex items-center gap-2 mt-1 text-neutral-400">
+                            <MapPin size={16} />
+                            <span>Venue TBA</span>
+                        </div>
                     </div>
                 ),
             },

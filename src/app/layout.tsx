@@ -6,12 +6,13 @@ import ToastProvider from '@/components/shared/ToastProvider'
 import Footer from '@/components/footer'
 import { cn } from '@/lib/utils'
 import TopNotification from '@/components/shared/top-notification'
+import { CONFIG } from '@/configs/config'
 
 const poppins = Poppins({ weight: ['400', '500', '600'], subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Industry Conclave 2025 - IEEE',
-  description: 'Join industry leaders and tech innovators at premier technology conference featuring workshops, keynotes, and networking opportunities.',
+  title: CONFIG.name + " | " + CONFIG.headline,
+  description: CONFIG.longDescription,
 }
 
 export default function RootLayout({

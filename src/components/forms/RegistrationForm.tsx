@@ -15,9 +15,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Loader2, Calendar, MapPin, Users, CheckCircle } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { Loader2, Calendar, MapPin, Users, CheckCircle, Sparkles, Zap } from 'lucide-react'
 
 import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
@@ -191,12 +193,17 @@ export default function RegistrationForm({ registrationType, couponCode: initial
   const emailValue = watch('email')
   useEffect(() => {
     if (initialCouponCode && initialCouponCode.trim()) {
-      // Only validate coupon if email is provided
-      if (emailValue && emailValue.trim()) {
+      console.log('🎯 URL coupon detected:', initialCouponCode)
+      
+      // Validate immediately regardless of email availability
+      // Backend will handle validFor logic appropriately
+      const timeoutId = setTimeout(() => {
         validateCoupon(initialCouponCode)
-      }
+      }, 500)
+      
+      return () => clearTimeout(timeoutId)
     }
-  }, [initialCouponCode, registrationType, referralOrg, emailValue])
+  }, [initialCouponCode, registrationType, referralOrg])
 
   // Re-validate coupon when email changes if coupon is already set
   useEffect(() => {
@@ -377,7 +384,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
           {/* Registration Form */}
           <HoverBorderGradient containerClassName="rounded-xl w-full"
             className="rounded-2xl w-full p-0 text-left">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-900/20">
               <CardHeader>
                 <CardTitle>Registration Details</CardTitle>
                 <CardDescription>
@@ -472,7 +479,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                   )}
 
                   <div className="space-y-2">
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-900/50">
                       <input
                         type="checkbox"
                         id="attendingWorkshop"
@@ -480,10 +487,10 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                         className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                       />
                       <div className="flex-1">
-                        <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-gray-900 cursor-pointer">
+                        <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-gray-50 cursor-pointer">
                           I want to attend the workshop
                         </Label>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-100 mt-1">
                           Check this if you want to participate in hands-on workshops
                         </p>
                       </div>
@@ -559,8 +566,8 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       </div>
                     </div>
                     {discountedPrice < config.discountPrice && (
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-2 mb-2">
-                        <p className="text-sm text-green-700">
+                      <div className="bg-green-500/30 border border-green-600 rounded-lg p-2 mb-2">
+                        <p className="text-sm text-green-400">
                           Coupon applied! You saved ₹{config.discountPrice - discountedPrice}
                         </p>
                       </div>

@@ -25,11 +25,6 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#agenda" className="hover:text-foreground transition-colors">
-                                    Agenda
-                                </Link>
-                            </li>
-                            <li>
                                 <Link href="#timeline" className="hover:text-foreground transition-colors">
                                     Timeline
                                 </Link>

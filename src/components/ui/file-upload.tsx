@@ -57,7 +57,7 @@ export default function FileUpload({ onFileSelect, onFileRemove, selectedFile, e
         <div
           className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
             dragActive
-              ? 'border-blue-400 bg-blue-50'
+              ? 'border-blue-400'
               : error
               ? 'border-red-400 bg-red-50'
               : 'border-gray-300 hover:border-gray-400'
@@ -89,16 +89,16 @@ export default function FileUpload({ onFileSelect, onFileRemove, selectedFile, e
           </div>
         </div>
       ) : (
-        <div className="relative border rounded-lg p-4 bg-gray-50">
+        <div className="relative border rounded-lg p-4 bg-blue-500/10">
           <div className="flex items-center space-x-3">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <ImageIcon className="w-8 h-8 text-gray-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-sm font-medium text-gray-50 truncate">
                 {selectedFile.name}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-200">
                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>

@@ -15,10 +15,6 @@ export default function Nav() {
       link: "/speakers",
     },
     {
-      name: "Agenda",
-      link: "/#agenda",
-    },
-    {
       name: "FAQ",
       link: "/#faq",
     },

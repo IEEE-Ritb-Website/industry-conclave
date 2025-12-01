@@ -1,71 +1,68 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { speakersList } from "@/app/speakers/page";
+import { speakersList } from "@/data/speakers-data";
 import Heading from "@/components/shared/heading";
 import { CONFIG } from "@/configs/config";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image, { StaticImageData } from "next/image";
+
+interface SpeakerCardProps {
+    image: StaticImageData | string;
+    speakerName: string;
+    topic: string;
+    shortDescription: string;
+    email?: string;
+    linkedin?: string;
+    eventName: string;
+    track?: string;
+}
+
+function SpeakerCard({ speaker }: { speaker: SpeakerCardProps }) {
+    const getTopicColor = () => {
+        switch (speaker.track) {
+            case "software": return "blue-400";
+            case "hardware": return "green-400";
+            case "general": return "purple-400";
+            default: return "blue-400";
+        }
+    };
+
+    return (
+        <Link href={`/speakers?track=${speaker.track}`}>
+            <HoverBorderGradient
+                containerClassName="rounded-2xl relative p-2 w-full h-full min-h-[150px] cursor-pointer group transition-all duration-300 overflow-hidden"
+            >
+                {/* Speaker Image - Full Width on Hover */}
+                <Image
+                    src={speaker.image}
+                    alt={speaker.speakerName}
+                    fill
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+            </HoverBorderGradient>
+
+            {/* Speaker Name - Below Image on Hover */}
+            <div className="text-center mt-2">
+                <h3 className="text-lg font-semibold text-white transition-all duration-300 group-hover:text-blue-400">
+                    {speaker.speakerName}
+                </h3>
+            </div>
+        </Link>
+    );
+}
 
 export default function SpeakerHighlights() {
     const topSpeakers = speakersList.slice(0, 5);
-    const router = useRouter();
 
     return (
         <div className="py-20 relative px-4 sm:px-6 lg:px-8">
-            <Heading title="Top Speakers" subtitle={`These are our top Speakers at ${CONFIG.name}`} />
-            <div className="
-        grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 
-        gap-6 max-w-6xl mx-auto mt-6
-      ">
+            <Heading title="Top Speakers" subtitle={`These are our top speakers at ${CONFIG.name}`} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto mt-6">
                 {topSpeakers.map((speaker, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: i * 0.08 }}
-                    >
-                        <Card
-                            className="
-                bg-white/10 backdrop-blur-xl border-white/20 
-                p-4 rounded-2xl text-center shadow-lg 
-                hover:shadow-xl hover:bg-white/20 
-                transition-all duration-300 cursor-pointer h-full
-                group
-              "
-                        >
-                            <div className="relative w-28 h-28 mx-auto mb-4">
-                                <Image
-                                    src={speaker.image}
-                                    alt={speaker.speakerName}
-                                    fill
-                                    className="object-cover rounded-full border-2 border-white/30 
-                             group-hover:border-white/60 transition"
-                                />
-                            </div>
-
-                            <h3 className="text-lg font-semibold text-white">
-                                {speaker.speakerName}
-                            </h3>
-
-                            <p className="text-sm text-white/70 mt-1 leading-tight">
-                                {speaker.topic}
-                            </p>
-                        </Card>
-                    </motion.div>
+                    <div key={i} className="animate-in fade-in slide-in-from-bottom duration-500" style={{ animationDelay: `${i * 100}ms` }}>
+                        <SpeakerCard speaker={speaker} />
+                    </div>
                 ))}
-            </div>
-            <div className="flex items-center justify-center mt-6">
-                <HoverBorderGradient
-                    containerClassName="rounded-full"
-                    as="button"
-                    className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
-                    onClick={() => router.push("/speakers")}
-                >
-                    Explore Speakers
-                </HoverBorderGradient>
             </div>
         </div>
     );

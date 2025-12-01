@@ -3,8 +3,9 @@ import { Github, Linkedin, Instagram, Link, Facebook, BookOpen, Users, Building,
 export const CONFIG = {
     name: 'IEEE CIS Industry Conclave 2025',
     headline: "Deploying the future, today 🚀",
-    brochureLink: "https://drive.google.com/file/d/1zIPdUFcOgBadxQfOFtlbFot5M2tM0ngk/view?usp=drivesdk",
+    brochureLink: "https://drive.google.com/file/d/1QYhLXy2zMDNHA3IFc7SIMQwTSIACI4dW/view?usp=drivesdk",
     shortDescription: 'Gain Industry Insights and Network with Professionals at Industry Conclave 2025',
+    longDescription: "The IEEE CIS Industry Conclave 2025 is a transformative two-day experience designed to bring students, engineers, innovators, and industry leaders under one roof. With expert-led sessions, hands-on workshops, leadership panels, and powerful networking opportunities, this conclave stands as one of the most impactful industry–academia bridges of the year.",
     eventDetails: {
         dates: "5-6 December 2025",
         day1: "5 December",

@@ -1,4 +1,4 @@
-import { speakersList } from "@/app/speakers/page";
+import { speakersList } from "@/data/speakers-data";
 import { Button } from "@/components/ui/button";
 import BlurText from "@/components/ui/reactbits/blur-text";
 import PixelBlast from "@/components/ui/reactbits/pixel-blast";

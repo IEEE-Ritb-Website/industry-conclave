@@ -1,23 +1,35 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 
-const TopNotification = () => {
-  const [open, setOpen] = useState(true);
-  const pathname = usePathname();
-  const initialPath = useRef(pathname); // stores the pathname at first load
+const EXCLUDED_ROUTES = ["/success"];
 
+const TopNotification = () => {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const lastPath = useRef(pathname);
+  const hasShown = useRef(false);
+
+  // Show only on the first page load (unless excluded route)
   useEffect(() => {
-    // Only close if route changes AFTER initial render
-    if (pathname !== initialPath.current) {
-      setOpen(false);
+    if (!hasShown.current && !EXCLUDED_ROUTES.includes(pathname)) {
+      hasShown.current = true;
+      setOpen(true);
     }
   }, [pathname]);
 
-  if (!open) return null;
+  // CLOSE when route changes (works reliably)
+  useEffect(() => {
+    if (pathname !== lastPath.current) {
+      setOpen(false);
+    }
+    lastPath.current = pathname; // update after comparing
+  }, [pathname]);
+
+  if (!open || EXCLUDED_ROUTES.includes(pathname)) return null;
 
   return (
     <motion.div

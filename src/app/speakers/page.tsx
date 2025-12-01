@@ -1,213 +1,115 @@
+"use client";
+
 import SessionCard from "@/components/session-card";
 import Heading from "@/components/shared/heading";
-import {
-    prasantMisra,
-    drAnjaniPriyadarshini,
-    vyshakTm,
-    rameshNaiduLaveti,
-    sandeshJayarama,
-    ayanS,
-    akshayJoshi,
-    anishDe,
-    anishKumar,
-    monicaShityalkar,
-    rajathKumarS,
-    drJayaprakash,
-    gauravPathak,
-    prasadChitt,
-    shashank1811,
-    sreenivasaRamanujamJ,
-    vimalBastin,
-    drKunalSaxena,
-    rakshitPrabhakar,
-    hrishikeshHaritas
-} from "@/assets/speakers";
-
-export const speakersList = [
-    {
-        image: prasantMisra,
-        speakerName: "Dr. Prasant Misra",
-        topic: "Decision Making in Electrical Vehicles and the future of Smart Mobility",
-        shortDescription: "Senior Scientist @ TCS Research | Visiting Faculty @ CPS/IISc | ACM Distinguished Speaker | MIT TR35 India | Marie Curie (ERCIM AB) Fellow | AusAID Australian Leadership Awards. Dr. Prasant Misra is a Senior Scientist at TCS Research and Visiting Faculty at IISc, specializing in Optimization and Operations Research for intelligent CPS, EVs, Smart Mobility, and IoT. An ACM Distinguished Speaker and TR35 India awardee, he is a recognized leader shaping Smart City policy and currently serves as Chair-Elect of the IEEE Bangalore Section.",
-        linkedin: "https://www.linkedin.com/in/prasantmisra/",
-        eventName: "EVs (keynote)"
-    },
-    {
-        image: drAnjaniPriyadarshini,
-        speakerName: "Dr. Anjani Priyadarshini",
-        topic: "Quantum AI: Computing Beyond Classical Limits",
-        shortDescription: "Quantum Computing Lead at AWS India and a PhD holder in High Energy Physics from IISc. An expert in computational mathematics and theoretical physics, she drives the adoption of quantum technologies and shapes policy frameworks for the quantum ecosystem in India.",
-        linkedin: "https://www.linkedin.com/in/dr-anjani-priyadarsini?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-        eventName: "QuantumAI"
-    },
-    {
-        image: vimalBastin,
-        speakerName: "Vimal Bastin Edwin Joseph",
-        topic: "RAN AI",
-        shortDescription: "A distinguished technology leader and innovator, currently serving as a Director at Samsung R&D. His expertise spans the critical domains of electronics, software, and networking, where he drives strategic research and development initiatives for next-generation products. A prolific innovator, he holds 5+ patents and has contributed to the field with 3+ publications.",
-        linkedin: "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
-        eventName: "RAN AI"
-    },
-    {
-        image: rajathKumarS,
-        speakerName: "Rajath Kumar K S",
-        topic: "Building Intelligent AI Agents: From Concepts to Deployment",
-        shortDescription: "Founder @ AnalogData.ai | GenAI & AI Architect | Scaling LLM, RAG & Automation Platforms | Delivering Enterprise-Grade AI Education | Corporate Trainer | Python · Flutter/Android · FastAPI · Django. Rajath Kumar K S is the Founder of AnalogData.ai and an AI Architect with deep expertise in scalable GenAI, LLM, and RAG systems. With 10+ years across AI, backend, and mobile development, he builds enterprise-grade AI solutions and delivers practical, industry-focused AI training.",
-        linkedin: "https://www.linkedin.com/in/rajathkumarks/",
-        eventName: "AI agent workshop"
-    },
-    
-    {
-        image: anishKumar,
-        speakerName: "Anish Kumar",
-        topic: "Generative AI: Architecting the Next Wave of Intelligent Systems",
-        shortDescription: "AI Software Engineering Leader, | Generative AI Architect | Hardware Optimized AI ML | Agentic AI | LLM | Mobile | Cloud. Associate Director at HCLTech specializing in Generative AI, Agentic AI, and Large Language Models, with deep expertise in hardware-optimized AI/ML from his leadership role at Intel.",
-        linkedin: "https://www.linkedin.com/in/anishkumarvk?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-        eventName: "GEN AI"
-    },
-    {
-        image: drJayaprakash,
-        speakerName: "Dr. Jayaprakash Govindaraj",
-        topic: "Cybersecurity & AI: Defending the Digital Future",
-        shortDescription: "Senior Product Security Leader - India Site, Jeppesen ForeFlight. Dr. Jayaprakash G. is a Senior Product Security Leader at Boeing with 17+ years of expertise across AI security, cloud security, product protection, and enterprise cybersecurity. A CISSP- and CISM-certified researcher, speaker, and mentor, he has led end-to-end security programs, authored patents, and advanced global cybersecurity awareness.",
-        linkedin: "https://www.linkedin.com/in/dr-jayaprakash-g-0489aa5/",
-        eventName: "Cybersecurity in AI"
-    },
-    {
-        image: shashank1811,
-        speakerName: "Shashank N",
-        topic: "Inside the Silicon: Modern VLSI & SoC Architecture",
-        shortDescription: "Senior Engineer @ ARM | Ex-Samsung | SOC Architecture | Performance Analysis & Verification. Shashank is a Performance Analysis Engineer at ARM, working on next-generation cloud and AI data center SoCs. Previously at Samsung Semiconductor, he contributed to Exynos Mobile and Auto SoC performance architecture, with interests in system architecture, AI accelerators, and AI-driven computing.",
-        email: "nshashank7@gmail.com",
-        linkedin: "https://www.linkedin.com/in/shashank-n-a4a78314a/",
-        eventName: "VLSI SoC"
-    },
-    {
-        image: monicaShityalkar,
-        speakerName: "Monica Shityalkar",
-        topic: "AI in Healthcare: Hands-On Lab in Predictive Modeling & Diagnostics",
-        shortDescription: "Engineering Manager – Digital Healthcare | Biomedical Engineer | 13+ Years in MedTech & Embedded Systems | Healthcare R&D | PGDHM & MBA | Driving AI-Powered Healthcare Innovation. Monica Shityalkar is a biomedical expert specializing in the transformative use of AI in healthcare. She has served as a resource person for industry workshops, bringing insights into diagnostic enhancement, patient monitoring, personalized treatment, and AI-driven solutions such as medical image interpretation and predictive healthcare modeling.",
-        linkedin: "https://www.linkedin.com/in/monica-shityalkar/",
-        eventName: "AI in Healthcare"
-    },
-    {
-        image: anishDe,
-        speakerName: "Anish De",
-        topic: "Algorithms to Alpha: Coding Excellence, Google Engineering, and 7-Figure Trading",
-        shortDescription: "Software Engineer II - @Google | 7-figure FnO Trader | Candidate Master @Codeforces | Angel Investor | Ex - Microsoft. Anish De is a Software Engineer II at Google and a 7-figure Futures & Options trader, combining competitive programming excellence with real-world engineering. A Codeforces Candidate Master and AIR 3 in Google CodeJam 2023, he previously worked at Microsoft, LeetCode, and Media.net, and is also an active angel investor mentoring emerging tech talent.",
-        linkedin: "https://www.linkedin.com/in/anish-de-1b090a193/",
-        eventName: "APIs"
-    },
-    {
-        image: akshayJoshi,
-        speakerName: "Akshay Joshi",
-        topic: "The MLOps Manager: Scaling Data Science from Algorithms to Enterprise Value",
-        shortDescription: "Driving AI/ML Innovation | Technical Manager – Data Science at Mico | IIM Ahmedabad Certified. A Technical Manager specializing in Data Science with 9+ years of experience delivering AI/ML solutions across banking, consulting, and automotive domains, currently leading data science initiatives at Mico. With deep expertise in technical leadership, deep learning, and MLOps, he holds a patent in automotive engineering and a General Management certification from IIM Ahmedabad.",
-        linkedin: "https://www.linkedin.com/in/iimakshayjoshi/",
-        eventName: "Data Analytics"
-    },
-    {
-        image: vyshakTm,
-        speakerName: "Vyshak T M",
-        topic: "The Convergent Chain: Building IoT-Driven, API-Powered Supply Chain Intelligence",
-        shortDescription: "Supply Chain Analyst | IoT & API Developer | Building Intelligent, Data-Driven Logistics Systems. Priyanshu is a Supply Chain Management and API Developer specializing in IoT and Supply Chain Intelligence, blending tech, philosophy, and astrophysics in his work. Based in Bengaluru, he's an active community builder with a strong professional network across engineering, AI/ML, and IoT.",
-        linkedin: "https://www.linkedin.com/in/vyshaktm180903/",
-        eventName: "IOt & AI"
-    },
-    {
-        image: rameshNaiduLaveti,
-        speakerName: "Ramesh Naidu Laveti",
-        topic: "Trustworthy and Secure AI: Building Safe Systems for the Future",
-        shortDescription: "Associate Director/Scientist-F @ C-DAC R&D [AI for Health/AI Security/AI4CS/AIOPs/AI4Fintech]. Ramesh Naidu Laveti, Associate Director/Scientist-F at C-DAC, specializes in AI for Health, Security, and HPC-driven analytics. He is known for developing parallel math libraries and hybrid ML systems, inspiring teams to apply algorithms for impactful real-world solutions.",
-        linkedin: "https://www.linkedin.com/in/rameshnl/",
-        eventName: "Secure AI Systems"
-    },
-    {
-        image: sandeshJayarama,
-        speakerName: "Sandesh Jayarama",
-        topic: "Entrepreneurship Talk",
-        shortDescription: "SVP – New Business Initiatives & Strategy at Perfios. Former McKinsey consultant with deep experience in fintech, digital banking & enterprise architecture.",
-        linkedin: "https://www.linkedin.com/in/sandeshj?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-        eventName: "Entrepreneurship"
-    },
-    {
-        image: ayanS,
-        speakerName: "Ayan S.R.",
-        topic: "ROS2 & Intelligent Robotics",
-        shortDescription: "Founder of Katidhan, Shark Tank India S3. Builds scalable sustainable robotics & IoT systems. Innovation strategist across design, engineering & business.",
-        linkedin: "https://www.linkedin.com/in/ayansr/",
-        eventName: "ROS2"
-    },
-    {
-        image: drKunalSaxena,
-        speakerName: "Dr. Kunal Saxena",
-        topic: "Data-Driven Digital Marketing: Strategies for the AI-Powered Era",
-        shortDescription: "Global Digital Marketing Leader with 17+ years experience. Works with Google on AI & Maps. Speaker at NASA, Harvard, MIT, IITs, and IIMs.",
-        linkedin: "https://in.linkedin.com/in/dr-kunal-saxena-975527106?utm_source=share&utm_medium=member_mweb&utm_campaign=share_via&utm_content=profile",
-        eventName: "Data Driven Digital Marketing"
-    },
-    {
-        image: hrishikeshHaritas,
-        speakerName: "Hrishikesh Haritas",
-        topic: "Explainable AI & Federated Learning",
-        shortDescription: "Research Associate at IISc working on Explainable AI, Federated Learning & GNNs. BE in AI & ML with strong research background in transparent & privacy-preserving AI systems.",
-        eventName: "AI Research",
-    },
-    {
-        image: gauravPathak,
-        speakerName: "Gaurav Pathak",
-        topic: "Topic TBD",
-        shortDescription: "Speaker details coming soon.",
-        linkedin: "",
-        eventName: "TBD"
-    },
-    {
-        image: prasadChitt,
-        speakerName: "Prasad Chitta",
-        topic: "Adaptive AI Visionary & Award-Winning Leader in Decision Intelligence and Enterprise Transformation",
-        shortDescription: "Adaptive AI Visionary & Award-Winning Leader in Decision Intelligence and Enterprise Transformation. A visionary AI leader with three decades of excellence driving innovation across BFSI, energy, and utilities. He blends scientific rigor, design thinking, and strategic AI adoption to transform operations and unlock enterprise value.",
-        linkedin: "",
-        eventName: "BFSI"
-    },
-    {
-        image: sreenivasaRamanujamJ,
-        speakerName: "Dr. Sreenivasa Ramanujam Kanduri",
-        topic: "What Industry Expects from Young Engineers",
-        shortDescription: "Dean - Training & Placements at Ramaiah Institute of Technology, Bangalore. A seasoned talent and capability development leader with 20+ years at TCS across roles in technical delivery, academic collaboration, workforce management, and cloud integration. Now serving as Dean of Training & Placements at MSRIT, he drives industry-ready skill development and large-scale employability transformation.",
-        linkedin: "",
-        eventName: "Career and Placements Guidance"
-    },
-    {
-        image: rakshitPrabhakar,
-        speakerName: "Rakshit Prabhakar",
-        topic: "Hack the Future: An Introduction and Career Guide to Cybersecurity",
-        shortDescription: "A cybersecurity leader with close to 7 years in the industry, actively protecting organizations and mentoring aspiring professionals. Currently with Forcepoint, previously with Trellix (McAfee). An investor in promising startups and growth-focused companies with a passion for travel that inspires global perspectives in technology and business.",
-        email: "rakshit1383@gmail.com",
-        linkedin: "",
-        eventName: "Careers in CY"
-    }
-];
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Cpu, CircuitBoard, Sparkles, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { speakersList } from "@/data/speakers-data";
 
 export default function SpeakersPage() {
-    const speakers = speakersList;
-    
+    const searchParams = useSearchParams();
+    const [activeTab, setActiveTab] = useState("all");
+
+    const tracks = [
+        { id: "all", name: "All Speakers", icon: Users, color: "from-violet-500/20 to-violet-600/20" },
+        { id: "software", name: "Software Track", icon: Cpu, color: "from-blue-500/20 to-blue-600/20" },
+        { id: "hardware", name: "Hardware Track", icon: CircuitBoard, color: "from-green-500/20 to-green-600/20" },
+        { id: "general", name: "General Track", icon: Sparkles, color: "from-purple-500/20 to-purple-600/20" }
+    ];
+
+    // Set initial tab based on URL params and update URL when tab changes
+    useEffect(() => {
+        const trackParam = searchParams.get('track');
+        if (trackParam && ['software', 'hardware', 'general'].includes(trackParam)) {
+            setActiveTab(trackParam);
+        }
+    }, [searchParams]);
+
+    // Update URL when tab changes
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        if (activeTab !== 'all') {
+            url.searchParams.set('track', activeTab);
+            window.history.replaceState(null, '', url.toString());
+        } else {
+            url.searchParams.delete('track');
+            window.history.replaceState(null, '', url.toString());
+        }
+    }, [activeTab]);
+
+    const filteredSpeakers = activeTab === "all"
+        ? speakersList
+        : speakersList.filter(speaker => speaker.track === activeTab);
+
     return (
         <div className="py-24 relative px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 <Heading
                     title='Speakers'
                     subtitle="Know who are our speakers at IEEE CIS Industry Conclave"
                 />
 
-                <div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-6"
-                >
-                    {speakers.map((session: any, index: number) => (
-                        <div key={`session-${index}`} className={``}>
-                            <SessionCard {...session} />
+                {/* Enhanced Track Filter Tabs */}
+                <div className="mt-8 mb-8">
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                        <TabsList className="flex w-full overflow-x-auto bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl py-2 gap-1">
+                            {tracks.map((track) => {
+                                const Icon = track.icon;
+                                return (
+                                    <TabsTrigger
+                                        key={track.id}
+                                        value={track.id}
+                                        className={`
+                                            relative flex items-center gap-2 px-3 py-2.5 rounded-lg
+                                            transition-all duration-300 ease-out hover:shadow-lg
+                                            data-[state=active]:bg-gradient-to-r ${track.color}
+                                            data-[state=active]:text-white
+                                            data-[state=inactive]:hover:bg-gradient-to-r ${track.color}
+                                            data-[state=inactive]:hover:text-white
+                                            group py-4
+                                            whitespace-nowrap
+                                        `}
+                                    >
+                                        <div className="relative z-10 flex items-center gap-2">
+                                            <Icon size={16} className="transition-transform duration-300 group-hover:rotate-12" />
+                                            <span className="hidden md:inline font-medium text-sm">{track.name}</span>
+                                            <span className="md:hidden font-medium text-sm">{track.name.split(' ')[0]}</span>
+                                        </div>
+                                    </TabsTrigger>
+                                );
+                            })}
+                        </TabsList>
+                    </Tabs>
+                </div>
+
+                {/* Enhanced Speaker Count */}
+                <div className="mb-6 text-muted-foreground flex items-center gap-2">
+                    {activeTab === "all"
+                        ? `Showing all ${speakersList.length} speakers`
+                        : `Showing ${filteredSpeakers.length} speakers in ${tracks.find(t => t.id === activeTab)?.name}`
+                    }
+                </div>
+
+                {/* Speakers Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredSpeakers.map((speaker: any, index: number) => (
+                        <div key={`speaker-${index}`} className="animate-in fade-in slide-in-from-bottom duration-500" style={{ animationDelay: `${index * 100}ms` }}>
+                            <SessionCard {...speaker} />
                         </div>
                     ))}
                 </div>
+
+                {/* Enhanced No Speakers Found */}
+                {filteredSpeakers.length === 0 && (
+                    <div className="text-center py-12">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/20 rounded-full">
+                            <Sparkles size={16} className="text-muted-foreground" />
+                            <p className="text-muted-foreground">No speakers found in this track.</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

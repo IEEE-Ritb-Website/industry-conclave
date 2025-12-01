@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { CONFIG } from "@/configs/config";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export default function CTASection() {
@@ -27,7 +28,7 @@ export default function CTASection() {
                     </Link>
                 </Button>
                 <Button variant={"outline"} asChild className="w-full sm:w-auto">
-                    <Link href={"/#timeline"}>View Brochure</Link>
+                    <Link href={CONFIG.brochureLink} target="_blank" className="flex items-center gap-2">Get Brochure <ArrowUpRight className="w-4 h-4" /></Link>
                 </Button>
             </div>
         </div>

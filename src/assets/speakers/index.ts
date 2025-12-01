@@ -20,3 +20,4 @@ export { default as hrishikeshHaritas } from "./hrishikesh_haritas.jpeg";
 export { default as vimalBastin } from "./vimal_bastin.jpeg";
 export { default as drKunalSaxena } from "./dr_kunal_saxena.jpeg";
 export { default as rakshitPrabhakar } from "./rakshit_prabhakar.jpeg";
+export { default as drSwetha } from "./dr_swetha.jpeg";
