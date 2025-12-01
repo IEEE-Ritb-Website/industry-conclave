@@ -353,6 +353,14 @@ export const sendConfirmationEmail = async (email: string, name: string, registr
         <li>Carry a valid ID proof for verification</li>
       </ul>
 
+      <p>Find event brochure at 
+        <a href="conclave.ritb.in">conclave.ritb.in</a>
+      </p>
+
+      <p>See the event timeline
+        <a href="https://conclave.ritb.in/#timeline">Timeline</a>
+      </p>
+
       <p>Have any questions? Reach out to us at  
         <a href="mailto:${CONFIG.profile.email}">${CONFIG.profile.email}</a>
       </p>
