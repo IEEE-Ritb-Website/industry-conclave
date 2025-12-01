@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Download, Search, Filter, Users, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Download, Search, Users, CheckCircle, XCircle, Clock, Eye, Loader2, Mail } from 'lucide-react'
 import { RegistrationTypes, RegistrationPricing } from '@/types'
+import Image from 'next/image'
+import { toast } from 'sonner'
 
 interface Registration {
   id: string
@@ -18,6 +21,7 @@ interface Registration {
   ieeeMemberId?: string
   organizationName?: string
   isPaymentCompleted: boolean
+  confirmationSent?: boolean
   createdAt: string
   updatedAt?: string
   paymentScreenshot?: string
@@ -37,8 +41,12 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<Registration[]>([])
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'pending'>('all')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'pending'>('success')
   const [loading, setLoading] = useState(false)
+  const [imageLoading, setImageLoading] = useState<string | null>(null)
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
+  const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null)
+  const [sendingConfirmation, setSendingConfirmation] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -104,6 +112,7 @@ export default function AdminPage() {
         ieeeMemberId: r.ieeeMemberId,
         organizationName: r.organizationName,
         isPaymentCompleted: r.isPaymentCompleted,
+        confirmationSent: r.confirmationSent || false,
         createdAt: r.createdAt,
         updatedAt: r.updatedAt,
         paymentScreenshot: r.paymentScreenshot,
@@ -164,6 +173,53 @@ export default function AdminPage() {
     a.download = `registrations_${new Date().toISOString().split('T')[0]}.csv`
     a.click()
     window.URL.revokeObjectURL(url)
+  }
+
+  const handleSendConfirmation = async (registration: Registration) => {
+    setSelectedRegistration(registration)
+    setConfirmationDialogOpen(true)
+  }
+
+  const confirmSendConfirmation = async () => {
+    if (!selectedRegistration) return
+
+    setSendingConfirmation(true)
+    try {
+      const response = await fetch('/api/admin/send-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          registrationId: selectedRegistration.id
+        })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        toast.success('Confirmation email sent successfully!')
+        
+        // Update the registration in the local state
+        setRegistrations(prev => 
+          prev.map(reg => 
+            reg.id === selectedRegistration.id 
+              ? { ...reg, confirmationSent: true }
+              : reg
+          )
+        )
+        
+        setConfirmationDialogOpen(false)
+        setSelectedRegistration(null)
+      } else {
+        toast.error(data.error || 'Failed to send confirmation email')
+      }
+    } catch (error) {
+      console.error('Error sending confirmation:', error)
+      toast.error('Failed to send confirmation email')
+    } finally {
+      setSendingConfirmation(false)
+    }
   }
 
   console.log(registrations)
@@ -347,6 +403,7 @@ export default function AdminPage() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
+                      <th className="text-left py-3 px-4">Actions</th>
                       <th className="text-left py-3 px-4">Name</th>
                       <th className="text-left py-3 px-4">Email</th>
                       <th className="text-left py-3 px-4">College/Org</th>
@@ -355,25 +412,45 @@ export default function AdminPage() {
                       <th className="text-left py-3 px-4">Workshop</th>
                       <th className="text-left py-3 px-4">IEEE ID</th>
                       <th className="text-left py-3 px-4">Payment Status</th>
-                      <th className="text-left py-3 px-4">Completed</th>
                       <th className="text-left py-3 px-4">Amount</th>
-                      <th className="text-left py-3 px-4">Order ID</th>
+                      <th className="text-left py-3 px-4">Registration ID</th>
                       <th className="text-left py-3 px-4">Payment Proof</th>
-                      <th className="text-left py-3 px-4">Created</th>
-                      <th className="text-left py-3 px-4">Updated</th>
+                      <th className="text-left py-3 px-4">Registered at</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredRegistrations.map((registration) => (
                       <tr key={registration.id} className="border-b">
+                        <td className="py-3 px-4">
+                          {registration.isPaymentCompleted && !registration.confirmationSent ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleSendConfirmation(registration)}
+                              className="text-xs"
+                            >
+                              <Mail className="w-3 h-3 mr-1" />
+                              Send Confirmation
+                            </Button>
+                          ) : registration.confirmationSent ? (
+                            <span className="text-green-600 text-xs font-medium">
+                              <CheckCircle className="w-3 h-3 inline mr-1" />
+                              Sent
+                            </span>
+                          ) : (
+                            <span className="text-gray-400 text-xs">-</span>
+                          )}
+                        </td>
                         <td className="py-3 px-4 font-medium">{registration.fullName}</td>
                         <td className="py-3 px-4">{registration.email}</td>
                         <td className="py-3 px-4">{registration.college}</td>
                         <td className="py-3 px-4">{registration.phone}</td>
                         <td className="py-3 px-4">
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {registration.registrationType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
-                          </span>
+                          <Input 
+                            value={registration.registrationType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
+                            disabled
+                            className="text-xs w-auto"
+                          />
                         </td>
                         <td className="py-3 px-4">
                           {registration.attendingWorkshop ? (
@@ -403,38 +480,55 @@ export default function AdminPage() {
                             )}
                           </span>
                         </td>
-                        <td className="py-3 px-4">
-                          {registration.isPaymentCompleted ? (
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                          ) : (
-                            <XCircle className="w-4 h-4 text-red-600" />
-                          )}
-                        </td>
                         <td className="py-3 px-4">₹{registration.payments[0]?.amount || 0}</td>
                         <td className="py-3 px-4 text-xs font-mono">
-                          {registration.payments[0]?.razorpayOrderId ? registration.payments[0].razorpayOrderId.slice(-8) : '-'}
+                          {registration.id ? registration.id.slice(-8) : '-'}
                         </td>
                         <td className="py-3 px-4">
                           {registration.paymentScreenshot ? (
-                            <a
-                              href={registration.paymentScreenshot}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800 underline text-sm inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 transition-colors"
-                              title="View payment screenshot"
-                            >
-                              <Download className="w-3 h-3" />
-                              View Screenshot
-                            </a>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button variant="outline" size="sm" className="text-xs">
+                                  <Eye className="w-3 h-3 mr-1" />
+                                  View Proof
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-4xl">
+                                <DialogHeader>
+                                  <DialogTitle>Payment Screenshot</DialogTitle>
+                                </DialogHeader>
+                                <div className="flex justify-center relative">
+                                  {imageLoading === registration.paymentScreenshot && (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <Loader2 className="w-8 h-8 animate-spin" />
+                                    </div>
+                                  )}
+                                  <Image 
+                                    src={registration.paymentScreenshot} 
+                                    alt="Payment Screenshot" 
+                                    height={1500}
+                                    width={1500}
+                                    className="max-w-full max-h-[80vh] object-contain"
+                                    onLoad={() => setImageLoading(null)}
+                                    onError={() => setImageLoading(null)}
+                                    onLoadStart={() => setImageLoading(registration.paymentScreenshot || null)}
+                                  />
+                                </div>
+                              </DialogContent>
+                            </Dialog>
                           ) : (
                             <span className="text-gray-400 text-sm">No screenshot</span>
                           )}
                         </td>
                         <td className="py-3 px-4 text-sm">
-                          {new Date(registration.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className="py-3 px-4 text-sm">
-                          {registration.updatedAt ? new Date(registration.updatedAt).toLocaleDateString() : '-'}
+                          {new Date(registration.createdAt).toLocaleDateString('en-US', { 
+                            day: 'numeric', 
+                            month: 'short', 
+                            year: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}
                         </td>
                       </tr>
                     ))}
@@ -449,6 +543,48 @@ export default function AdminPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* Confirmation Dialog */}
+        <Dialog open={confirmationDialogOpen} onOpenChange={setConfirmationDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Send Confirmation Email</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="mb-4">
+                Are you sure you want to send a confirmation email to <strong>{selectedRegistration?.fullName}</strong> ({selectedRegistration?.email})?
+              </p>
+              <p className="text-sm text-gray-600 mb-4">
+                Please make sure you have verified the payment details before sending the confirmation.
+              </p>
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setConfirmationDialogOpen(false)
+                    setSelectedRegistration(null)
+                  }}
+                  disabled={sendingConfirmation}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={confirmSendConfirmation}
+                  disabled={sendingConfirmation}
+                >
+                  {sendingConfirmation ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Confirmation'
+                  )}
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

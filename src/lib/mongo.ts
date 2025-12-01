@@ -12,6 +12,7 @@ type RegistrationDoc = {
   ieeeMemberId?: string
   attendingWorkshop: boolean
   isPaymentCompleted: boolean
+  confirmationSent?: boolean
   howDidYouHearAboutUs?: string
   paymentScreenshot?: string
   couponCode?: string
@@ -187,6 +188,22 @@ export const setRegistrationPaymentCompleted = async (id: string) => {
     return result
   } catch (error) {
     console.error('Error in setRegistrationPaymentCompleted:', error)
+    throw error
+  }
+}
+
+export const setConfirmationSent = async (id: string): Promise<boolean> => {
+  try {
+    const regCol = await registrationsCollection()
+    const obj = new ObjectId(id)
+    const now = new Date()
+    const result = await regCol.updateOne(
+      { _id: obj },
+      { $set: { confirmationSent: true, updatedAt: now } }
+    )
+    return result.modifiedCount > 0
+  } catch (error) {
+    console.error('Error in setConfirmationSent:', error)
     throw error
   }
 }

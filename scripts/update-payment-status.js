@@ -22,7 +22,7 @@ async function updatePaymentStatus() {
     // First, let's find documents that match our criteria
     const matchingDocs = await registrationsCollection.find({
       paymentScreenshot: { $exists: true, $ne: null, $ne: "" },
-      // isPaymentCompleted: false
+      isPaymentCompleted: false
     }).toArray();
     
     console.log(`Found ${matchingDocs.length} documents with paymentScreenshot`);
@@ -31,22 +31,22 @@ async function updatePaymentStatus() {
     if (matchingDocs.length > 0) {
       console.log('All documents with paymentScreenshot:');
       matchingDocs.forEach((doc, index) => {
-        console.log(`${index + 1}. Email: ${doc.email}, isPaymentCompleted: ${doc.isPaymentCompleted}, Created: ${doc.createdAt}`);
+        console.log(`${index + 1}. Email: ${doc.email}, isPaymentCompleted: ${doc.isPaymentCompleted}, Screenshot: ${doc.paymentScreenshot}`);
       });
     }
     
     // Update all documents with paymentScreenshot defined but isPaymentCompleted is false
-    // const result = await registrationsCollection.updateMany(
-    //   {
-    //     paymentScreenshot: { $exists: true, $ne: null, $ne: "" },
-    //     isPaymentCompleted: false
-    //   },
-    //   {
-    //     $set: { isPaymentCompleted: true }
-    //   }
-    // );
+    const result = await registrationsCollection.updateMany(
+      {
+        paymentScreenshot: { $exists: true, $ne: null, $ne: "" },
+        isPaymentCompleted: false
+      },
+      {
+        $set: { isPaymentCompleted: true }
+      }
+    );
     
-    // console.log(`Updated ${result.modifiedCount} documents`);
+    console.log(`Updated ${result.modifiedCount} documents`);
     
   } catch (error) {
     console.error('Error updating payment status:', error);
