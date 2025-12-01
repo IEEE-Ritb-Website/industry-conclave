@@ -11,7 +11,7 @@ interface PaymentQRCodeProps {
 }
 
 export default function PaymentQRCode({ amount, upiId = "ravisagar1108-1@okaxis" }: PaymentQRCodeProps) {
-  const qrImageUrl = '/assets/payment/pay_qr.jpeg'
+  const qrImageUrl = '/payment/pay_qr.jpeg'
 
   const handleDownloadQR = () => {
     const link = document.createElement('a')
