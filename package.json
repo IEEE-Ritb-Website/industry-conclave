@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test:email": "tsx -r dotenv/config src/__test__/email.ts",
     "seed:coupons": "tsx -r dotenv/config scripts/seed-coupon-codes.js",
-    "prod:seed:coupons": "tsx -r dotenv/config scripts/seed-coupon-codes.prod.js"
+    "prod:seed:coupons": "tsx -r dotenv/config scripts/seed-coupon-codes.prod.js",
+    "prod:update:payment-status": "tsx -r dotenv/config scripts/update-payment-status.js"
   },
   "keywords": [
     "nextjs",
