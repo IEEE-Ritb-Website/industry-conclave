@@ -64,14 +64,10 @@ export default function AboutSection() {
     return (
         <section id="about" className="py-20 relative px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
-                <Heading 
-                    title='About Industry Conclave' 
-                    subtitle="Gain Real-World Insights. Learn from Leaders. Build Your Network. Unlock Your Future." 
+                <Heading
+                    title='About Industry Conclave'
+                    subtitle="Gain Real-World Insights. Learn from Leaders. Build Your Network. Unlock Your Future."
                 />
-
-                <p className="text-center text-muted-foreground max-w-4xl mx-auto mt-6 mb-12 leading-relaxed">
-                    {CONFIG.longDescription}
-                </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
                     {features.map((feature, index) => {
@@ -100,6 +96,10 @@ export default function AboutSection() {
                         )
                     })}
                 </div>
+
+                <p className="text-center text-muted-foreground max-w-4xl mx-auto mt-10 leading-relaxed">
+                    {CONFIG.longDescription}
+                </p>
             </div>
         </section>
     )

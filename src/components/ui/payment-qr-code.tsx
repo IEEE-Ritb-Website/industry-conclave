@@ -101,7 +101,7 @@ export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
               handleDownloadQR(qrUrl, fileName)
             }}
             size="sm"
-            className="absolute bottom-2 right-2 bg-gray-900/90 hover:bg-gray-800 text-gray-100 border border-gray-600 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute bottom-2 right-2 bg-gray-900/90 hover:bg-gray-800 text-gray-100 border border-gray-600 shadow-md md:opacity-0 md:group-hover:opacity-100 transition-opacity"
             title="Download QR Code"
           >
             <Download className="w-3 h-3" />
@@ -157,13 +157,11 @@ export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
         <Card className="border-gray-700 bg-linear-to-br from-blue-950/30 to-purple-950/30">
           <CardContent className="p-4 space-y-4">
             <h4 className="font-semibold text-sm text-blue-300 flex items-center space-x-2">
-              <Smartphone className="w-4 h-4" />
               <span>Pay Manually via UPI</span>
             </h4>
             <div className="space-y-3">
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-gray-900/50 rounded-lg p-3 border border-gray-700">
-                  <span className="text-sm font-medium text-gray-300">Axis Bank</span>
                   <div className="flex items-center space-x-2">
                     <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{axisUPI}</code>
                     <Button
@@ -177,7 +175,6 @@ export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
                   </div>
                 </div>
                 <div className="flex items-center justify-between bg-gray-900/50 rounded-lg p-3 border border-gray-700">
-                  <span className="text-sm font-medium text-gray-300">SBI Bank</span>
                   <div className="flex items-center space-x-2">
                     <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{sbiUPI}</code>
                     <Button

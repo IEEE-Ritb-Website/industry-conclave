@@ -54,7 +54,7 @@ export default function SpeakersContent() {
                 {/* Enhanced Track Filter Tabs */}
                 <div className="mt-8 mb-8">
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                        <TabsList className="flex w-full overflow-x-auto bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl py-2 gap-1">
+                        <TabsList className="flex flex-wrap sm:flex-nowrap h-auto w-full bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl gap-1">
                             {tracks.map((track) => {
                                 const Icon = track.icon;
                                 return (
@@ -62,7 +62,7 @@ export default function SpeakersContent() {
                                         key={track.id}
                                         value={track.id}
                                         className={`
-                                            relative flex items-center gap-2 px-3 py-2.5 rounded-lg
+                                            relative flex items-center gap-2 p-1 rounded-lg
                                             transition-all duration-300 ease-out hover:shadow-lg
                                             data-[state=active]:bg-gradient-to-r ${track.color}
                                             data-[state=active]:text-white
