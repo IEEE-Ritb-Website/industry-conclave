@@ -26,6 +26,7 @@ interface Registration {
   updatedAt?: string
   paymentScreenshot?: string
   paymentScreenshotUrl?: string
+  paymentScreenshotCid?: string
   couponCode?: string
   finalAmount?: number
   checkedIn?: boolean
@@ -128,7 +129,7 @@ export default function AdminPage() {
         updatedAt: r.updatedAt,
         paymentScreenshot: r.paymentScreenshot,
         paymentScreenshotUrl: r.paymentScreenshotUrl,
-        paymentScreenshotCid: r.paymentScreenshotCid,
+        paymentScreenshotCid: r.paymentScreenshotCid || '',
         couponCode: r.couponCode,
         finalAmount: r.finalAmount,
         checkedIn: r.checkedIn,
@@ -158,7 +159,13 @@ export default function AdminPage() {
   }
 
   const exportToCSV = () => {
-    const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 'Base Amount', 'Final Amount', 'Coupon Code', 'Checked In', 'Taken Lunch', 'Had Tea', 'Order ID', 'Payment ID', 'Screenshot URL', 'Created Date', 'Updated Date']
+    const headers = [
+      'ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 
+      'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 
+      'Base Amount', 'Final Amount', 'Coupon Code', 'Checked In', 'Taken Lunch', 'Had Tea', 
+      'Order ID', 'Payment ID', 'Screenshot URL', 'Screenshot CID', 
+      'Confirmation Sent', 'Created Date', 'Updated Date'
+    ]
     const csvContent = [
       headers.join(','),
       ...filteredRegistrations.map(reg => [
@@ -182,6 +189,8 @@ export default function AdminPage() {
         reg.payments[0]?.razorpayOrderId || '',
         reg.payments[0]?.razorpayPaymentId || '',
         reg.paymentScreenshotUrl || '',
+        reg.paymentScreenshotCid || '',
+        reg.confirmationSent ? 'Yes' : 'No',
         new Date(reg.createdAt).toLocaleDateString(),
         reg.updatedAt ? new Date(reg.updatedAt).toLocaleDateString() : ''
       ].join(','))
