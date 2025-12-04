@@ -14,6 +14,7 @@ export default function SpeakersContent() {
 
     const tracks = [
         { id: "all", name: "All Speakers", icon: Users, color: "from-violet-500/20 to-violet-600/20" },
+        { id: "keynote", name: "Keynote", icon: Sparkles, color: "from-yellow-500/20 to-yellow-600/20" },
         { id: "software", name: "Software Track", icon: Cpu, color: "from-blue-500/20 to-blue-600/20" },
         { id: "hardware", name: "Hardware Track", icon: CircuitBoard, color: "from-green-500/20 to-green-600/20" },
         { id: "general", name: "General Track", icon: Sparkles, color: "from-purple-500/20 to-purple-600/20" }
@@ -22,7 +23,7 @@ export default function SpeakersContent() {
     // Set initial tab based on URL params and update URL when tab changes
     useEffect(() => {
         const trackParam = searchParams.get('track');
-        if (trackParam && ['software', 'hardware', 'general'].includes(trackParam)) {
+        if (trackParam && ['keynote', 'software', 'hardware', 'general'].includes(trackParam)) {
             setActiveTab(trackParam);
         }
     }, [searchParams]);

@@ -21,3 +21,6 @@ export { default as vimalBastin } from "./vimal_bastin.jpeg";
 export { default as drKunalSaxena } from "./dr_kunal_saxena.jpeg";
 export { default as rakshitPrabhakar } from "./rakshit_prabhakar.jpeg";
 export { default as drSwetha } from "./dr_swetha.jpeg";
+export { default as sourav } from "./sourav.jpeg";
+export { default as vellankiSriharsha } from "./vellanki_sriharsha.jpeg";
+export { default as vishalRathod } from "./vishal_rathod.jpeg";

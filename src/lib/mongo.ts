@@ -18,6 +18,9 @@ type RegistrationDoc = {
   couponCode?: string
   referralOrg?: string
   finalAmount?: number
+  checkedIn?: boolean
+  takenLunch?: boolean
+  hadTea?: boolean
   createdAt?: Date
   updatedAt?: Date
 }
@@ -208,6 +211,29 @@ export const setConfirmationSent = async (id: string): Promise<boolean> => {
   }
 }
 
+export const setRegistrationCheckInStatus = async (id: string, action: string): Promise<{ modifiedCount: number }> => {
+  try {
+    const regCol = await registrationsCollection()
+    const obj = new ObjectId(id)
+    const now = new Date()
+    
+    // Validate action
+    const validActions = ['checkedIn', 'takenLunch', 'hadTea']
+    if (!validActions.includes(action)) {
+      throw new Error('Invalid action')
+    }
+
+    const result = await regCol.updateOne(
+      { _id: obj },
+      { $set: { [action]: true, updatedAt: now } }
+    )
+    return result
+  } catch (error) {
+    console.error('Error in setRegistrationCheckInStatus:', error)
+    throw error
+  }
+}
+
 export const getRegistrationForEmail = async (id: string) => {
   const regCol = await registrationsCollection()
   const reg = await regCol.findOne({ _id: new ObjectId(id) })
@@ -309,6 +335,7 @@ export const getRegistrationTypeNames = (): Record<RegistrationTypes, string> =>
     [RegistrationTypes.IEEE_PROFESSIONALS]: "IEEE Professional",
     [RegistrationTypes.IEEE_STUDENTS]: "IEEE Student",
     [RegistrationTypes.COLLEGE_STUDENTS]: "MSRIT Student",
+    [RegistrationTypes.COLLEGE_EXECOM]: "MSRIT Execom",
   }
 }
 

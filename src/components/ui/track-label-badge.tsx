@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Cpu, CircuitBoard, Sparkles } from "lucide-react";
 
 interface TrackLabelProps {
-  track: "software" | "hardware" | "general";
+  track: "software" | "hardware" | "general" | "keynote";
   className?: string;
 }
 
@@ -22,6 +22,11 @@ const trackConfig = {
   general: {
     color: "text-purple-600 dark:text-purple-400 border-purple-500",
     bg: "bg-purple-50 dark:bg-purple-950/30",
+    icon: Sparkles
+  },
+  keynote: {
+    color: "text-yellow-600 dark:text-yellow-400 border-yellow-500",
+    bg: "bg-yellow-50 dark:bg-yellow-950/30",
     icon: Sparkles
   }
 };

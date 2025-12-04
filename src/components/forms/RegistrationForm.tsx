@@ -17,9 +17,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { Loader2, Calendar, MapPin, Users, CheckCircle, Sparkles, Zap } from 'lucide-react'
+
+import { Loader2, Calendar, MapPin, Users, CheckCircle } from 'lucide-react'
 
 import Heading from '../shared/heading'
 import { CONFIG } from '@/configs/config'
@@ -67,27 +66,47 @@ export default function RegistrationForm({ registrationType, couponCode: initial
     }
   }
 
+  const getDefaultValues = () => {
+    const base = {
+      fullName: '',
+      email: '',
+      phone: '',
+      attendingWorkshop: false,
+      howDidYouHearAboutUs: '',
+      paymentScreenshot: '',
+      couponCode: '',
+      referralOrg: referralOrg || '',
+      finalAmount: config.discountPrice,
+    };
+
+    switch (registrationType) {
+      case RegistrationTypes.NON_IEEE_PROFESSIONALS:
+        return { ...base, registrationType, organizationName: '' };
+      case RegistrationTypes.NON_IEEE_STUDENTS:
+        return { ...base, registrationType, collegeName: '' };
+      case RegistrationTypes.IEEE_STUDENTS:
+        return { ...base, registrationType, collegeName: '', ieeeMemberId: '' };
+      case RegistrationTypes.IEEE_PROFESSIONALS:
+        return { ...base, registrationType, organizationName: '', ieeeMemberId: '' };
+      case RegistrationTypes.COLLEGE_STUDENTS:
+        return { ...base, registrationType, collegeName: '' };
+      case RegistrationTypes.COLLEGE_EXECOM:
+        return { ...base, registrationType, collegeName: '' };
+      default:
+        return { ...base, registrationType, collegeName: '' };
+    }
+  };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
     setValue,
-  } = useForm<RegistrationFormData>({
-    resolver: zodResolver(getSchema()),
-    defaultValues: {
-      registrationType,
-      attendingWorkshop: false,
-      collegeName: '',
-      organizationName: '',
-      ieeeMemberId: '',
-      howDidYouHearAboutUs: '',
-      paymentScreenshot: '',
-      couponCode: '',
-    }
+  } = useForm<any>({
+    resolver: zodResolver(getSchema()) as any,
+    defaultValues: getDefaultValues(),
   })
-
-
 
   const handleFileSelect = async (file: File) => {
     setSelectedFile(file)
@@ -215,7 +234,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
   // Additional validation: If referral is present and coupon is provided, ensure they're compatible
   useEffect(() => {
     if (referralOrg && referralOrg.trim() && initialCouponCode && initialCouponCode.trim()) {
-      // Validate the coupon against the referral organization immediately
+      // Validate coupon against referral organization immediately
       if (emailValue && emailValue.trim()) {
         validateCoupon(initialCouponCode)
       }
@@ -233,9 +252,9 @@ export default function RegistrationForm({ registrationType, couponCode: initial
   }, [referralOrg, initialCouponCode, emailValue])
 
   // Updated onSubmit function in your RegistrationForm component
-  // Replace the entire onSubmit function with this:
+  // Replace entire onSubmit function with this:
 
-  const onSubmit = async (data: RegistrationFormData) => {
+  const onSubmit = async (data: any) => {
     if (buttonState !== 'idle') {
       return // Prevent multiple submissions
     }
@@ -279,17 +298,17 @@ export default function RegistrationForm({ registrationType, couponCode: initial
       if (registrationType === RegistrationTypes.COLLEGE_STUDENTS ||
         registrationType === RegistrationTypes.IEEE_STUDENTS ||
         registrationType === RegistrationTypes.NON_IEEE_STUDENTS) {
-        requestBody.collegeName = (data as any).collegeName || ''
+        requestBody.collegeName = data.collegeName || ''
       }
 
       if (registrationType === RegistrationTypes.IEEE_STUDENTS ||
         registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
-        requestBody.ieeeMemberId = (data as any).ieeeMemberId || ''
+        requestBody.ieeeMemberId = data.ieeeMemberId || ''
       }
 
       if (registrationType === RegistrationTypes.NON_IEEE_PROFESSIONALS ||
         registrationType === RegistrationTypes.IEEE_PROFESSIONALS) {
-        requestBody.organizationName = (data as any).organizationName || ''
+        requestBody.organizationName = data.organizationName || ''
       }
 
       // Call register API to create registration
@@ -358,7 +377,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                   <div className="flex items-center space-x-3">
                     <Users className="w-5 h-5 text-neutral-300" />
                     <div>
-                      <p className="font-medium">500+ Attendees Expected</p>
+                      <p className="font-medium">300+ Attendees Expected</p>
                       <p className="text-sm text-gray-300">Students and professionals</p>
                     </div>
                   </div>
@@ -388,7 +407,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
               <CardHeader>
                 <CardTitle>Registration Details</CardTitle>
                 <CardDescription>
-                  Fill in your information to complete the registration
+                  Fill in your information to complete registration
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -402,7 +421,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       className="rounded-2xl h-11"
                     />
                     {errors.fullName && (
-                      <p className="text-sm text-red-600">{errors.fullName.message}</p>
+                      <p className="text-sm text-red-600">{(errors as any).fullName?.message}</p>
                     )}
                   </div>
 
@@ -416,7 +435,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       className="rounded-2xl h-11"
                     />
                     {errors.email && (
-                      <p className="text-sm text-red-600">{errors.email.message}</p>
+                      <p className="text-sm text-red-600">{(errors as any).email?.message}</p>
                     )}
                   </div>
 
@@ -429,7 +448,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       className="rounded-2xl h-11"
                     />
                     {errors.phone && (
-                      <p className="text-sm text-red-600">{errors.phone.message}</p>
+                      <p className="text-sm text-red-600">{(errors as any).phone?.message}</p>
                     )}
                   </div>
 
@@ -438,12 +457,12 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       <Label htmlFor="collegeName">College Name *</Label>
                       <Input
                         id="collegeName"
-                        {...register('collegeName')}
+                        {...register('collegeName' as any)}
                         placeholder="Enter your college name"
                         className="rounded-2xl h-11"
                       />
                       {(errors as any).collegeName && (
-                        <p className="text-sm text-red-600">{(errors as any).collegeName.message}</p>
+                        <p className="text-sm text-red-600">{(errors as any).collegeName?.message}</p>
                       )}
                     </div>
                   )}
@@ -453,12 +472,12 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       <Label htmlFor="ieeeMemberId">IEEE Member ID *</Label>
                       <Input
                         id="ieeeMemberId"
-                        {...register('ieeeMemberId')}
+                        {...register('ieeeMemberId' as any)}
                         placeholder="Your IEEE membership ID"
                         className="rounded-2xl h-11"
                       />
                       {(errors as any).ieeeMemberId && (
-                        <p className="text-sm text-red-600">{(errors as any).ieeeMemberId.message}</p>
+                        <p className="text-sm text-red-600">{(errors as any).ieeeMemberId?.message}</p>
                       )}
                     </div>
                   )}
@@ -468,12 +487,12 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       <Label htmlFor="organizationName">Organization Name *</Label>
                       <Input
                         id="organizationName"
-                        {...register('organizationName')}
+                        {...register('organizationName' as any)}
                         placeholder="Your organization name"
                         className="rounded-2xl h-11"
                       />
                       {(errors as any).organizationName && (
-                        <p className="text-sm text-red-600">{(errors as any).organizationName.message}</p>
+                        <p className="text-sm text-red-600">{(errors as any).organizationName?.message}</p>
                       )}
                     </div>
                   )}
@@ -488,7 +507,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       />
                       <div className="flex-1">
                         <Label htmlFor="attendingWorkshop" className="text-sm font-medium text-gray-50 cursor-pointer">
-                          I want to attend the workshop
+                          I want to attend workshop
                         </Label>
                         <p className="text-xs text-gray-100 mt-1">
                           Check this if you want to participate in hands-on workshops
@@ -517,7 +536,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                       </SelectContent>
                     </Select>
                     {errors.howDidYouHearAboutUs && (
-                      <p className="text-sm text-red-600">{errors.howDidYouHearAboutUs.message}</p>
+                      <p className="text-sm text-red-600">{(errors as any).howDidYouHearAboutUs?.message}</p>
                     )}
                   </div>
 
@@ -584,7 +603,7 @@ export default function RegistrationForm({ registrationType, couponCode: initial
                     onFileSelect={handleFileSelect}
                     onFileRemove={handleFileRemove}
                     selectedFile={selectedFile}
-                    error={errors.paymentScreenshot?.message}
+                    error={(errors as any).paymentScreenshot?.message}
                   />
 
                   <Button

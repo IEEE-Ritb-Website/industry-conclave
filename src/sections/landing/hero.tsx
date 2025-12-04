@@ -59,7 +59,7 @@ export default function HeroSection() {
 
                 <div className="w-full max-w-md flex gap-6 sm:gap-8 items-center justify-center md:justify-between pt-8">
                     <div className="text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-accent">500+</div>
+                        <div className="text-3xl sm:text-4xl font-bold text-accent">300+</div>
                         <div className="text-sm sm:text-md text-muted-foreground">Attendees</div>
                     </div>
                     <div className="text-center">

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Download, Search, Users, CheckCircle, XCircle, Clock, Eye, Loader2, Mail } from 'lucide-react'
+import { Download, Search, Users, CheckCircle, XCircle, Clock, Eye, Loader2, Mail, UserCheck } from 'lucide-react'
 import { RegistrationTypes, RegistrationPricing } from '@/types'
 import Image from 'next/image'
 import { toast } from 'sonner'
@@ -26,6 +26,11 @@ interface Registration {
   updatedAt?: string
   paymentScreenshot?: string
   paymentScreenshotUrl?: string
+  couponCode?: string
+  finalAmount?: number
+  checkedIn?: boolean
+  takenLunch?: boolean
+  hadTea?: boolean
   payments: {
     status: string
     amount: number
@@ -47,6 +52,11 @@ export default function AdminPage() {
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
   const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null)
   const [sendingConfirmation, setSendingConfirmation] = useState(false)
+  const [checkInDialogOpen, setCheckInDialogOpen] = useState(false)
+  const [selectedRegistrationForCheckIn, setSelectedRegistrationForCheckIn] = useState<Registration | null>(null)
+  const [updatingCheckIn, setUpdatingCheckIn] = useState(false)
+  const [confirmationActionOpen, setConfirmationActionOpen] = useState(false)
+  const [pendingAction, setPendingAction] = useState<{ type: string; label: string } | null>(null)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -64,7 +74,8 @@ export default function AdminPage() {
         reg.college.toLowerCase().includes(searchTerm.toLowerCase()) ||
         reg.registrationType.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (reg.ieeeMemberId && reg.ieeeMemberId.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (reg.organizationName && reg.organizationName.toLowerCase().includes(searchTerm.toLowerCase()))
+        (reg.organizationName && reg.organizationName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (reg.id && reg.id.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
 
@@ -118,6 +129,11 @@ export default function AdminPage() {
         paymentScreenshot: r.paymentScreenshot,
         paymentScreenshotUrl: r.paymentScreenshotUrl,
         paymentScreenshotCid: r.paymentScreenshotCid,
+        couponCode: r.couponCode,
+        finalAmount: r.finalAmount,
+        checkedIn: r.checkedIn,
+        takenLunch: r.takenLunch,
+        hadTea: r.hadTea,
         payments: r.payments && r.payments.length > 0 ? r.payments.map((p: any) => ({
           status: p.status,
           amount: p.amount,
@@ -142,7 +158,7 @@ export default function AdminPage() {
   }
 
   const exportToCSV = () => {
-    const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 'Amount', 'Order ID', 'Payment ID', 'Screenshot URL', 'Created Date', 'Updated Date']
+    const headers = ['ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 'Base Amount', 'Final Amount', 'Coupon Code', 'Checked In', 'Taken Lunch', 'Had Tea', 'Order ID', 'Payment ID', 'Screenshot URL', 'Created Date', 'Updated Date']
     const csvContent = [
       headers.join(','),
       ...filteredRegistrations.map(reg => [
@@ -158,6 +174,11 @@ export default function AdminPage() {
         reg.isPaymentCompleted ? 'SUCCESS' : 'PENDING',
         reg.isPaymentCompleted ? 'Yes' : 'No',
         reg.payments[0]?.amount || 0,
+        reg.finalAmount || reg.payments[0]?.amount || 0,
+        reg.couponCode || '',
+        reg.checkedIn ? 'Yes' : 'No',
+        reg.takenLunch ? 'Yes' : 'No',
+        reg.hadTea ? 'Yes' : 'No',
         reg.payments[0]?.razorpayOrderId || '',
         reg.payments[0]?.razorpayPaymentId || '',
         reg.paymentScreenshotUrl || '',
@@ -222,6 +243,64 @@ export default function AdminPage() {
     }
   }
 
+  const handleCheckInActions = (registration: Registration) => {
+    setSelectedRegistrationForCheckIn(registration)
+    setCheckInDialogOpen(true)
+  }
+
+  const handleCheckInAction = (actionType: string, label: string) => {
+    setPendingAction({ type: actionType, label })
+    setConfirmationActionOpen(true)
+  }
+
+  const confirmCheckInAction = async () => {
+    if (!selectedRegistrationForCheckIn || !pendingAction) return
+
+    setUpdatingCheckIn(true)
+    try {
+      const response = await fetch('/api/admin/update-checkin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          registrationId: selectedRegistrationForCheckIn.id,
+          action: pendingAction.type
+        })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        toast.success(`${pendingAction.label} marked successfully!`)
+        
+        // Update the registration in the local state
+        setRegistrations(prev => 
+          prev.map(reg => 
+            reg.id === selectedRegistrationForCheckIn.id 
+              ? { ...reg, [pendingAction.type]: true }
+              : reg
+          )
+        )
+        
+        // Update the selected registration to reflect changes in the modal
+        setSelectedRegistrationForCheckIn(prev => 
+          prev ? { ...prev, [pendingAction.type]: true } : null
+        )
+        
+        setConfirmationActionOpen(false)
+        setPendingAction(null)
+      } else {
+        toast.error(data.error || `Failed to mark ${pendingAction.label}`)
+      }
+    } catch (error) {
+      console.error('Error updating check-in status:', error)
+      toast.error(`Failed to mark ${pendingAction.label}`)
+    } finally {
+      setUpdatingCheckIn(false)
+    }
+  }
+
   console.log(registrations)
 
   if (!isAuthenticated) {
@@ -257,8 +336,10 @@ export default function AdminPage() {
     total: registrations.length,
     paid: registrations.filter(reg => reg.isPaymentCompleted).length,
     pending: registrations.filter(reg => !reg.isPaymentCompleted).length,
+    workshopPaid: registrations.filter(reg => reg.attendingWorkshop && reg.isPaymentCompleted).length,
     byType: {
       [RegistrationTypes.COLLEGE_STUDENTS]: registrations.filter(reg => reg.registrationType === RegistrationTypes.COLLEGE_STUDENTS).length,
+      [RegistrationTypes.COLLEGE_EXECOM]: registrations.filter(reg => reg.registrationType === RegistrationTypes.COLLEGE_EXECOM).length,
       [RegistrationTypes.IEEE_STUDENTS]: registrations.filter(reg => reg.registrationType === RegistrationTypes.IEEE_STUDENTS).length,
       [RegistrationTypes.NON_IEEE_STUDENTS]: registrations.filter(reg => reg.registrationType === RegistrationTypes.NON_IEEE_STUDENTS).length,
       [RegistrationTypes.IEEE_PROFESSIONALS]: registrations.filter(reg => reg.registrationType === RegistrationTypes.IEEE_PROFESSIONALS).length,
@@ -315,9 +396,9 @@ export default function AdminPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Workshop Attendees</p>
+                  <p className="text-sm font-medium text-gray-600">Workshop Attendees (Paid)</p>
                   <p className="text-3xl font-bold text-purple-600">
-                    {registrations.filter(reg => reg.attendingWorkshop).length}
+                    {stats.workshopPaid}
                   </p>
                 </div>
                 <Users className="w-8 h-8 text-purple-600" />
@@ -352,7 +433,7 @@ export default function AdminPage() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input
-                    placeholder="Search by name, email, college, organization, IEEE ID..."
+                    placeholder="Search by name, email, ID, college, organization, IEEE ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10 rounded-2xl"
@@ -413,7 +494,7 @@ export default function AdminPage() {
                       <th className="text-left py-3 px-4">IEEE ID</th>
                       <th className="text-left py-3 px-4">Payment Status</th>
                       <th className="text-left py-3 px-4">Amount</th>
-                      <th className="text-left py-3 px-4">Registration ID</th>
+                      <th className="text-left py-3 px-4">Coupon Code</th>
                       <th className="text-left py-3 px-4">Payment Proof</th>
                       <th className="text-left py-3 px-4">Registered at</th>
                     </tr>
@@ -422,24 +503,35 @@ export default function AdminPage() {
                     {filteredRegistrations.map((registration) => (
                       <tr key={registration.id} className="border-b">
                         <td className="py-3 px-4">
-                          {registration.isPaymentCompleted && !registration.confirmationSent ? (
+                          <div className="flex flex-col gap-2">
+                            {registration.isPaymentCompleted && !registration.confirmationSent ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleSendConfirmation(registration)}
+                                className="text-xs"
+                              >
+                                <Mail className="w-3 h-3 mr-1" />
+                                Send Confirmation
+                              </Button>
+                            ) : registration.confirmationSent ? (
+                              <span className="text-green-600 text-xs font-medium">
+                                <CheckCircle className="w-3 h-3 inline mr-1" />
+                                Sent
+                              </span>
+                            ) : (
+                              <span className="text-gray-400 text-xs">-</span>
+                            )}
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => handleSendConfirmation(registration)}
+                              onClick={() => handleCheckInActions(registration)}
                               className="text-xs"
                             >
-                              <Mail className="w-3 h-3 mr-1" />
-                              Send Confirmation
+                              <UserCheck className="w-3 h-3 mr-1" />
+                              Check-in
                             </Button>
-                          ) : registration.confirmationSent ? (
-                            <span className="text-green-600 text-xs font-medium">
-                              <CheckCircle className="w-3 h-3 inline mr-1" />
-                              Sent
-                            </span>
-                          ) : (
-                            <span className="text-gray-400 text-xs">-</span>
-                          )}
+                          </div>
                         </td>
                         <td className="py-3 px-4 font-medium">{registration.fullName}</td>
                         <td className="py-3 px-4">{registration.email}</td>
@@ -480,9 +572,22 @@ export default function AdminPage() {
                             )}
                           </span>
                         </td>
-                        <td className="py-3 px-4">₹{registration.payments[0]?.amount || 0}</td>
-                        <td className="py-3 px-4 text-xs font-mono">
-                          {registration.id ? registration.id.slice(-8) : '-'}
+                        <td className="py-3 px-4">
+                          ₹{registration.finalAmount || registration.payments[0]?.amount || 0}
+                          {registration.finalAmount && registration.finalAmount !== registration.payments[0]?.amount && (
+                            <span className="text-xs text-gray-500 ml-1">
+                              (was ₹{registration.payments[0]?.amount || 0})
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          {registration.couponCode ? (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                              {registration.couponCode}
+                            </span>
+                          ) : (
+                            <span className="text-gray-400 text-sm">-</span>
+                          )}
                         </td>
                         <td className="py-3 px-4">
                           {registration.paymentScreenshot ? (
@@ -579,6 +684,135 @@ export default function AdminPage() {
                     </>
                   ) : (
                     'Send Confirmation'
+                  )}
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Check-in Actions Dialog */}
+        <Dialog open={checkInDialogOpen} onOpenChange={setCheckInDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Check-in Actions</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="mb-6">
+                Manage check-in status for <strong>{selectedRegistrationForCheckIn?.fullName}</strong> ({selectedRegistrationForCheckIn?.email})
+              </p>
+              <div className="space-y-4">
+                <div className={`flex items-center justify-between p-4 border rounded-lg`}>
+                  <div>
+                    <h4 className="font-medium">Check-in Status</h4>
+                    <p className="text-sm text-gray-600">Mark attendee as checked in</p>
+                  </div>
+                  {selectedRegistrationForCheckIn?.checkedIn ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="font-medium">Checked In</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCheckInAction('checkedIn', 'Check-in')}
+                      className="min-w-[100px]"
+                    >
+                      Check In
+                    </Button>
+                  )}
+                </div>
+                <div className={`flex items-center justify-between p-4 border rounded-lg ${selectedRegistrationForCheckIn?.takenLunch ? 'border-green-200 bg-green-50' : ''}`}>
+                  <div>
+                    <h4 className="font-medium">Lunch Status</h4>
+                    <p className="text-sm text-gray-600">Mark if attendee has taken lunch</p>
+                  </div>
+                  {selectedRegistrationForCheckIn?.takenLunch ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="font-medium">Lunch Taken</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCheckInAction('takenLunch', 'Lunch')}
+                      className="min-w-[100px]"
+                    >
+                      Mark Lunch
+                    </Button>
+                  )}
+                </div>
+                <div className={`flex items-center justify-between p-4 border rounded-lg ${selectedRegistrationForCheckIn?.hadTea ? 'border-green-200 bg-green-50' : ''}`}>
+                  <div>
+                    <h4 className="font-medium">Tea Status</h4>
+                    <p className="text-sm text-gray-600">Mark if attendee has had tea</p>
+                  </div>
+                  {selectedRegistrationForCheckIn?.hadTea ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="font-medium">Tea Taken</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCheckInAction('hadTea', 'Tea')}
+                      className="min-w-[100px]"
+                    >
+                      Mark Tea
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end mt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setCheckInDialogOpen(false)
+                    setSelectedRegistrationForCheckIn(null)
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Check-in Action Confirmation Dialog */}
+        <Dialog open={confirmationActionOpen} onOpenChange={setConfirmationActionOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm {pendingAction?.label}</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="mb-4">
+                Are you sure you want to mark <strong>{pendingAction?.label}</strong> for <strong>{selectedRegistrationForCheckIn?.fullName}</strong>?
+              </p>
+              <p className="text-sm text-gray-600 mb-4">
+                This action cannot be undone.
+              </p>
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setConfirmationActionOpen(false)
+                    setPendingAction(null)
+                  }}
+                  disabled={updatingCheckIn}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={confirmCheckInAction}
+                  disabled={updatingCheckIn}
+                >
+                  {updatingCheckIn ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    `Confirm ${pendingAction?.label}`
                   )}
                 </Button>
               </div>

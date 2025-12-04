@@ -5,6 +5,7 @@ export enum RegistrationTypes {
     IEEE_PROFESSIONALS = "ieee_professionals",
     IEEE_STUDENTS = "ieee_students",
     COLLEGE_STUDENTS = "college_students",
+    COLLEGE_EXECOM = "college_execom",
 }
 
 export const RegistrationTypeNames = {
@@ -13,6 +14,7 @@ export const RegistrationTypeNames = {
     [RegistrationTypes.IEEE_PROFESSIONALS]: "IEEE Professional",
     [RegistrationTypes.IEEE_STUDENTS]: "IEEE Student",
     [RegistrationTypes.COLLEGE_STUDENTS]: "MSRIT Student",
+    [RegistrationTypes.COLLEGE_EXECOM]: "MSRIT Execom",
 }
 
 export const DiscountedRegistraionPricing = {
@@ -21,6 +23,7 @@ export const DiscountedRegistraionPricing = {
     [RegistrationTypes.IEEE_PROFESSIONALS]: 299,
     [RegistrationTypes.IEEE_STUDENTS]: 199,
     [RegistrationTypes.COLLEGE_STUDENTS]: 149,
+    [RegistrationTypes.COLLEGE_EXECOM]: 0,
 }
 
 export const RegistrationPricing = {
@@ -29,6 +32,7 @@ export const RegistrationPricing = {
     [RegistrationTypes.IEEE_PROFESSIONALS]: 299,
     [RegistrationTypes.IEEE_STUDENTS]: 249,
     [RegistrationTypes.COLLEGE_STUDENTS]: 199,
+    [RegistrationTypes.COLLEGE_EXECOM]: 0,
 }
 
 export const PaymentProductId = {
@@ -41,6 +45,8 @@ export const PaymentProductId = {
     [RegistrationTypes.IEEE_STUDENTS]:
         process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode" ? "pdt_7zmzRsf1oeJzQ2FfGA7IS" : "pdt_DGZsgO6EZJjJ59079UdYr",
     [RegistrationTypes.COLLEGE_STUDENTS]:
+        process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode" ? "pdt_d2b49qtewsO1c7bwAdfsr" : "pdt_iuiMmjHoFudoXxHodBXnc",
+    [RegistrationTypes.COLLEGE_EXECOM]:
         process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode" ? "pdt_d2b49qtewsO1c7bwAdfsr" : "pdt_iuiMmjHoFudoXxHodBXnc",
 }
 

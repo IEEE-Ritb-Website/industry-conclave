@@ -3,7 +3,7 @@ import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import TrackLabel from "./ui/track-label-badge";
-import { MessageSquare, PinIcon } from "lucide-react";
+import { PinIcon } from "lucide-react";
 
 interface SessionCardProps {
     image: string;
@@ -14,7 +14,7 @@ interface SessionCardProps {
     linkedin?: string;
     eventName: string;
     coordinator?: string;
-    track?: "software" | "hardware" | "general";
+    track?: "software" | "hardware" | "general" | "keynote";
 }
 
 export default function SessionCard({
@@ -33,6 +33,7 @@ export default function SessionCard({
             case "software": return "blue-400";
             case "hardware": return "green-400";
             case "general": return "purple-400";
+            case "keynote": return "yellow-400";
             default: return "blue-400";
         }
     };

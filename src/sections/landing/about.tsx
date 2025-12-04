@@ -24,6 +24,24 @@ export default function AboutSection() {
             borderColor: "border-green-500/20"
         },
         {
+            icon: BookOpen,
+            title: "Learning",
+            subtitle: "Workshops. Keynotes. Expert Panels. Real Skills.",
+            description: "Whether you're into software, hardware, or interdisciplinary tech, there's something transformative waiting for you.",
+            color: "text-cyan-500",
+            bgColor: "bg-cyan-500/10",
+            borderColor: "border-cyan-500/20"
+        },
+        {
+            icon: Handshake,
+            title: "Collaboration",
+            subtitle: "Spark innovation and build meaningful relationships.",
+            description: "Collaborate with like-minded peers, mentors, and experts. Exchange ideas, work on concepts, discover opportunities, and explore how technology can solve real-world problems.",
+            color: "text-pink-500",
+            bgColor: "bg-pink-500/10",
+            borderColor: "border-pink-500/20"
+        },
+        {
             icon: Utensils,
             title: "Hospitality",
             subtitle: "Relax, recharge, and network over a curated lunch experience.",
@@ -41,24 +59,6 @@ export default function AboutSection() {
             bgColor: "bg-purple-500/10",
             borderColor: "border-purple-500/20"
         },
-        {
-            icon: BookOpen,
-            title: "Learning",
-            subtitle: "Workshops. Keynotes. Expert Panels. Real Skills.",
-            description: "Whether you're into software, hardware, or interdisciplinary tech, there's something transformative waiting for you.",
-            color: "text-cyan-500",
-            bgColor: "bg-cyan-500/10",
-            borderColor: "border-cyan-500/20"
-        },
-        {
-            icon: Handshake,
-            title: "Collaboration",
-            subtitle: "Spark innovation and build meaningful relationships.",
-            description: "Collaborate with like-minded peers, mentors, and experts. Exchange ideas, work on concepts, discover opportunities, and explore how technology can solve real-world problems.",
-            color: "text-pink-500",
-            bgColor: "bg-pink-500/10",
-            borderColor: "border-pink-500/20"
-        }
     ];
 
     return (
