@@ -1,6 +1,6 @@
 "use client";
 
-import SessionCard from "@/components/session-card";
+import SpeakerProfileCard from "@/components/ui/speaker-profile-card";
 import Heading from "@/components/shared/heading";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cpu, CircuitBoard, Sparkles, Users } from "lucide-react";
@@ -97,7 +97,7 @@ export default function SpeakersContent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredSpeakers.map((speaker: any, index: number) => (
                         <div key={`speaker-${index}`} className="animate-in fade-in slide-in-from-bottom duration-500" style={{ animationDelay: `${index * 100}ms` }}>
-                            <SessionCard {...speaker} />
+                            <SpeakerProfileCard speaker={speaker} />
                         </div>
                     ))}
                 </div>

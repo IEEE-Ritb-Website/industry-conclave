@@ -176,7 +176,7 @@ export const speakersList: Speaker[] = [
         track: "general",
         venue: "lhc 2"
     },
-{
+    {
         image: vellankiSriharsha,
         speakerName: "Vellanki Sriharsha",
         topic: "Ai Agents Workshop",
@@ -227,7 +227,7 @@ export const speakersList: Speaker[] = [
         eventDescription: "This panel explores how young engineers can leverage emerging technologies to build real-world impact in the rapidly evolving AI era. From identifying meaningful problems to developing scalable tech solutions, the discussion highlights the mindset, skills, and entrepreneurial approach needed to innovate effectively. Attendees will gain clarity on navigating modern tech ecosystems, launching ideas, and creating value at the intersection of engineering and entrepreneurship.",
         coordinator: "IEEE Mail",
         track: "general",
-        venue: "aiml lab"
+        venue: "esb 2"
     },
     {
         image: shashankN,
@@ -259,8 +259,8 @@ export const speakersList: Speaker[] = [
     {
         image: anishDe,
         speakerName: "Anish De",
-        topic: "Panel Discussion: Working Style at Big Techs",
-        shortDescription: "Software Engineer at Google with 2 years of professional experience in building reliable and scalable systems. Previously interned at Microsoft, HackerEarth, and Coding Ninjas, gaining hands-on experience across diverse engineering teams. A B.Tech graduate from IIEST Shibpur, passionate about big-tech culture, problem-solving, and sharing insights that help young engineers understand realities of tech industry.",
+        topic: "Backend and Getting in Big tech",
+        shortDescription: "I am a Software Engineer at Google. I ship code to the same Google Maps millions rely on every day.Apart from that, I am a index derivatives trader in the Indian Markets where I traded with over 100K$ capital",
         email: "sounakmajumder472@gmail.com",
         linkedin: "https://www.linkedin.com/in/anish-de-1b090a193/",
         eventName: "Panel Discussion: Working Style at Big Techs",
@@ -269,11 +269,10 @@ export const speakersList: Speaker[] = [
     {
         image: akshayJoshi,
         speakerName: "Akshay Joshi",
-        topic: "Panel Discussion: Working Style at Big Techs",
-        shortDescription: "Software Engineer at Google with 2 years of professional experience in building reliable and scalable systems. Previously interned at Microsoft, HackerEarth, and Coding Ninjas, gaining hands-on experience across diverse engineering teams. A B.Tech graduate from IIEST Shibpur, passionate about big-tech culture, problem-solving, and sharing insights that help young engineers understand realities of tech industry.",
-        email: "sounakmajumder472@gmail.com",
+        topic: "Software/General Tech",
+        shortDescription: "I’m Akshay — currently leading AI work on multiple use cases as a Data Science Manager at Mico. I focus on defining usecase vision, translating customer requirements into scalable architectures, and guiding cross-functional teams to deliver high-impact AI solutions. My earlier journey as a Data Scientist at Fractal, ReBIT, Findability Sciences, and TCS helped me build strong technical fundamentals in machine learning, analytics, and data systems. Today, I combine this technical background with product thinking and leadership to create AI solutions that deliver measurable business value and long-term impact",
         linkedin: "https://www.linkedin.com/in/iimakshayjoshi/",
-        eventName: "Panel Discussion: Working Style at Big Techs",
+        eventName: "Backend and Getting in Big tech",
         track: "general"
     },
     {

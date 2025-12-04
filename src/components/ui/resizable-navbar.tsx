@@ -268,8 +268,8 @@ export const NavbarLogo = () => {
       <Image
         alt="logo"
         src={LOGO}
-        height={50}
-        width={50}
+        height={35}
+        width={35}
         className="filter brightness-0 invert"
       />
     </Link>

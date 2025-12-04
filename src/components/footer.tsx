@@ -1,5 +1,7 @@
 import { CONFIG } from "@/configs/config"
 import Link from "next/link"
+import LOGO from "@/assets/ieee-logo-transparent.png"
+import Image from "next/image"
 
 export default function Footer() {
     return (
@@ -8,9 +10,13 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                     {/* Brand */}
                     <div>
-                        <div className="w-8 h-8 bg-primary rounded flex items-center justify-center mb-4">
-                            <span className="text-primary-foreground font-bold text-xs">IC</span>
-                        </div>
+                        <Image
+                            alt="logo"
+                            src={LOGO}
+                            height={50}
+                            width={50}
+                            className="filter brightness-0 invert mb-4"
+                        />
                         <h3 className="font-semibold mb-2">{CONFIG.name}</h3>
                         <p className="text-sm text-muted-foreground">{CONFIG.shortDescription}</p>
                     </div>

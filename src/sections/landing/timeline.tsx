@@ -3,10 +3,11 @@
 import Heading from "@/components/shared/heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Timeline } from "@/components/ui/timeline";
-import SpeakerProfile from "@/components/ui/speaker-profile";
+import { Speaker } from "@/types";
 import TrackLabel from "@/components/ui/track-label";
 import { MapPin, Clock, Trophy } from "lucide-react";
 import * as speakerImages from "@/assets/speakers";
+import SpeakerProfile from "@/components/ui/speaker-profile";
 
 export default function TimelineSection() {
     const data = {
@@ -20,13 +21,13 @@ export default function TimelineSection() {
                         </h3>
 
                         <p className="mb-5 text-neutral-400">
-                            <strong>Keynote Speeches</strong> (9:30 AM – 11:30 AM)
+                            <strong>Innauguration & Keynote Speeches</strong> (9:30 AM – 11:30 AM)
                         </p>
 
                         <ul className="space-y-6">
                             <li>
                                 <SpeakerProfile
-                                    name="Dr. Prasant Misra"
+                                    name="Prashant Mishra"
                                     imageSrc={speakerImages.prasantMisra}
                                 />
                                 <p className="text-neutral-300">
@@ -53,6 +54,14 @@ export default function TimelineSection() {
                             </li>
                         </ul>
                     </div>
+                ),
+            },
+            {
+                title: "11:30 AM",
+                content: (
+                    <p className="text-xl md:text-3xl text-neutral-400">
+                        <strong>Tea Break</strong> (11:30 AM – 12:00 PM)
+                    </p>
                 ),
             },
             {
@@ -99,8 +108,8 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="General" />
                                 <SpeakerProfile
-                                    name="Sreenivasa Ramanujam Kanduri"
-                                    imageSrc={speakerImages.sreenivasaRamanujamJ}
+                                    name="Sounak Majumder"
+                                    imageSrc={speakerImages.sounakMajumdar}
                                 />
                                 <p className="text-neutral-300">Industry Expectation from Young Engineers</p>
                                 <div className="flex items-center gap-2 mt-2">
@@ -112,7 +121,6 @@ export default function TimelineSection() {
                     </div>
                 ),
             },
-
             {
                 title: "01:00 PM",
                 content: (
@@ -135,7 +143,10 @@ export default function TimelineSection() {
                             {/* SOFTWARE */}
                             <li>
                                 <TrackLabel className="mb-4" track="Software" />
-                                <SpeakerProfile name="Sourav K" imageSrc="/api/placeholder/40/40" />
+                                <SpeakerProfile
+                                    name="Sourav K"
+                                    imageSrc={speakerImages.sourav}
+                                />
                                 <p className="text-neutral-300">
                                     The Tech Behind Real-Time Multiplayer Gameplay
                                 </p>
@@ -149,8 +160,8 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="Hardware" />
                                 <SpeakerProfile
-                                    name="Ayan S R"
-                                    imageSrc={speakerImages.ayanS}
+                                    name="Dr. Vishal J. Rathod"
+                                    imageSrc={speakerImages.vishalRathod}
                                 />
                                 <p className="text-neutral-300">ROS2 & Intelligent Robotics</p>
                                 <div className="flex items-center gap-2 mt-1 text-neutral-400">
@@ -229,8 +240,8 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="Hardware" />
                                 <SpeakerProfile
-                                    name="Vyshak TM"
-                                    imageSrc={speakerImages.vyshakTm}
+                                    name="Shashank N"
+                                    imageSrc={speakerImages.shashankN}
                                 />
                                 <p className="text-neutral-300">
                                     The Convergent Chain: Building IoT-Driven, API-Powered Supply Chain Intelligence
@@ -245,8 +256,8 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="General" />
                                 <SpeakerProfile
-                                    name="Prasad Chitta"
-                                    imageSrc={speakerImages.prasadChitt}
+                                    name="Hrishikesh Haritas"
+                                    imageSrc={speakerImages.hrishikeshHaritas}
                                 />
                                 <p className="text-neutral-300">
                                     BFSI Industry Perspective of Responsible AI
@@ -300,11 +311,11 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="Hardware" />
                                 <SpeakerProfile
-                                    name="Shashank N"
-                                    imageSrc={speakerImages.shashankN}
+                                    name="Anish Kumar"
+                                    imageSrc={speakerImages.anishKumar}
                                 />
                                 <p className="text-neutral-300">
-                                    Inside the Silicon: Modern VLSI & SoC Architecture
+                                    Generative AI: Architecting the Next Wave of Intelligent Systems
                                 </p>
                                 <div className="flex items-center gap-2 mt-1">
                                     <Clock size={16} />
@@ -431,8 +442,8 @@ export default function TimelineSection() {
                             <li>
                                 <TrackLabel className="mb-4" track="Workshop" />
                                 <SpeakerProfile
-                                    name="Rajath Kumar K S"
-                                    imageSrc={speakerImages.rajathKumarS}
+                                    name="Vellanki Sriharsha"
+                                    imageSrc={speakerImages.vellankiSriharsha}
                                 />
                                 <p className="text-neutral-300">
                                     Building Intelligent AI Agents: From Concepts to Deployment with N8N
@@ -524,10 +535,10 @@ export default function TimelineSection() {
                         <p className="mb-5 text-neutral-400">
                             <strong>Panel Discussion</strong> (3:30 PM – 5:00 PM)
                         </p>
-                        <SpeakerProfile
-                            name="Nitesh Kumar"
-                            imageSrc={speakerImages.niteshPrasad}
-                        />
+                                <SpeakerProfile
+                                    name="Nitesh Prasad"
+                                    imageSrc={speakerImages.niteshPrasad}
+                                />
                         <p className="text-neutral-300">Young Engineers & Emerging Tech Panel</p>
                         <div className="flex items-center gap-2 mt-1 text-neutral-400">
                             <MapPin size={16} />
