@@ -12,7 +12,9 @@
     "prod:seed:coupons": "tsx -r dotenv/config scripts/seed-coupon-codes.prod.js",
     "prod:update:payment-status": "tsx -r dotenv/config scripts/update-payment-status.js",
     "prod:gva:update": "tsx -r dotenv/config scripts/add-giveaway-registrations.js",
-    "process:college-execom": "tsx -r dotenv/config scripts/process-college-execom.ts"
+    "process:college-execom": "tsx -r dotenv/config scripts/process-college-execom.ts",
+    "send:reminder-emails": "node scripts/send-reminder-emails.js",
+    "prod:add:regs": "tsx -r dotenv/config scripts/add-new-registrations.js"
   },
   "keywords": [
     "nextjs",

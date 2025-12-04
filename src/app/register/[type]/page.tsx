@@ -1,4 +1,3 @@
-import RegistrationForm from '@/components/forms/RegistrationForm'
 import { RegistrationTypes } from '@/types'
 
 interface PageProps {
@@ -11,9 +10,8 @@ interface PageProps {
   }>
 }
 
-export default async function RegisterTypePage({ params, searchParams }: PageProps) {
+export default async function RegisterTypePage({ params }: PageProps) {
   const { type } = await params
-  const { coupon, referral } = await searchParams
   const normalizedType = type.toLowerCase().replace(/-/g, '_') as RegistrationTypes;
 
   // Validate that the type is a valid registration type
@@ -29,13 +27,20 @@ export default async function RegisterTypePage({ params, searchParams }: PagePro
     );
   }
 
-  const registrationType = normalizedType;
-
+  // Show registration closed message instead of the form
   return (
-    <RegistrationForm 
-      registrationType={registrationType} 
-      couponCode={coupon} 
-      referralOrg={referral} 
-    />
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="text-center max-w-2xl">
+        <h1 className="text-3xl font-bold text-white mb-4">
+          Registration Closed
+        </h1>
+        <p className="text-gray-300 text-lg mb-6">
+          Registration for this event has now closed. We are no longer accepting new registrations.
+        </p>
+        <p className="text-gray-400">
+          If you have any questions or need assistance, please contact our support team.
+        </p>
+      </div>
+    </div>
   )
 }
