@@ -1,3 +1,4 @@
+import { Speaker } from "@/types";
 import {
     prasantMisra,
     drAnjaniPriyadarshini,
@@ -21,223 +22,324 @@ import {
     vellankiSriharsha,
     vishalRathod,
     shashankN,
-    niteshPrasad
+    niteshPrasad,
+    sounakMajumdar,
 } from "@/assets/speakers";
 
-export const speakersList = [
+export const speakersList: Speaker[] = [
     {
         image: prasantMisra,
         speakerName: "Prashant Mishra",
-        topic: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
+        topic: "EVs",
+        position: "Senior Scientist @ TCS Research | Visiting Faculty @ CPS/IISc | ACM Distinguished Speaker | MIT TR35 India | Marie Curie (ERCIM AB) Fellow | AusAID Australian Leadership Awards",
         shortDescription: "Dr. Prasant Misra is a Senior Scientist at TCS Research and Visiting Faculty at IISc, specializing in Optimization and Operations Research for intelligent CPS, EVs, Smart Mobility, and IoT. An ACM Distinguished Speaker and TR35 India awardee, he is a recognized leader shaping Smart City policy and currently serves as Chair-Elect of the IEEE Bangalore Section.",
         linkedin: "https://www.linkedin.com/in/prasantmisra/",
         eventName: "Decision Making in Electric Vehicles & the Future of Smart Mobility",
-        track: "keynote"
+        eventDescription: "This keynote, delivered by Dr. Prasant Misra, Senior Scientist at TCS Research and Visiting Faculty at IISc Bangalore, dives into the complex world of decision-making within Electric Vehicles (EVs) and smart infrastructure. The session will explore how cutting-edge Optimization and Operations Research are applied to intelligent Cyber Physical Systems (CPS) to enhance EV charging efficiency, optimize range prediction, and improve overall fleet management. Attendees will discover the scientific frameworks that are shaping the future of Smart Mobility, enabling the design of safer, more sustainable, and highly efficient urban transportation networks.",
+        track: "keynote",
+        venue: "apex"
     },
     {
         image: vimalBastin,
         speakerName: "Vimal Bastin Edwin Joseph",
-        topic: "RANtelligence: AI-powered Radio Access Network -  Opportunities and Challenges.",
-        shortDescription: "Vimal Bastin Edwin Joseph is a distinguished technology leader and innovator, currently serving as a Director at Samsung R&D. His expertise spans the critical domains of electronics, software, and networking, where he drives strategic research and development initiatives for next-generation products. A prolific innovator, he holds 5+ patents and has contributed to the field with 3+ publications.",
+        topic: "RAN AI",
+        position: "Director, Group Head for LTE/NR MAC Development and RAN AI",
+        shortDescription: "Vimal Bastin Edwin Joseph is a distinguished technology leader and innovator, currently serving as a **Director at Samsung R&D**. His expertise spans the critical domains of **electronics, software, and networking**, where he drives strategic research and development initiatives for next-generation products. A prolific innovator, he holds **5+ patents** and has contributed to the field with **3+ publications**. His work focuses on translating complex technical challenges into robust, enterprise-scale solutions, positioning him as a key figure in the R&D leadership shaping the future of the technology sector.",
         linkedin: "https://www.linkedin.com/in/vimal-bastin-edwin-joseph-336a5291/",
         eventName: "RANtelligence: AI-powered Radio Access Network -  Opportunities and Challenges.",
-        track: "keynote"
+        eventDescription: "This strategic session on **RANtelligence** will be led by **Vimal Bastin Edwin Joseph**, a Director at Samsung R&D and a leader in electronics, software, and networking. The talk will explore the future of **Radio Access Networks (RAN)** powered by Artificial Intelligence, focusing on both the strategic **opportunities** for efficiency, optimization, and next-generation performance. Drawing on his deep, multi-domain expertise and experience as an innovator with 5+ patents, he will dissect the complex technical and implementation **challenges** of deploying robust, enterprise-scale AI/ML solutions within the highly critical networking domain.",
+        track: "keynote",
+        venue: "apex"
     },
     {
         image: drJayaprakash,
-        speakerName: "Dr. Shreevyas H M",
-        topic: "Reimagining Karnataka's Future: AI for Social Good",
-        shortDescription: "Dr. Shreevyas H. M. is a highly accomplished Project Director and President Awardee who holds a Doctorate in AI. Currently leading e-governance initiatives for the Government of Karnataka, his work is centered on revolutionizing public service delivery through the strategic integration of Artificial Intelligence and Machine Learning. Drawing on a strong background in Cyber Security, he ensures that these advanced digital infrastructure projects are designed with precision, security, and efficiency to meet the evolving needs of Karnataka's citizens.",
+        speakerName: "Dr Shreevyas H M",
+        topic: "AI for social good",
+        position: "Project Director, Karnataka AI Cell\nCentre for e-Governance, DPAR (e-Governance)\nGovernment of Karnataka.",
+        shortDescription: "Dr. Shreevyas H. M. is a highly accomplished **Project Director** and **President Awardee** who holds a **Doctorate in AI**. Currently leading the **e-governance initiatives** for the **Government of Karnataka**, his work is centered on revolutionizing public service delivery through the strategic integration of **Artificial Intelligence and Machine Learning**. Drawing on a strong background in **Cyber Security**, he ensures that these advanced digital infrastructure projects are designed with precision, security, and efficiency to meet the evolving needs of Karnataka's citizens.",
         linkedin: "https://www.linkedin.com/in/shreevyas/?originalSubdomain=in",
         eventName: "Reimagining Karnataka's Future: AI for Social Good",
-        track: "keynote"
+        eventDescription: "Discover the strategic vision for **Reimagining Karnataka's Future** through the lens of **AI for Social Good**. This keynote is led by **Dr. Shreevyas H. M.**, a Project Director, President Awardee, and a leading voice in e-governance initiatives for the Government of Karnataka. Drawing on his **Doctorate in AI** and strong background in **Cybersecurity**, he will detail how AI and ML are strategically integrated to revolutionize **public service delivery**, ensuring that advanced digital infrastructure projects are designed with precision, security, and efficiency to meet the evolving needs of citizens.",
+        track: "keynote",
+        venue: "apex"
     },
     {
         image: drAnjaniPriyadarshini,
         speakerName: "Dr. Anjani Priyadarshini",
-        topic: "Quantum AI: Computing Beyond Classical Limits",
+        topic: "QuantumAI",
+        position: "Quantum Industry Specialist,\nExecutive Advisor NQM,\nAWS",
         shortDescription: "Quantum Computing Lead at AWS India and a PhD holder in High Energy Physics from IISc. An expert in computational mathematics and theoretical physics, she drives the adoption of quantum technologies and shapes policy frameworks for the quantum ecosystem in India.",
         linkedin: "https://www.linkedin.com/in/dr-anjani-priyadarsini?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         eventName: "Quantum AI: Computing Beyond Classical Limits",
-        track: "keynote"
+        eventDescription: "This session explores how Quantum Computing and Artificial Intelligence converge to unlock unprecedented computational capabilities. Attendees will gain an understanding of how quantum algorithms can accelerate AI models, enable new optimization methods, and reshape problem-solving across industries. The talk highlights emerging breakthroughs, real-world use cases, and the future skills required to thrive in the era of Quantum AI.",
+        coordinator: "Abhishek Reddy T",
+        track: "hardware",
+        venue: "lhc 1"
     },
     {
         image: vyshakTm,
         speakerName: "Vyshak TM",
-        topic: "IoT and APIs in the Evolution of Global Supply Chains",
+        topic: "IoT and APIs",
+        position: "Supply Chain Analyst | IoT & API Developer | Building Intelligent, Data-Driven Logistics Systems",
         shortDescription: "I build intelligent systems that connect worlds driving innovation through IoT, AI, and API technologies with deep expertise in global supply chain systems. As a supply chain researcher, I explore emerging technologies and strategies that shape the future of operations. I also empower professionals to elevate their communication, presence, and personal brand.",
         email: "vyshakmanju1809@gmail.com",
         linkedin: "https://www.linkedin.com/in/vyshaktm180903/",
         eventName: "IoT and APIs in the Evolution of Global Supply Chains",
-        track: "hardware"
+        eventDescription: "Join Vyshak, a specialist in Supply Chain Management and an expert API Developer, for a session focused on bridging the gap between hardware and logistics using connected technology. As a self-described \"Tech Converger,\" Vyshak will demonstrate how to leverage IoT data and robust APIs to create scalable, intelligent supply networks, turning raw sensor data into actionable insights for efficiency and prediction. He will cover the essential architecture for Supply Chain Intelligence and share perspectives that blend engineering and innovation, reflecting his broad interests across technology, philosophy, and the tech community (AI/ML/IoT).",
+        coordinator: "Vishwas(7996221355), Manish(6362119439)",
+        contact: "8296247929",
+        track: "hardware",
+        venue: "lhc 1"
     },
     {
         image: rameshNaiduLaveti,
         speakerName: "Ramesh Naidu Laveti",
-        topic: "Trustworthy and Secure AI: Building Safe Systems for the Future",
+        topic: "Secure AI Systems",
+        position: "Associate Director/Scientist-F @ C-DAC R&D [AI for Health/AI Security/AI4CS/AIOPs/AI4Fintech]",
         shortDescription: "Ramesh Naidu Laveti, Associate Director/Scientist-F at C-DAC, specializes in AI for Health, Security, and HPC-driven analytics. He is known for developing parallel math libraries and hybrid ML systems, inspiring teams to apply algorithms for impactful real-world solutions.",
         linkedin: "https://www.linkedin.com/in/rameshnl/",
         eventName: "Trustworthy and Secure AI: Building Safe Systems for the Future",
-        track: "software"
+        eventDescription: "The rapid deployment of Artificial Intelligence across critical sectors demands an urgent focus on developing trustworthy and secure systems. This session, Trustworthy and Secure AI: Building Safe Systems for the Future, explores the essential principles and technical frameworks needed to deploy resilient AI at scale. We will dive into the core pillars, including ensuring robustness against adversarial attacks, mitigating algorithmic bias to promote fairness and transparency, and establishing strong governance and accountability. Attendees will learn actionable best practices and contribute to building an AI future that is not only innovative but also profoundly safe, reliable, and ethical by design.",
+        track: "software",
+        venue: "des"
     },
     {
         image: drKunalSaxena,
         speakerName: "Dr. Kunal Saxena",
-        topic: "Data-Driven Digital Marketing: Strategies for the AI-Powered Era",
+        topic: "Data Driven Digital Marketing",
+        position: "Global Digital Marketing Leader | Data Science & AI Specialist | Top Digital Influencer | Speaker at NASA, Harvard, MIT, IITs & IIMs",
         shortDescription: "Dr. Kunal Saxena is a Digital Marketing Expert and Data Specialist with 17+ years of experience, currently working with Google on AI and Maps projects and speaking at global institutions like Harvard and IIMs. He holds a Ph.D. in Digital Marketing, trains senior professionals at DSIM, and is an avid traveler, linguist, golfer, and stage anchor.",
         linkedin: "https://in.linkedin.com/in/dr-kunal-saxena-975527106?utm_source=share&utm_medium=member_mweb&utm_campaign=share_via&utm_content=profile",
         eventName: "Data-Driven Digital Marketing: Strategies for the AI-Powered Era",
-        track: "software"
+        eventDescription: "This seminar explores how data, analytics, and AI are transforming modern digital marketing strategies. Participants will learn how data-driven insights shape customer journeys, personalize engagement, and optimize campaign performance across platforms. The session highlights emerging trends, tools, and frameworks that enable marketers to make smarter decisions, measure impact effectively, and drive growth in a competitive digital landscape.",
+        coordinator: "Dhriti Kanthote",
+        track: "software",
+        venue: "des"
     },
     {
         image: sandeshJayarama,
         speakerName: "Sandesh Jayarama",
-        topic: "Identifying Opportunities in Entrepreneurship",
+        topic: "Entrep",
+        position: "Senior Vice President - New business Initiatives & Strategy at Perfios",
         shortDescription: "Sandesh Jayarama is a senior technology leader and SVP at Perfios, specializing in digital banking, enterprise architecture, and new business strategy. With deep consulting experience at McKinsey, he has led innovation, product development, and large-scale tech transformations, earning top accolades including ANZ's CEO recognition finalist.",
         linkedin: "https://www.linkedin.com/in/sandeshj?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-        eventName: "Identifying Opportunities in Entrepreneurship",
-        track: "general"
+        eventName: "Identifying Oppurtunities in Entrepreneurship",
+        eventDescription: "This strategic session, led by **Sandesh Jayarama**, Senior VP at Perfios and a former deep-consulting expert at McKinsey, focuses on **\"Identifying Opportunities in Entrepreneurship.\"** Drawing on his decades of experience leading **digital banking** innovation, **enterprise architecture**, and **new business strategy**, Sandesh offers a unique, high-level perspective on spotting market gaps. Learn how to apply the rigorous analytical frameworks used in top-tier consulting and large-scale tech transformation to effectively evaluate, validate, and launch promising new ventures in the technology and financial sectors. This talk is essential for aspiring founders and corporate innovators seeking to turn strategic insights into high-impact businesses.",
+        coordinator: "Charith A Kottary",
+        track: "general",
+        venue: "lhc 2"
     },
     {
         image: ayanS,
         speakerName: "Ayan S.R.",
-        topic: "ROS2 & Intelligent Robotics",
+        topic: "ROS2",
+        position: "SRA - Roboticisit!!!Innovator!!Entrepreneur! - Shark Tank India S3 Founder of Katidhan",
         shortDescription: "S R Ayan is a technological artist and founder of Katidhan, creating high-impact sustainable smart solutions that have transformed agri-operations across 85% of India. As an innovation strategist and consultant, he blends design, engineering, and business excellence to build scalable real-world products and guide leading startups, corporates, and development organizations.",
         linkedin: "https://www.linkedin.com/in/ayansr/",
-        eventName: "ROS2 & Intelligent Robotics",
-        track: "hardware"
+        eventName: "",
+        eventDescription: "Join S R Ayan, Technological Artist, Roboticist, and Founder of Katidhan, for an insightful session on leveraging ROS 2 to build scalable, high-impact solutions. Drawing from his success in transforming agri-operations across 85% of India, Ayan will detail how he blends design, engineering, and business excellence to create real-world robotic products. Learn the key architectural choices and strategic decisions necessary when using ROS 2 to deploy sustainable smart solutions that move from prototype to massive enterprise scale.",
+        coordinator: "Ryan, Sukannya, Keerthana",
+        track: "hardware",
+        venue: "lhc 1"
     },
     {
         image: sourav,
         speakerName: "Sourav K",
-        topic: "The Tech Behind Real-Time Multiplayer Gameplay",
+        topic: "Modern Multiplayer Games",
+        position: "He is a seasoned Unreal Engine professional with over a decade of experience in the gaming industry. His expertise spans gameplay programming, networking, procedural systems, visual effects, and parallel computation, enabling him to build highly optimized and immersive game experiences. He has contributed to several remastered versions of popular titles such as Fruit Ninja, PUBG, and Flappy Bird. As an instructor, he has published widely across YouTube, Udemy, and freeCodeCamp, reaching millions of learners worldwide. He has also led multiple workshops and training programs in game development and software development, inspiring learners across diverse domains.",
         shortDescription: "Sourav K is an independent game developer and tech creator with 10+ years of Unreal Engine experience, known for game remakes, open-source tools, and hands-on teaching on YouTube and Udemy. A multi-disciplinary programmer and content creator, he builds innovative games, apps, and frameworks while simplifying tech for learners.",
         linkedin: "https://www.linkedin.com/in/sourav-k-809230332",
         eventName: "The Tech Behind Real-Time Multiplayer Gameplay",
-        track: "software"
+        eventDescription: "Experience an insightful session with Sourav K, an independent game developer and tech creator boasting over a decade of expertise with Unreal Engine and the gaming industry. In his talk, \"The Tech Behind Real-Time Multiplayer Gameplay,\" Sourav will dissect the core programming, networking, and parallel computation techniques essential for building Modern Multiplayer Games.\n\nWith experience contributing to remastered hits like PUBG and Fruit Ninja, and having educated millions globally, Sourav specializes in simplifying the complex engineering required for high-performance, low-latency, real-time multiplayer environments. This session is crucial for developers, students, and enthusiasts keen on the technical foundations of interactive gaming.",
+        track: "software",
+        venue: "des"
     },
     {
         image: sreenivasaRamanujamJ,
         speakerName: "Sreenivasa Ramanujam Kanduri",
-        topic: "Industry Expectations from Young Engineers",
+        topic: "career and placement guidance",
+        position: "Dean - Training & Placements at Ramaiah Institute of Technology, Bangalore",
         shortDescription: "A seasoned talent and capability development leader with 20+ years at TCS across roles in technical delivery, academic collaboration, workforce management, and cloud integration. Now serving as Dean of Training & Placements at MSRIT, he drives industry-ready skill development and large-scale employability transformation.",
         eventName: "Industry Expectations from Young Engineers",
-        track: "general"
+        eventDescription: "This essential session on Industry Expectations from Young Engineers is led by a seasoned talent and capability development leader with over two decades of experience. Drawing on his 20+ year tenure at TCS across technical delivery, academic collaboration, and workforce management, combined with his current role as Dean of Training & Placements at MSRIT, the speaker offers a unique, dual perspective on employability. Attendees will gain actionable insights into the critical technical, professional, and mindset skills required by leading corporates today, learning exactly how to bridge the academic-industry gap and drive their own large-scale employability transformation.",
+        track: "general",
+        venue: "lhc 2"
     },
     {
         image: prasadChitt,
         speakerName: "Prasad Chitta",
         topic: "BFSI Industry Perspective of Responsible AI",
+        position: "Adaptive AI Visionary & Award-Winning Leader in Decision Intelligence and Enterprise Transformation",
         shortDescription: "A visionary AI leader with three decades of excellence driving innovation across BFSI, energy, and utilities. He blends scientific rigor, design thinking, and strategic AI adoption to transform operations and unlock enterprise value.",
         eventName: "BFSI Industry Perspective of Responsible AI",
-        track: "general"
+        eventDescription: "This essential session, led by a visionary AI leader with three decades of excellence across BFSI, energy, and utilities, provides a deep dive into the **BFSI Industry Perspective of Responsible AI**. The talk will focus on the critical challenge of maintaining trust while driving innovation within the highly regulated financial sector. Discover how to effectively blend **scientific rigor** and **design thinking** to build **transparent, fair, and secure** AI systems, unlocking enterprise value while adhering to ethical and regulatory standards for strategic AI adoption and operational transformation.",
+        track: "general",
+        venue: "lhc 2"
     },
-    {
+{
         image: vellankiSriharsha,
         speakerName: "Vellanki Sriharsha",
-        topic: "Building Intelligent AI Agents: From Concepts to Deployment",
-        shortDescription: "This hands-on workshop introduces participants to the foundations of AI agents and how they can be designed to automate complex, real-world workflows. Attendees will learn to build agentic systems powered by LLMs, tools, and structured reasoning models, while understanding best practices for reliability, orchestration, and evaluation.",
+        topic: "Ai Agents Workshop",
+        position: "Full Stack Leader, who believes",
+        shortDescription: "Full-Stack Product Management Leader with deep experience building B2C, B2B, and SaaS products from 0→1 and 1→10. Passionate about using technology as a catalyst to empower people to maximize their professional and financial potential. With expertise across Al, Blockchain, he focuses on driving creativity, credibility, and collaboration through innovative digital products. Ran cohorts to help professionals to become full stack.\n\nHe has built and scaled platforms across OTT, Media, Logistics, Supply Chain, E-Commerce, and Automotive—ranging from Al-powered data products and automated subtitling systems to NFT rewards, marketplaces, CRM, payments, and warehousing solutions.\n\nA strategic thinker and experiment-driven product evangelist, he champions full-stack product management, data-driven decision-making, and empowering teams to build sustainably.",
+        email: "founders@kautilyan.com",
+        linkedin: "http://linkedin.com/in/vellankisriharsha",
         eventName: "Building Intelligent AI Agents: From Concepts to Deployment",
-        track: "software"
+        eventDescription: "This hands-on workshop introduces participants to the foundations of AI agents and how they can be designed to automate complex, real-world workflows. Attendees will learn to build agentic systems powered by LLMs, tools, and structured reasoning models, while understanding best practices for reliability, orchestration, and evaluation. By the end of the session, participants will be equipped to create and deploy practical AI agents that solve high-impact problems across industry use cases.",
+        coordinator: "Vishwas, Manish",
+        track: "software",
+        venue: "ise lab1"
     },
     {
         image: anishKumar,
         speakerName: "Anish Kumar",
-        topic: "Generative AI: Architecting the Next Wave of Intelligent Systems",
+        topic: "GEN AI",
+        position: "AI Software Engineering Leader, | Generative AI Architect | Hardware Optimized AI ML | Agentic AI | LLM | Mobile | Cloud",
         shortDescription: "Associate Director at HCLTech specializing in Generative AI, Agentic AI, and Large Language Models, with deep expertise in hardware-optimized AI/ML from his leadership role at Intel.",
         linkedin: "https://www.linkedin.com/in/anishkumarvk?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         eventName: "Generative AI: Architecting the Next Wave of Intelligent Systems",
-        track: "software"
+        eventDescription: "This session explores how Generative AI is transforming problem-solving, creativity, and automation across industries. Attendees will learn how LLMs, agentic workflows, and multimodal models are redefining software development, product innovation, and human–AI collaboration. The talk highlights real-world applications, emerging design patterns, and the skills needed to build scalable GenAI solutions for the future.",
+        coordinator: "Abhishek Reddy T",
+        track: "software",
+        venue: "lhc 1"
     },
     {
         image: drJayaprakash,
         speakerName: "Dr. Jayaprakash Govindaraj",
-        topic: "Cybersecurity & AI: Defending the Digital Future",
+        topic: "Cybersecurity in AI",
+        position: "Senior Product Security Leader - India Site, Jeppesen ForeFlight.",
         shortDescription: "Dr. Jayaprakash G. is a Senior Product Security Leader at Boeing with 17+ years of expertise across AI security, cloud security, product protection, and enterprise cybersecurity. A CISSP- and CISM-certified researcher, speaker, and mentor, he has led end-to-end security programs, authored patents, and advanced global cybersecurity awareness.",
         linkedin: "https://www.linkedin.com/in/dr-jayaprakash-g-0489aa5/",
         eventName: "Cybersecurity & AI: Defending the Digital Future",
-        track: "software"
+        eventDescription: "This session explores how AI is reshaping the landscape of modern cybersecurity, from intelligent threat detection to automated defense systems. Attendees will gain insights into emerging risks, evolving attack patterns, and the technologies driving next-generation security frameworks. The talk highlights how AI-powered strategies can strengthen digital resilience and safeguard organizations in an increasingly complex cyber ecosystem.",
+        coordinator: "Ankith",
+        track: "software",
+        venue: "lhc 1"
     },
     {
         image: niteshPrasad,
         speakerName: "Nitesh Prasad",
-        topic: "Building Real Impact: Tech, Careers & Entrepreneurship in AI Age",
+        topic: "panel discussion",
+        position: "Managing Director – LeanMultiverse | SAFe® SPC | Ex-Microsoft & PwC | Driving Enterprise & Company Transformation through SAFe® | Trainer (Scrum Master, Product Owner, Leading SAFe®) | PMP | CSM | MCT AI",
         shortDescription: "Nitesh Prasad, known as Corporate Wala Youtuber, is a Microsoft-Certified AI Trainer and career strategist who has mentored thousands of young professionals. With experience at PwC and leading tech initiatives, he empowers students to navigate the modern job landscape and build impactful AI-driven careers.",
         linkedin: "https://www.linkedin.com/in/nitesh-prasad-safe/",
         eventName: "Building Real Impact: Tech, Careers & Entrepreneurship in AI Age",
-        track: "general"
+        eventDescription: "This panel explores how young engineers can leverage emerging technologies to build real-world impact in the rapidly evolving AI era. From identifying meaningful problems to developing scalable tech solutions, the discussion highlights the mindset, skills, and entrepreneurial approach needed to innovate effectively. Attendees will gain clarity on navigating modern tech ecosystems, launching ideas, and creating value at the intersection of engineering and entrepreneurship.",
+        coordinator: "IEEE Mail",
+        track: "general",
+        venue: "aiml lab"
     },
     {
         image: shashankN,
         speakerName: "Shashank N",
-        topic: "Inside the Silicon: Modern VLSI & SoC Architecture",
+        topic: "VLSI SoC",
+        position: "Senior Engineer @ ARM | Ex-Samsung | SOC Architecture | Performance Analysis & Verification",
         shortDescription: "Shashank is a Performance Analysis Engineer at ARM, working on next-generation cloud and AI data center SoCs. Previously at Samsung Semiconductor, he contributed to Exynos Mobile and Auto SoC performance architecture, with interests in system architecture, AI accelerators, and AI-driven computing.",
         email: "nshashank7@gmail.com",
         linkedin: "https://www.linkedin.com/in/shashank-n-a4a78314a/",
         eventName: "Inside the Silicon: Modern VLSI & SoC Architecture",
-        track: "hardware"
+        eventDescription: "Shashank N, Senior Engineer at ARM, will deliver an insightful session on VLSI SoC, exploring the foundations and future of high-performance chip architecture. With extensive experience in SoC performance analysis and verification across ARM and Samsung Exynos platforms, he brings deep industry perspective to next-gen silicon design. His talk will highlight advancements in digital VLSI, compute systems, and emerging AI-driven accelerator architectures, offering valuable direction for aspiring hardware engineers.",
+        coordinator: "Ansh",
+        track: "hardware",
+        venue: "lhc 2"
     },
     {
         image: monicaShityalkar,
         speakerName: "Monica Shityalkar",
-        topic: "AI in Healthcare: Hands-On Lab in Predictive Modeling & Diagnostics",
+        topic: "AI in Healthcare",
+        position: "Engineering Manager – Digital Healthcare | Biomedical Engineer | 13+ Years in MedTech & Embedded Systems | Healthcare R&D | PGDHM & MBA | Driving AI-Powered Healthcare Innovation",
         shortDescription: "Monica Shityalkar is a biomedical expert specializing in the transformative use of AI in healthcare. She has served as a resource person for industry workshops, bringing insights into diagnostic enhancement, patient monitoring, personalized treatment, and AI-driven solutions such as medical image interpretation and predictive healthcare modeling.",
         linkedin: "https://www.linkedin.com/in/monica-shityalkar/",
         eventName: "AI in Healthcare: Hands-On Lab in Predictive Modeling & Diagnostics",
-        track: "hardware"
+        eventDescription: "An intensive, hands-on workshop led by healthcare expert Monica Shityalkar. Participants will gain practical experience applying Artificial Intelligence (AI) to real-world healthcare challenges. The session will focus on essential techniques for medical image interpretation and understanding the role of AI in healthcare with real-life examples.",
+        coordinator: "Navya Ullas Rai, Mayra Bhatnagar",
+        track: "hardware",
+        venue: "lhc 2"
     },
     {
         image: anishDe,
         speakerName: "Anish De",
-        topic: "Backend and Getting in Big Tech",
-        shortDescription: "I am a Software Engineer at Google. I ship code to the same Google Maps millions rely on every day. Apart from that, I am an index derivatives trader in Indian Markets where I traded with over 100K$ capital.",
-        email: "anishde85@gmail.com",
+        topic: "Panel Discussion: Working Style at Big Techs",
+        shortDescription: "Software Engineer at Google with 2 years of professional experience in building reliable and scalable systems. Previously interned at Microsoft, HackerEarth, and Coding Ninjas, gaining hands-on experience across diverse engineering teams. A B.Tech graduate from IIEST Shibpur, passionate about big-tech culture, problem-solving, and sharing insights that help young engineers understand realities of tech industry.",
+        email: "sounakmajumder472@gmail.com",
         linkedin: "https://www.linkedin.com/in/anish-de-1b090a193/",
-        eventName: "Backend and Getting in Big Tech",
-        track: "software"
+        eventName: "Panel Discussion: Working Style at Big Techs",
+        track: "general"
     },
     {
         image: akshayJoshi,
         speakerName: "Akshay Joshi",
-        topic: "Data Science for Everyone",
-        shortDescription: "I'm Akshay — currently leading AI work on multiple use cases as a Data Science Manager at Mico. I focus on defining usecase vision, translating customer requirements into scalable architectures, and guiding cross-functional teams to deliver high-impact AI solutions.",
-        email: "akshayjoshi272@gmail.com",
+        topic: "Panel Discussion: Working Style at Big Techs",
+        shortDescription: "Software Engineer at Google with 2 years of professional experience in building reliable and scalable systems. Previously interned at Microsoft, HackerEarth, and Coding Ninjas, gaining hands-on experience across diverse engineering teams. A B.Tech graduate from IIEST Shibpur, passionate about big-tech culture, problem-solving, and sharing insights that help young engineers understand realities of tech industry.",
+        email: "sounakmajumder472@gmail.com",
         linkedin: "https://www.linkedin.com/in/iimakshayjoshi/",
-        eventName: "Data Science for Everyone",
-        track: "software"
+        eventName: "Panel Discussion: Working Style at Big Techs",
+        track: "general"
     },
     {
         image: rakshitPrabhakar,
         speakerName: "Rakshit Prabhakar",
-        topic: "Hack the Future: An Introduction and Career Guide to Cybersecurity",
-        shortDescription: "A cybersecurity leader with close to 7 years in the industry, I actively protect organizations and mentor aspiring professionals. Away from work, I invest in promising startups and growth-focused companies. My curiosity and love for travel inspire global perspectives in technology and business.",
-        eventName: "Hack the Future: An Introduction and Career Guide to Cybersecurity",
-        track: "general"
+        topic: "careers in cybersec",
+        position: "Leader| Cybersecurity | Customer Success |Renewals|New Sales | Angel Investor",
+        shortDescription: "A cybersecurity leader with close to 7 years in industry, I actively protect organizations and mentor aspiring professionals. Away from work, I invest in promising startups and growth-focused companies. My curiosity and love for travel inspire global perspectives in technology and business.",
+        eventName: "Hack Future: An Introduction and Career Guide to Cybersecurity",
+        eventDescription: "Join a cybersecurity leader with nearly seven years of experience for an engaging session, **Hack Future**. This talk serves as both a comprehensive introduction and an essential **career guide** to the dynamic field of cybersecurity, covering how to actively protect organizations in today's threat landscape. Drawing on expertise in technical defense, professional mentorship, and **startup investment**, speaker will provide unique insights into navigating diverse career paths, understanding the business and venture side of security, and applying global perspectives to technology challenges. This is a crucial session for aspiring professionals looking to understand and thrive in the security domain.",
+        coordinator: "Ranjana, Abhishek Reddy",
+        track: "general",
+        venue: "lhc 1",
+        linkedin: "https://www.linkedin.com/in/rakshitinnovationforyou?utm_source=share_via&utm_content=profile&utm_medium=member_android"
     },
     {
         image: drSwetha,
         speakerName: "Dr. Swetha Amit",
-        topic: "Smart Wearables & Bio-Antenna Metasurfaces: Enabling Safe Body-Centric IoT",
-        shortDescription: "Dr. Swetha Amit is a distinguished Research Scientist and Founder at SmartBeam Resonetics, specializing in cutting-edge Antenna Engineering. She possesses deep expertise in advanced fields including Quantum Communication, Wearable and Liquid Antenna technologies, and the application of Reconfigurable Intelligent Surfaces (RIS), Metamaterials, and Frequency Selective Surfaces (FSS). Dr. Amit is proficient in integrating modern technologies like Simulation, Digital Twin, AI, and Machine Learning into her work.",
+        topic: "Wearable Bio-Antennas",
+        position: "Research Scientist & Founder at SmartBeam Resonetics | Antenna Engineering | Simulation, Digital Twin, AL & ML | Quantum Communication | Wearable & Liquid Antenna | RIS, Metamaterials & FSS | Senior IEEE member",
+        shortDescription: "Dr. Swetha Amit is a distinguished **Research Scientist and Founder at SmartBeam Resonetics**, specializing in cutting-edge **Antenna Engineering**. She possesses deep expertise in advanced fields including **Quantum Communication, Wearable and Liquid Antenna** technologies, and the application of **Reconfigurable Intelligent Surfaces (RIS), Metamaterials, and Frequency Selective Surfaces (FSS)**. Dr. Amit is proficient in integrating modern technologies like **Simulation, Digital Twin, AI, and Machine Learning** into her work. As a **Senior IEEE Member** and a prolific innovator, her contributions include **10+ publications** and **2 patents**, establishing her as a key figure in wireless communication research and development. Swetha Amit specializes in wearable bio-antenna technologies and electromagnetic metasurfaces, with a strong emphasis on human-safe RF design and practical IoT applications. She works at the intersection of antenna engineering, materials science, and biomedical devices to create lightweight, efficient, and body-friendly wireless solutions.",
         linkedin: "https://www.linkedin.com/in/dr-swetha-amit-b53b47280/",
         eventName: "Smart Wearables & Bio-Antenna Metasurfaces: Enabling Safe Body-Centric IoT",
-        track: "hardware"
+        eventDescription: "This session, led by **Dr. Swetha Amit**, Research Scientist and Founder at SmartBeam Resonetics, offers a focused look into the future of **Body-Centric IoT**. The talk will delve into her work on innovative **Wearable Bio-Antennas** enhanced by advanced **Metasurfaces**, exploring how these structures are crucial for designing high-performance yet **safe and reliable** communication systems worn directly on the body. Drawing on her deep expertise in **RIS, Metamaterials, and AI/ML** integration, Dr. Amit will showcase practical strategies for overcoming critical wireless communication challenges, paving the way for the next generation of sustainable wearable technology.",
+        coordinator: "Navya Ullas Rai, Mayra Bhatnagar",
+        track: "hardware",
+        venue: "lhc 2"
+    },
+
+    {
+        image: hrishikeshHaritas,
+        speakerName: "Hrishikesh Haritas",
+        topic: "Federated Learning",
+        position: "Research Associate at CDS, IISc.",
+        shortDescription: "He graduated with a B.E. in Artificial Intelligence and Machine Learning in 2025 and is currently working as a Research Associate at Center for Data Science (CDS), IISc. His research experience spans explainable deep learning and federated learning, where he has contributed to developing transparent, scalable, and privacy-preserving AI solutions.",
+        linkedin: "https://www.linkedin.com/in/hrishikesh-haritas-58b435228/",
+        eventName: "Training AI models without stealing people's data",
+        eventDescription: "This essential session, titled \"Training AI models without stealing people's data,\" addresses one of the most critical challenges in modern machine learning: achieving scalability and performance while safeguarding user privacy. Led by a Research Associate from Centre for Data Science (CDS), IISc, the talk will focus on cutting-edge techniques like Federated Learning and explainable deep learning. Discover how to develop transparent, robust, and privacy-preserving AI systems that train models efficiently on decentralized data, ensuring valuable user information remains secure and private.",
+        coordinator: "Chinmayi S R",
+        track: "software",
+        venue: "aiml lab"
     },
     {
         image: vishalRathod,
         speakerName: "Dr. Vishal J. Rathod",
-        topic: "Demystifying the Connected World: IoT, Embedded Platforms & Secure Communication",
-        shortDescription: "Dr. Vishal J. Rathod is a Senior Project Engineer (SPE) at Centre for Development of Advanced Computing (C-DAC) in Bengaluru, India, in the Research and Development of IoT group. Under an MHRD fellowship, he received his Ph.D. in Computer Science and Engineering from National Institute of Technology Karnataka (NITK), Surathkal.",
+        topic: "Embedded",
+        position: "Senior Project Engineer, C-DAC Bangalore and Treasurer, IEEE ComSoc Bangalore Chapter",
+        shortDescription: "\"Dr. Vishal J. Rathod is a Senior Project Engineer (SPE) at Centre for Development of Advanced Computing (C-DAC) in Bengaluru, India, in the Research and Development of IoT group. Under an MHRD fellowship, he received his Ph.D. in Computer Science and Engineering from National Institute of Technology Karnataka (NITK), Surathkal. He also has bachelor's and master's degrees in computer engineering from Gujarat University and Dharmasinh Desai University.\n\nDr. Rathod has over 8.5 years of expertise in academia and industry, as well as considerable teaching and research experience. He has successfully completed many MeitY-funded IoT security research projects, including A Comprehensive IoT Security Ecosystem and Sandbox, developing a secure firmware-based solution for embedded boards, creating an IoT Security Framework for government organizations, and creating an Ultrasonic based Smart Water Meter, GPON, Battery Management System (BMS) for a startup company, and other embedded projects.\n\nDr. Rathod is an active member of the academic community, having a Life Member of IETE and a senior member of IEEE, Treasurer of IEEE ComSoc Bangalore Chapter, Member of ACM, and IET.  He is also an active member of IETF core working group (CoRE and Routing), Board member of IIESoc, INTC and various IoT networking groups. His scholarly accomplishments include the publication of research articles in well-known international journals and conferences.",
+        linkedin: "",
         eventName: "Demystifying the Connected World: IoT, Embedded Platforms & Secure Communication",
-        track: "hardware"
+        eventDescription: "This session, led by **Dr. Vishal J. Rathod**, Senior Project Engineer at **C-DAC Bangalore** and Treasurer of the **IEEE ComSoc Bangalore Chapter**, will demystify the complexities of the **Connected World**. Drawing on his extensive experience leading MeitY-funded research projects, including developing secure firmware solutions and **IoT Security Frameworks for government**, Dr. Rathod will explore the crucial intersection of **IoT, Embedded Platforms, and Secure Communication**. Attendees will gain practical insights into the architecture and security challenges of deploying real-world embedded projects, informed by his expertise in low-power networking protocols (IETF CoRE/Routing) and industry-grade solutions.",
+        track: "hardware",
+        venue: "lhc 2"
     },
     {
-        image: hrishikeshHaritas,
-        speakerName: "Hrishikesh Haritas",
-        topic: "Training AI models without stealing people's data",
-        shortDescription: "He graduated with a B.E. in Artificial Intelligence and Machine Learning in 2025 and is currently working as a Research Associate at the Center for Data Science (CDS), IISc. His research experience spans explainable deep learning and federated learning, where he has contributed to developing transparent, scalable, and privacy-preserving AI solutions.",
-        linkedin: "https://www.linkedin.com/in/hrishikesh-haritas-58b435228/",
-        eventName: "Training AI models without stealing people's data",
-        track: "software"
+        image: sounakMajumdar, // Using Anish De's photo as placeholder
+        speakerName: "Sounak Majumder",
+        topic: "panel discussion",
+        position: "panel discussion",
+        shortDescription: "Hi I am Sounak Majumder. I am a Software Engineer at Google. I have 2 years of professional experience. Previously, I worked at Microsoft, Hackerearth and Coding Ninjas as an intern. I am a Btech graduate from IIEST Shibpur.",
+        email: "sounakmajumder472@gmail.com",
+        linkedin: "https://www.linkedin.com/in/sounak-majumder-45b183197?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        eventName: "Panel Discussion",
+        eventDescription: "Panel discussion featuring insights from tech industry professionals sharing their experiences and perspectives on working in leading technology companies.",
+        coordinator: "Vishwas , Manish",
+        track: "general",
+        venue: "aiml lab"
     }
 ];

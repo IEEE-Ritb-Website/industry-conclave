@@ -90,14 +90,6 @@ export default function SessionCard({
                 {eventName}
             </p>
 
-            {/* Coordinator */}
-            {coordinator && (
-                <p className="text-xs text-neutral-400">
-                    <span className="font-semibold text-neutral-300">Coordinator:</span>{" "}
-                    {coordinator}
-                </p>
-            )}
-
 
             <p className={`font-medium leading-tight text-${getTopicColor()}`}>
                 {topic}
@@ -105,15 +97,6 @@ export default function SessionCard({
 
             {/* Contact Buttons */}
             <div className="flex items-center justify-center gap-3 mt-auto pt-2">
-                {email && (
-                    <Button
-                        asChild
-                        size="sm"
-                    >
-                        <Link href={`mailto:${email}`}>Email</Link>
-                    </Button>
-                )}
-
                 {linkedin && (
                     <Button
                         asChild

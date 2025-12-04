@@ -14,13 +14,13 @@ interface PaymentQRCodeProps {
 }
 
 export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
-  const [selectedQR, setSelectedQR] = useState<'axis' | 'sbi'>('axis')
+  const [selectedQR, setSelectedQR] = useState<'axis' | 'sbi'>('sbi')
   const [copiedUPI, setCopiedUPI] = useState<string | null>(null)
   
-  const axisQR = '/payment/pay_qr.jpeg'
-  const sbiQR = '/payment/pay_qr_2.jpeg'
-  const axisUPI = "ravisagar1108-1@okaxis"
-  const sbiUPI = "ravisagar1108@oksbi"
+  const qrSecondary = '/payment/pay_qr.jpeg'
+  const qrPrimary = '/payment/pay_qr_3.jpeg'
+  const upiSecondary = "ravisagar1108-1@okaxis"
+  const upiPrimary = "shiveshtiwari0@okhdfcbank"
 
   const handleDownloadQR = (qrUrl: string, fileName: string) => {
     const link = document.createElement('a')
@@ -125,23 +125,22 @@ export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
         {/* QR Codes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <QRCodeCard
-            qrUrl={axisQR}
-            title="Axis Bank UPI"
-            upiId={axisUPI}
-            isSelected={selectedQR === 'axis'}
-            onSelect={() => setSelectedQR('axis')}
-            fileName="IEEE-Conclave-Axis-Payment-QR.jpeg"
-            bankName="Axis Bank"
-          />
-          
-          <QRCodeCard
-            qrUrl={sbiQR}
+            qrUrl={qrPrimary}
             title="SBI UPI"
-            upiId={sbiUPI}
+            upiId={upiPrimary}
             isSelected={selectedQR === 'sbi'}
             onSelect={() => setSelectedQR('sbi')}
             fileName="IEEE-Conclave-SBI-Payment-QR.jpeg"
             bankName="State Bank of India"
+          />
+          <QRCodeCard
+            qrUrl={qrSecondary}
+            title="Axis Bank UPI"
+            upiId={upiSecondary}
+            isSelected={selectedQR === 'axis'}
+            onSelect={() => setSelectedQR('axis')}
+            fileName="IEEE-Conclave-Axis-Payment-QR.jpeg"
+            bankName="Axis Bank"
           />
         </div>
 
@@ -163,27 +162,27 @@ export default function PaymentQRCode({ amount }: PaymentQRCodeProps) {
               <div className="space-y-2">
                 <div className="flex items-center justify-between bg-gray-900/50 rounded-lg p-3 border border-gray-700">
                   <div className="flex items-center space-x-2">
-                    <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{axisUPI}</code>
+                    <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{upiPrimary}</code>
                     <Button
-                      onClick={() => handleCopyUPI(axisUPI)}
+                      onClick={() => handleCopyUPI(upiPrimary)}
                       size="sm"
                       variant="ghost"
                       className="h-6 w-6 p-0 text-gray-400 hover:text-blue-400"
                     >
-                      {copiedUPI === axisUPI ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                      {copiedUPI === upiPrimary ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                     </Button>
                   </div>
                 </div>
                 <div className="flex items-center justify-between bg-gray-900/50 rounded-lg p-3 border border-gray-700">
                   <div className="flex items-center space-x-2">
-                    <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{sbiUPI}</code>
+                    <code className="text-sm bg-gray-800 px-2 py-1 rounded text-gray-300 font-mono">{upiSecondary}</code>
                     <Button
-                      onClick={() => handleCopyUPI(sbiUPI)}
+                      onClick={() => handleCopyUPI(upiSecondary)}
                       size="sm"
                       variant="ghost"
                       className="h-6 w-6 p-0 text-gray-400 hover:text-blue-400"
                     >
-                      {copiedUPI === sbiUPI ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                      {copiedUPI === upiSecondary ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                     </Button>
                   </div>
                 </div>

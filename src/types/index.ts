@@ -64,3 +64,19 @@ export interface CouponCodeUsage {
     registrationId: string
     usedAt: Date
 }
+
+export interface Speaker {
+    image: any
+    speakerName: string
+    topic?: string
+    position?: string
+    shortDescription?: string
+    email?: string
+    linkedin?: string
+    eventName?: string
+    eventDescription?: string
+    coordinator?: string
+    contact?: string
+    track?: string
+    venue?: string
+}

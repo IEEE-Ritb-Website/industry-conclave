@@ -1,10 +1,8 @@
 "use client";
 
-import SessionCard from "@/components/session-card";
-import Heading from "@/components/shared/heading";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Mail, Linkedin, MapPin } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { speakersList } from "@/data/speakers-data";
 import Image from "next/image";
@@ -23,7 +21,7 @@ export default function SpeakerProfilePage({ params }: SpeakerProfileProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
+        <div className="min-h-screen bg-linear-to-br from-neutral-900 via-neutral-800 to-neutral-900">
             <div className="relative px-4 sm:px-6 lg:px-8 py-12">
                 <div className="max-w-4xl mx-auto">
                     {/* Back Button */}
@@ -73,18 +71,7 @@ export default function SpeakerProfilePage({ params }: SpeakerProfileProps) {
                                     </p>
 
                                     {/* Contact Buttons with Logos */}
-                                    <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                                        {speaker.email && (
-                                            <Button className="group relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white border-2 border-blue-400/50 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                                <div className="relative z-10 flex items-center gap-2">
-                                                    <Mail className="w-4 h-4" />
-                                                    <span>Email</span>
-                                                </div>
-                                            </Button>
-                                        )}
-
-                                        {speaker.linkedin && (
+                                    <div className="flex flex-wrap gap-4 justify-center md:justify-start">                                        {speaker.linkedin && (
                                             <Button className="group relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white border-2 border-blue-600/50 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg">
                                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                                 <div className="relative z-10 flex items-center gap-2">
