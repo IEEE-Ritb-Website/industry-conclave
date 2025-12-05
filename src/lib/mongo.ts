@@ -21,6 +21,8 @@ type RegistrationDoc = {
   checkedIn?: boolean
   takenLunch?: boolean
   hadTea?: boolean
+  day2TakenLunch?: boolean
+  day2HadTea?: boolean
   createdAt?: Date
   updatedAt?: Date
 }
@@ -218,7 +220,7 @@ export const setRegistrationCheckInStatus = async (id: string, action: string): 
     const now = new Date()
     
     // Validate action
-    const validActions = ['checkedIn', 'takenLunch', 'hadTea']
+    const validActions = ['checkedIn', 'takenLunch', 'hadTea', 'day2TakenLunch', 'day2HadTea']
     if (!validActions.includes(action)) {
       throw new Error('Invalid action')
     }

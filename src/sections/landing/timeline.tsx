@@ -535,10 +535,6 @@ export default function TimelineSection() {
                         <p className="mb-5 text-neutral-400">
                             <strong>Panel Discussion</strong> (3:30 PM – 5:00 PM)
                         </p>
-                                <SpeakerProfile
-                                    name="Nitesh Prasad"
-                                    imageSrc={speakerImages.niteshPrasad}
-                                />
                         <p className="text-neutral-300">Young Engineers & Emerging Tech Panel</p>
                         <div className="flex items-center gap-2 mt-1 text-neutral-400">
                             <MapPin size={16} />

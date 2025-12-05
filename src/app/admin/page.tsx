@@ -32,6 +32,8 @@ interface Registration {
   checkedIn?: boolean
   takenLunch?: boolean
   hadTea?: boolean
+  day2TakenLunch?: boolean
+  day2HadTea?: boolean
   payments: {
     status: string
     amount: number
@@ -135,6 +137,8 @@ export default function AdminPage() {
         checkedIn: r.checkedIn,
         takenLunch: r.takenLunch,
         hadTea: r.hadTea,
+        day2TakenLunch: r.day2TakenLunch,
+        day2HadTea: r.day2HadTea,
         payments: r.payments && r.payments.length > 0 ? r.payments.map((p: any) => ({
           status: p.status,
           amount: p.amount,
@@ -162,7 +166,7 @@ export default function AdminPage() {
     const headers = [
       'ID', 'Name', 'Email', 'College', 'Phone', 'Registration Type', 'Workshop', 
       'IEEE Member ID', 'Organization', 'Payment Status', 'Payment Completed', 
-      'Base Amount', 'Final Amount', 'Coupon Code', 'Checked In', 'Taken Lunch', 'Had Tea', 
+      'Base Amount', 'Final Amount', 'Coupon Code', 'Checked In', 'Taken Lunch', 'Had Tea', 'Day2 Lunch', 'Day2 Tea', 
       'Order ID', 'Payment ID', 'Screenshot URL', 'Screenshot CID', 
       'Confirmation Sent', 'Created Date', 'Updated Date'
     ]
@@ -186,6 +190,8 @@ export default function AdminPage() {
         reg.checkedIn ? 'Yes' : 'No',
         reg.takenLunch ? 'Yes' : 'No',
         reg.hadTea ? 'Yes' : 'No',
+        reg.day2TakenLunch ? 'Yes' : 'No',
+        reg.day2HadTea ? 'Yes' : 'No',
         reg.payments[0]?.razorpayOrderId || '',
         reg.payments[0]?.razorpayPaymentId || '',
         reg.paymentScreenshotUrl || '',
@@ -768,6 +774,46 @@ export default function AdminPage() {
                       className="min-w-[100px]"
                     >
                       Mark Tea
+                    </Button>
+                  )}
+                </div>
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div>
+                    <h4 className="font-medium">Day 2 Lunch Status</h4>
+                    <p className="text-sm text-gray-600">Mark if attendee has taken lunch on Day 2</p>
+                  </div>
+                  {selectedRegistrationForCheckIn?.day2TakenLunch ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="font-medium">Day 2 Lunch Taken</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCheckInAction('day2TakenLunch', 'Day 2 Lunch')}
+                      className="min-w-[100px]"
+                    >
+                      Mark Day 2 Lunch
+                    </Button>
+                  )}
+                </div>
+                <div className={`flex items-center justify-between p-4 border rounded-lg ${selectedRegistrationForCheckIn?.day2HadTea ? 'border-green-200 bg-green-50' : ''}`}>
+                  <div>
+                    <h4 className="font-medium">Day 2 Tea Status</h4>
+                    <p className="text-sm text-gray-600">Mark if attendee has had tea on Day 2</p>
+                  </div>
+                  {selectedRegistrationForCheckIn?.day2HadTea ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="font-medium">Day 2 Tea Taken</span>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCheckInAction('day2HadTea', 'Day 2 Tea')}
+                      className="min-w-[100px]"
+                    >
+                      Mark Day 2 Tea
                     </Button>
                   )}
                 </div>

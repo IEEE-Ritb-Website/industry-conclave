@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     }
 
     // Validate action
-    const validActions = ['checkedIn', 'takenLunch', 'hadTea']
+    const validActions = ['checkedIn', 'takenLunch', 'hadTea', 'day2TakenLunch', 'day2HadTea']
     if (!validActions.includes(action)) {
       return NextResponse.json(
         { error: 'Invalid action' },
